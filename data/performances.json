@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-21T23:39:10.176209+09:00",
+  "updatedAt": "2026-09-22T06:36:16.376792+09:00",
   "performances": [
     {
       "id": "p-0001",
@@ -11,7 +11,6 @@
       "end": "10:36",
       "genre": "",
       "region": "千葉県習志野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -26,7 +25,6 @@
       "end": "10:42",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -41,7 +39,6 @@
       "end": "10:48",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -56,7 +53,6 @@
       "end": "10:54",
       "genre": "",
       "region": "東京都千代田区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -71,7 +67,6 @@
       "end": "11:00",
       "genre": "",
       "region": "東京都杉並区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -86,7 +81,6 @@
       "end": "11:06",
       "genre": "",
       "region": "高知県、東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -101,7 +95,6 @@
       "end": "11:06",
       "genre": "",
       "region": "東京都町田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -116,7 +109,6 @@
       "end": "11:12",
       "genre": "",
       "region": "栃木県栃木市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -131,7 +123,6 @@
       "end": "11:12",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -146,7 +137,6 @@
       "end": "11:18",
       "genre": "",
       "region": "大阪府大阪市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -161,7 +151,6 @@
       "end": "11:18",
       "genre": "",
       "region": "富山県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -176,7 +165,6 @@
       "end": "11:24",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -191,7 +179,6 @@
       "end": "11:24",
       "genre": "",
       "region": "神奈川県相模原市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -206,7 +193,6 @@
       "end": "11:30",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -221,7 +207,6 @@
       "end": "11:30",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -236,7 +221,6 @@
       "end": "11:36",
       "genre": "",
       "region": "東京都小平市・東村山市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -251,7 +235,6 @@
       "end": "11:36",
       "genre": "",
       "region": "東京都杉並区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -266,7 +249,6 @@
       "end": "11:36",
       "genre": "",
       "region": "栃木県栃木市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -281,7 +263,6 @@
       "end": "11:42",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -296,7 +277,6 @@
       "end": "11:42",
       "genre": "",
       "region": "静岡県沼津市・神奈川県横浜市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -311,7 +291,6 @@
       "end": "11:42",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -326,7 +305,6 @@
       "end": "11:48",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -341,7 +319,6 @@
       "end": "11:48",
       "genre": "",
       "region": "愛知県一宮市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -356,7 +333,6 @@
       "end": "11:48",
       "genre": "",
       "region": "茨城県つくば市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -371,7 +347,6 @@
       "end": "11:54",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -386,7 +361,6 @@
       "end": "11:54",
       "genre": "",
       "region": "千葉県習志野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -401,7 +375,6 @@
       "end": "11:54",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -416,7 +389,6 @@
       "end": "12:00",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -431,7 +403,6 @@
       "end": "12:00",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -446,7 +417,6 @@
       "end": "12:00",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -461,7 +431,6 @@
       "end": "12:06",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -476,7 +445,6 @@
       "end": "12:06",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -491,7 +459,6 @@
       "end": "12:06",
       "genre": "",
       "region": "埼玉県鶴ヶ島市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -506,7 +473,6 @@
       "end": "12:12",
       "genre": "",
       "region": "東京都千代田区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -521,7 +487,6 @@
       "end": "12:12",
       "genre": "",
       "region": "東京都・山口県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -536,7 +501,6 @@
       "end": "12:12",
       "genre": "",
       "region": "東京都日野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -551,7 +515,6 @@
       "end": "12:18",
       "genre": "",
       "region": "愛媛県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -566,7 +529,6 @@
       "end": "12:18",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -581,7 +543,6 @@
       "end": "12:18",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -596,7 +557,6 @@
       "end": "12:18",
       "genre": "",
       "region": "東京都新宿区・江東区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -611,7 +571,6 @@
       "end": "12:24",
       "genre": "",
       "region": "神奈川県厚木市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -626,7 +585,6 @@
       "end": "12:24",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -641,7 +599,6 @@
       "end": "12:24",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -656,7 +613,6 @@
       "end": "12:24",
       "genre": "",
       "region": "神奈川県相模原市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -671,7 +627,6 @@
       "end": "12:30",
       "genre": "",
       "region": "静岡県沼津市・神奈川県横浜市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -686,7 +641,6 @@
       "end": "12:30",
       "genre": "",
       "region": "東京都三鷹市、日野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -701,7 +655,6 @@
       "end": "12:30",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -716,7 +669,6 @@
       "end": "12:30",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -731,7 +683,6 @@
       "end": "12:36",
       "genre": "",
       "region": "神奈川県平塚市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -746,7 +697,6 @@
       "end": "12:36",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -761,7 +711,6 @@
       "end": "12:36",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -776,7 +725,6 @@
       "end": "12:42",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -791,7 +739,6 @@
       "end": "12:42",
       "genre": "",
       "region": "豊島区池袋",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -806,7 +753,6 @@
       "end": "12:42",
       "genre": "",
       "region": "富山県全域",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -821,7 +767,6 @@
       "end": "12:48",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -836,7 +781,6 @@
       "end": "12:48",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -851,7 +795,6 @@
       "end": "12:48",
       "genre": "",
       "region": "東京都日野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -866,7 +809,6 @@
       "end": "12:48",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -881,7 +823,6 @@
       "end": "12:54",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -896,7 +837,6 @@
       "end": "12:54",
       "genre": "",
       "region": "東京都千代田区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -911,7 +851,6 @@
       "end": "12:54",
       "genre": "",
       "region": "神奈川県横浜市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -926,7 +865,6 @@
       "end": "13:00",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -941,7 +879,6 @@
       "end": "13:00",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -956,7 +893,6 @@
       "end": "13:00",
       "genre": "",
       "region": "地球",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -971,7 +907,6 @@
       "end": "13:06",
       "genre": "",
       "region": "東京都北区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -986,7 +921,6 @@
       "end": "13:06",
       "genre": "",
       "region": "東京都港区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -1001,7 +935,6 @@
       "end": "13:06",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1016,7 +949,6 @@
       "end": "13:12",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -1031,7 +963,6 @@
       "end": "13:12",
       "genre": "",
       "region": "埼玉県鶴ヶ島市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1046,7 +977,6 @@
       "end": "13:12",
       "genre": "",
       "region": "大阪府大阪市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1061,7 +991,6 @@
       "end": "13:18",
       "genre": "",
       "region": "東京都渋谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -1076,7 +1005,6 @@
       "end": "13:18",
       "genre": "",
       "region": "東京都新宿区・江東区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1091,7 +1019,6 @@
       "end": "13:18",
       "genre": "",
       "region": "富山県全域",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1106,7 +1033,6 @@
       "end": "13:18",
       "genre": "",
       "region": "東京都千代田区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -1121,7 +1047,6 @@
       "end": "13:24",
       "genre": "",
       "region": "東京都千代田区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -1136,7 +1061,6 @@
       "end": "13:24",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1151,7 +1075,6 @@
       "end": "13:24",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -1166,7 +1089,6 @@
       "end": "13:24",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1181,7 +1103,6 @@
       "end": "13:30",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -1196,7 +1117,6 @@
       "end": "13:30",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1211,7 +1131,6 @@
       "end": "13:30",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1226,7 +1145,6 @@
       "end": "13:30",
       "genre": "",
       "region": "東京都小平市・東村山市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1241,7 +1159,6 @@
       "end": "13:36",
       "genre": "",
       "region": "東京都、新潟県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -1256,7 +1173,6 @@
       "end": "13:36",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -1271,7 +1187,6 @@
       "end": "13:36",
       "genre": "",
       "region": "神奈川県厚木市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1286,7 +1201,6 @@
       "end": "13:36",
       "genre": "",
       "region": "東京都三鷹市、日野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1301,7 +1215,6 @@
       "end": "13:42",
       "genre": "",
       "region": "茨城県つくば市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1316,7 +1229,6 @@
       "end": "13:42",
       "genre": "",
       "region": "東京都北区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -1331,7 +1243,6 @@
       "end": "13:42",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -1346,7 +1257,6 @@
       "end": "13:42",
       "genre": "",
       "region": "静岡県沼津市・神奈川県横浜市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -1361,7 +1271,6 @@
       "end": "13:48",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1376,7 +1285,6 @@
       "end": "13:48",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1391,7 +1299,6 @@
       "end": "13:48",
       "genre": "",
       "region": "地球",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1406,7 +1313,6 @@
       "end": "13:54",
       "genre": "",
       "region": "北海道函館市・札幌市、青森県、関東",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -1421,7 +1327,6 @@
       "end": "13:54",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1436,7 +1341,6 @@
       "end": "14:00",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -1451,7 +1355,6 @@
       "end": "14:00",
       "genre": "",
       "region": "富山県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1466,7 +1369,6 @@
       "end": "14:00",
       "genre": "",
       "region": "東京都新宿区・江東区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -1481,7 +1383,6 @@
       "end": "14:06",
       "genre": "",
       "region": "千葉県習志野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -1496,7 +1397,6 @@
       "end": "14:06",
       "genre": "",
       "region": "東京都日野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -1511,7 +1411,6 @@
       "end": "14:06",
       "genre": "",
       "region": "札幌、関東、名古屋",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -1526,7 +1425,6 @@
       "end": "14:06",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1541,7 +1439,6 @@
       "end": "14:12",
       "genre": "",
       "region": "神奈川県横浜市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1556,7 +1453,6 @@
       "end": "14:12",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1571,7 +1467,6 @@
       "end": "14:12",
       "genre": "",
       "region": "東京都世田谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -1586,7 +1481,6 @@
       "end": "14:12",
       "genre": "",
       "region": "豊島区池袋",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1601,7 +1495,6 @@
       "end": "14:18",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1616,7 +1509,6 @@
       "end": "14:18",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -1631,7 +1523,6 @@
       "end": "14:18",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -1646,7 +1537,6 @@
       "end": "14:24",
       "genre": "",
       "region": "東京都千代田区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1661,7 +1551,6 @@
       "end": "14:24",
       "genre": "",
       "region": "東京都北区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1676,7 +1565,6 @@
       "end": "14:24",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -1691,7 +1579,6 @@
       "end": "14:30",
       "genre": "",
       "region": "神奈川県平塚市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1706,7 +1593,6 @@
       "end": "14:30",
       "genre": "",
       "region": "神奈川県相模原市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -1721,7 +1607,6 @@
       "end": "14:30",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -1736,7 +1621,6 @@
       "end": "14:30",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1751,7 +1635,6 @@
       "end": "14:36",
       "genre": "",
       "region": "東京都世田谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1766,7 +1649,6 @@
       "end": "14:36",
       "genre": "",
       "region": "札幌、関東、名古屋",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1781,7 +1663,6 @@
       "end": "14:36",
       "genre": "",
       "region": "東京都、新潟県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1796,7 +1677,6 @@
       "end": "14:36",
       "genre": "",
       "region": "栃木県栃木市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -1811,7 +1691,6 @@
       "end": "14:42",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -1826,7 +1705,6 @@
       "end": "14:42",
       "genre": "",
       "region": "北海道函館市・札幌市、青森県、関東",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1841,7 +1719,6 @@
       "end": "14:42",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1856,7 +1733,6 @@
       "end": "14:42",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1871,7 +1747,6 @@
       "end": "14:48",
       "genre": "",
       "region": "愛知県一宮市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1886,7 +1761,6 @@
       "end": "14:48",
       "genre": "",
       "region": "高知県、東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1901,7 +1775,6 @@
       "end": "14:48",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1916,7 +1789,6 @@
       "end": "14:54",
       "genre": "",
       "region": "埼玉県鶴ヶ島市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -1931,7 +1803,6 @@
       "end": "14:54",
       "genre": "",
       "region": "東京都三鷹市、日野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -1946,7 +1817,6 @@
       "end": "15:00",
       "genre": "",
       "region": "東京都町田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -1961,7 +1831,6 @@
       "end": "15:00",
       "genre": "",
       "region": "東京都世田谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -1976,7 +1845,6 @@
       "end": "15:00",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -1991,7 +1859,6 @@
       "end": "15:06",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -2006,7 +1873,6 @@
       "end": "15:06",
       "genre": "",
       "region": "神奈川県横浜市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2021,7 +1887,6 @@
       "end": "15:06",
       "genre": "",
       "region": "東京都・山口県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -2036,7 +1901,6 @@
       "end": "15:06",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -2051,7 +1915,6 @@
       "end": "15:12",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -2066,7 +1929,6 @@
       "end": "15:12",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -2081,7 +1943,6 @@
       "end": "15:12",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2096,7 +1957,6 @@
       "end": "15:12",
       "genre": "",
       "region": "東京都北区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2111,7 +1971,6 @@
       "end": "15:18",
       "genre": "",
       "region": "愛知県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -2126,7 +1985,6 @@
       "end": "15:18",
       "genre": "",
       "region": "東京都千代田区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -2141,7 +1999,6 @@
       "end": "15:18",
       "genre": "",
       "region": "北海道函館市・札幌市、青森県、関東",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2156,7 +2013,6 @@
       "end": "15:18",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2171,7 +2027,6 @@
       "end": "15:24",
       "genre": "",
       "region": "東京都北区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -2186,7 +2041,6 @@
       "end": "15:24",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -2201,7 +2055,6 @@
       "end": "15:24",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -2216,7 +2069,6 @@
       "end": "15:24",
       "genre": "",
       "region": "東京都、新潟県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2231,7 +2083,6 @@
       "end": "15:30",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -2246,7 +2097,6 @@
       "end": "15:30",
       "genre": "",
       "region": "東京都渋谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -2261,7 +2111,6 @@
       "end": "15:30",
       "genre": "特別演舞",
       "region": "",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -2276,7 +2125,6 @@
       "end": "15:30",
       "genre": "",
       "region": "愛媛県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -2291,7 +2139,6 @@
       "end": "15:36",
       "genre": "特別演舞",
       "region": "",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -2306,7 +2153,6 @@
       "end": "15:36",
       "genre": "",
       "region": "地球",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2321,7 +2167,6 @@
       "end": "15:36",
       "genre": "",
       "region": "神奈川県厚木市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2336,7 +2181,6 @@
       "end": "15:42",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2351,7 +2195,6 @@
       "end": "15:42",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2366,7 +2209,6 @@
       "end": "15:48",
       "genre": "",
       "region": "東京都港区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -2381,7 +2223,6 @@
       "end": "15:48",
       "genre": "",
       "region": "富山県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2396,7 +2237,6 @@
       "end": "15:54",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -2411,7 +2251,6 @@
       "end": "15:54",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2426,7 +2265,6 @@
       "end": "16:00",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -2441,7 +2279,6 @@
       "end": "16:00",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2456,7 +2293,6 @@
       "end": "16:00",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2471,7 +2307,6 @@
       "end": "16:06",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2486,7 +2321,6 @@
       "end": "16:06",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -2501,7 +2335,6 @@
       "end": "16:06",
       "genre": "",
       "region": "東京都千代田区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2516,7 +2349,6 @@
       "end": "16:12",
       "genre": "",
       "region": "札幌、関東、名古屋",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2531,7 +2363,6 @@
       "end": "16:12",
       "genre": "",
       "region": "愛知県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -2546,7 +2377,6 @@
       "end": "16:12",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2561,7 +2391,6 @@
       "end": "16:18",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2576,7 +2405,6 @@
       "end": "16:18",
       "genre": "",
       "region": "茨城県つくば市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2591,7 +2419,6 @@
       "end": "16:18",
       "genre": "",
       "region": "東京都北区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2606,7 +2433,6 @@
       "end": "16:24",
       "genre": "",
       "region": "東京都港区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2621,7 +2447,6 @@
       "end": "16:24",
       "genre": "",
       "region": "高知県、東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2636,7 +2461,6 @@
       "end": "16:24",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -2651,7 +2475,6 @@
       "end": "16:30",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -2666,7 +2489,6 @@
       "end": "16:30",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -2681,7 +2503,6 @@
       "end": "16:36",
       "genre": "特別演舞",
       "region": "",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -2696,7 +2517,6 @@
       "end": "16:36",
       "genre": "",
       "region": "神奈川県平塚市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2711,7 +2531,6 @@
       "end": "16:42",
       "genre": "",
       "region": "富山県全域",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2726,7 +2545,6 @@
       "end": "16:42",
       "genre": "特別演舞",
       "region": "",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -2741,7 +2559,6 @@
       "end": "16:48",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2756,7 +2573,6 @@
       "end": "16:54",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2771,7 +2587,6 @@
       "end": "17:00",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2786,7 +2601,6 @@
       "end": "17:00",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -2801,7 +2615,6 @@
       "end": "17:06",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -2816,7 +2629,6 @@
       "end": "17:06",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2831,7 +2643,6 @@
       "end": "17:06",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2846,7 +2657,6 @@
       "end": "17:12",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2861,7 +2671,6 @@
       "end": "17:12",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2876,7 +2685,6 @@
       "end": "17:12",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2891,7 +2699,6 @@
       "end": "17:18",
       "genre": "",
       "region": "東京都杉並区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2906,7 +2713,6 @@
       "end": "17:18",
       "genre": "",
       "region": "愛知県一宮市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2921,7 +2727,6 @@
       "end": "17:24",
       "genre": "",
       "region": "東京都・山口県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2936,7 +2741,6 @@
       "end": "17:24",
       "genre": "特別演舞",
       "region": "",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -2951,7 +2755,6 @@
       "end": "17:30",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2966,7 +2769,6 @@
       "end": "17:30",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -2981,7 +2783,6 @@
       "end": "17:36",
       "genre": "特別演舞",
       "region": "",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -2996,7 +2797,6 @@
       "end": "17:36",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -3011,7 +2811,6 @@
       "end": "17:42",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -3026,7 +2825,6 @@
       "end": "17:48",
       "genre": "",
       "region": "豊島区池袋",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -3041,7 +2839,6 @@
       "end": "17:54",
       "genre": "",
       "region": "東京都町田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -3056,7 +2853,6 @@
       "end": "17:54",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -3071,7 +2867,6 @@
       "end": "18:00",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -3086,7 +2881,6 @@
       "end": "18:00",
       "genre": "",
       "region": "東京都千代田区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -3101,7 +2895,6 @@
       "end": "18:06",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -3116,7 +2909,6 @@
       "end": "18:12",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -3131,7 +2923,6 @@
       "end": "18:18",
       "genre": "",
       "region": "東京都渋谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -3146,7 +2937,6 @@
       "end": "18:24",
       "genre": "特別演舞",
       "region": "",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3161,7 +2951,6 @@
       "end": "18:54",
       "genre": "",
       "region": "東京都小平市・東村山市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -3176,7 +2965,6 @@
       "end": "19:00",
       "genre": "",
       "region": "愛知県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -3191,7 +2979,6 @@
       "end": "19:06",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -3206,7 +2993,6 @@
       "end": "19:12",
       "genre": "",
       "region": "愛媛県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -3221,7 +3007,6 @@
       "end": "19:18",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -3236,7 +3021,6 @@
       "end": "19:24",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -3251,7 +3035,6 @@
       "end": "19:30",
       "genre": "",
       "region": "大阪府大阪市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -3266,7 +3049,6 @@
       "end": "10:36",
       "genre": "",
       "region": "神奈川県厚木市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3281,7 +3063,6 @@
       "end": "10:42",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3296,7 +3077,6 @@
       "end": "10:48",
       "genre": "",
       "region": "東京都小平市・東村山市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3311,7 +3091,6 @@
       "end": "10:54",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3326,7 +3105,6 @@
       "end": "11:00",
       "genre": "",
       "region": "大阪府大阪市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3341,7 +3119,6 @@
       "end": "11:06",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -3356,7 +3133,6 @@
       "end": "11:06",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3371,7 +3147,6 @@
       "end": "11:06",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3386,7 +3161,6 @@
       "end": "11:06",
       "genre": "",
       "region": "東京都西東京市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3401,7 +3175,6 @@
       "end": "11:06",
       "genre": "",
       "region": "東京都町田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3416,7 +3189,6 @@
       "end": "11:06",
       "genre": "",
       "region": "豊島区池袋",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3431,7 +3203,6 @@
       "end": "11:06",
       "genre": "",
       "region": "愛媛県松山市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3446,7 +3217,6 @@
       "end": "11:12",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3461,7 +3231,6 @@
       "end": "11:12",
       "genre": "",
       "region": "東京都中野区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3476,7 +3245,6 @@
       "end": "11:12",
       "genre": "",
       "region": "東京都、新潟県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3491,7 +3259,6 @@
       "end": "11:12",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3506,7 +3273,6 @@
       "end": "11:12",
       "genre": "",
       "region": "愛知県一宮市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3521,7 +3287,6 @@
       "end": "11:12",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3536,7 +3301,6 @@
       "end": "11:12",
       "genre": "",
       "region": "東京都港区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3551,7 +3315,6 @@
       "end": "11:18",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3566,7 +3329,6 @@
       "end": "11:18",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3581,7 +3343,6 @@
       "end": "11:18",
       "genre": "",
       "region": "神奈川県平塚市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3596,7 +3357,6 @@
       "end": "11:18",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -3611,7 +3371,6 @@
       "end": "11:18",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3626,7 +3385,6 @@
       "end": "11:18",
       "genre": "",
       "region": "東京都世田谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3641,7 +3399,6 @@
       "end": "11:18",
       "genre": "",
       "region": "埼玉県志木市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3656,7 +3413,6 @@
       "end": "11:24",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3671,7 +3427,6 @@
       "end": "11:24",
       "genre": "",
       "region": "東京都新宿区・江東区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3686,7 +3441,6 @@
       "end": "11:24",
       "genre": "",
       "region": "東京都・千葉県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3701,7 +3455,6 @@
       "end": "11:24",
       "genre": "",
       "region": "東京都千代田区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3716,7 +3469,6 @@
       "end": "11:24",
       "genre": "",
       "region": "北海道千歳市・関東",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3731,7 +3483,6 @@
       "end": "11:24",
       "genre": "",
       "region": "埼玉県飯能市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3746,7 +3497,6 @@
       "end": "11:24",
       "genre": "",
       "region": "埼玉県朝霞市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3761,7 +3511,6 @@
       "end": "11:30",
       "genre": "",
       "region": "東京都世田谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3776,7 +3525,6 @@
       "end": "11:30",
       "genre": "",
       "region": "東京都渋谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3791,7 +3539,6 @@
       "end": "11:30",
       "genre": "",
       "region": "神奈川県横浜市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3806,7 +3553,6 @@
       "end": "11:30",
       "genre": "",
       "region": "東京都日野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3821,7 +3567,6 @@
       "end": "11:30",
       "genre": "",
       "region": "大阪府大阪市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -3836,7 +3581,6 @@
       "end": "11:30",
       "genre": "",
       "region": "埼玉県さいたま市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3851,7 +3595,6 @@
       "end": "11:30",
       "genre": "",
       "region": "北海道函館市・札幌市、青森県、関東",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3866,7 +3609,6 @@
       "end": "11:36",
       "genre": "",
       "region": "東京都中目黒",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3881,7 +3623,6 @@
       "end": "11:36",
       "genre": "",
       "region": "愛媛県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3896,7 +3637,6 @@
       "end": "11:36",
       "genre": "",
       "region": "香川県高松市、東京都清瀬市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3911,7 +3651,6 @@
       "end": "11:36",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -3926,7 +3665,6 @@
       "end": "11:36",
       "genre": "",
       "region": "埼玉県朝霞市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3941,7 +3679,6 @@
       "end": "11:36",
       "genre": "",
       "region": "東京都調布市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3956,7 +3693,6 @@
       "end": "11:36",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3971,7 +3707,6 @@
       "end": "11:42",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -3986,7 +3721,6 @@
       "end": "11:42",
       "genre": "",
       "region": "千葉県四街道市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4001,7 +3735,6 @@
       "end": "11:42",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4016,7 +3749,6 @@
       "end": "11:42",
       "genre": "",
       "region": "埼玉県朝霞市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4031,7 +3763,6 @@
       "end": "11:42",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -4046,7 +3777,6 @@
       "end": "11:42",
       "genre": "",
       "region": "東京都練馬区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4061,7 +3791,6 @@
       "end": "11:42",
       "genre": "",
       "region": "神奈川県厚木市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -4076,7 +3805,6 @@
       "end": "11:48",
       "genre": "",
       "region": "東京都杉並区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4091,7 +3819,6 @@
       "end": "11:48",
       "genre": "",
       "region": "茨城県牛久市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4106,7 +3833,6 @@
       "end": "11:48",
       "genre": "",
       "region": "東京都青梅市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4121,7 +3847,6 @@
       "end": "11:48",
       "genre": "",
       "region": "神奈川県相模原市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4136,7 +3861,6 @@
       "end": "11:48",
       "genre": "",
       "region": "千葉県習志野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4151,7 +3875,6 @@
       "end": "11:48",
       "genre": "",
       "region": "富山県砺波市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4166,7 +3889,6 @@
       "end": "11:48",
       "genre": "",
       "region": "東京都三鷹市、日野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4181,7 +3903,6 @@
       "end": "11:54",
       "genre": "",
       "region": "東京都千代田区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -4196,7 +3917,6 @@
       "end": "11:54",
       "genre": "",
       "region": "東京都北区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4211,7 +3931,6 @@
       "end": "11:54",
       "genre": "",
       "region": "東京都国分寺市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4226,7 +3945,6 @@
       "end": "11:54",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4241,7 +3959,6 @@
       "end": "11:54",
       "genre": "",
       "region": "北海道札幌市、東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4256,7 +3973,6 @@
       "end": "11:54",
       "genre": "",
       "region": "富山県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4271,7 +3987,6 @@
       "end": "11:54",
       "genre": "",
       "region": "東京都中央区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4286,7 +4001,6 @@
       "end": "12:00",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4301,7 +4015,6 @@
       "end": "12:00",
       "genre": "",
       "region": "埼玉県朝霞市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -4316,7 +4029,6 @@
       "end": "12:00",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -4331,7 +4043,6 @@
       "end": "12:00",
       "genre": "",
       "region": "東京都世田谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4346,7 +4057,6 @@
       "end": "12:00",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4361,7 +4071,6 @@
       "end": "12:00",
       "genre": "",
       "region": "埼玉県草加市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4376,7 +4085,6 @@
       "end": "12:00",
       "genre": "",
       "region": "東京都小平市・東村山市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -4391,7 +4099,6 @@
       "end": "12:06",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4406,7 +4113,6 @@
       "end": "12:06",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4421,7 +4127,6 @@
       "end": "12:06",
       "genre": "",
       "region": "東京都北区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4436,7 +4141,6 @@
       "end": "12:06",
       "genre": "",
       "region": "愛知県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4451,7 +4155,6 @@
       "end": "12:06",
       "genre": "",
       "region": "豊島区池袋",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -4466,7 +4169,6 @@
       "end": "12:06",
       "genre": "",
       "region": "埼玉県飯能市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4481,7 +4183,6 @@
       "end": "12:12",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4496,7 +4197,6 @@
       "end": "12:12",
       "genre": "",
       "region": "神奈川県相模原市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -4511,7 +4211,6 @@
       "end": "12:12",
       "genre": "",
       "region": "東京都青梅市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -4526,7 +4225,6 @@
       "end": "12:12",
       "genre": "",
       "region": "富山県全域",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4541,7 +4239,6 @@
       "end": "12:12",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4556,7 +4253,6 @@
       "end": "12:12",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4571,7 +4267,6 @@
       "end": "12:12",
       "genre": "",
       "region": "東京都町田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -4586,7 +4281,6 @@
       "end": "12:18",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -4601,7 +4295,6 @@
       "end": "12:18",
       "genre": "",
       "region": "東京都目黒区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4616,7 +4309,6 @@
       "end": "12:18",
       "genre": "",
       "region": "埼玉県朝霞市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4631,7 +4323,6 @@
       "end": "12:18",
       "genre": "",
       "region": "愛媛県松山市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -4646,7 +4337,6 @@
       "end": "12:18",
       "genre": "",
       "region": "埼玉県朝霞市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -4661,7 +4351,6 @@
       "end": "12:18",
       "genre": "",
       "region": "東京都世田谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4676,7 +4365,6 @@
       "end": "12:18",
       "genre": "",
       "region": "静岡県沼津市・神奈川県横浜市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4691,7 +4379,6 @@
       "end": "12:18",
       "genre": "",
       "region": "栃木県栃木市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4706,7 +4393,6 @@
       "end": "12:24",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4721,7 +4407,6 @@
       "end": "12:24",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4736,7 +4421,6 @@
       "end": "12:24",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4751,7 +4435,6 @@
       "end": "12:24",
       "genre": "",
       "region": "東京都港区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -4766,7 +4449,6 @@
       "end": "12:24",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -4781,7 +4463,6 @@
       "end": "12:24",
       "genre": "",
       "region": "埼玉県志木市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -4796,7 +4477,6 @@
       "end": "12:24",
       "genre": "",
       "region": "北海道千歳市・関東",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -4811,7 +4491,6 @@
       "end": "12:24",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4826,7 +4505,6 @@
       "end": "12:30",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -4841,7 +4519,6 @@
       "end": "12:30",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4856,7 +4533,6 @@
       "end": "12:30",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4871,7 +4547,6 @@
       "end": "12:30",
       "genre": "",
       "region": "東京都・山口県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4886,7 +4561,6 @@
       "end": "12:30",
       "genre": "",
       "region": "東京都世田谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -4901,7 +4575,6 @@
       "end": "12:30",
       "genre": "",
       "region": "山梨県韮崎市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4916,7 +4589,6 @@
       "end": "12:30",
       "genre": "",
       "region": "東京都渋谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -4931,7 +4603,6 @@
       "end": "12:30",
       "genre": "",
       "region": "札幌、関東、名古屋",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4946,7 +4617,6 @@
       "end": "12:36",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4961,7 +4631,6 @@
       "end": "12:36",
       "genre": "",
       "region": "東京都西東京市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -4976,7 +4645,6 @@
       "end": "12:42",
       "genre": "",
       "region": "高知県、東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -4991,7 +4659,6 @@
       "end": "12:42",
       "genre": "",
       "region": "茨城県牛久市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5006,7 +4673,6 @@
       "end": "12:48",
       "genre": "",
       "region": "東京都練馬区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5021,7 +4687,6 @@
       "end": "12:48",
       "genre": "",
       "region": "神奈川県平塚市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -5036,7 +4701,6 @@
       "end": "12:48",
       "genre": "",
       "region": "愛知県一宮市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5051,7 +4715,6 @@
       "end": "12:48",
       "genre": "",
       "region": "愛媛県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5066,7 +4729,6 @@
       "end": "12:48",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -5081,7 +4743,6 @@
       "end": "12:48",
       "genre": "",
       "region": "神奈川県厚木市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -5096,7 +4757,6 @@
       "end": "12:48",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -5111,7 +4771,6 @@
       "end": "12:48",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5126,7 +4785,6 @@
       "end": "12:54",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5141,7 +4799,6 @@
       "end": "12:54",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -5156,7 +4813,6 @@
       "end": "12:54",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5171,7 +4827,6 @@
       "end": "12:54",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5186,7 +4841,6 @@
       "end": "12:54",
       "genre": "",
       "region": "東京都・山口県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5201,7 +4855,6 @@
       "end": "12:54",
       "genre": "",
       "region": "埼玉県飯能市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5216,7 +4869,6 @@
       "end": "12:54",
       "genre": "",
       "region": "神奈川県平塚市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5231,7 +4883,6 @@
       "end": "12:54",
       "genre": "",
       "region": "東京都調布市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5246,7 +4897,6 @@
       "end": "13:00",
       "genre": "",
       "region": "東京都国分寺市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5261,7 +4911,6 @@
       "end": "13:00",
       "genre": "",
       "region": "埼玉県朝霞市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5276,7 +4925,6 @@
       "end": "13:00",
       "genre": "",
       "region": "北海道函館市・札幌市、青森県、関東",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5291,7 +4939,6 @@
       "end": "13:00",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -5306,7 +4953,6 @@
       "end": "13:00",
       "genre": "",
       "region": "神奈川県相模原市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -5321,7 +4967,6 @@
       "end": "13:00",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5336,7 +4981,6 @@
       "end": "13:00",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5351,7 +4995,6 @@
       "end": "13:00",
       "genre": "",
       "region": "北海道札幌市、東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5366,7 +5009,6 @@
       "end": "13:06",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5381,7 +5023,6 @@
       "end": "13:06",
       "genre": "",
       "region": "地球",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -5396,7 +5037,6 @@
       "end": "13:06",
       "genre": "",
       "region": "埼玉県飯能市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5411,7 +5051,6 @@
       "end": "13:06",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5426,7 +5065,6 @@
       "end": "13:06",
       "genre": "",
       "region": "東京都千代田区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -5441,7 +5079,6 @@
       "end": "13:06",
       "genre": "",
       "region": "埼玉県草加市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5456,7 +5093,6 @@
       "end": "13:06",
       "genre": "",
       "region": "東京都三鷹市、日野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5471,7 +5107,6 @@
       "end": "13:06",
       "genre": "",
       "region": "大阪府大阪市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -5486,7 +5121,6 @@
       "end": "13:12",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -5501,7 +5135,6 @@
       "end": "13:12",
       "genre": "",
       "region": "埼玉県さいたま市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5516,7 +5149,6 @@
       "end": "13:12",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -5531,7 +5163,6 @@
       "end": "13:12",
       "genre": "",
       "region": "千葉県四街道市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5546,7 +5177,6 @@
       "end": "13:12",
       "genre": "",
       "region": "埼玉県朝霞市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -5561,7 +5191,6 @@
       "end": "13:12",
       "genre": "",
       "region": "埼玉県朝霞市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5576,7 +5205,6 @@
       "end": "13:12",
       "genre": "",
       "region": "東京都府中市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -5591,7 +5219,6 @@
       "end": "13:12",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5606,7 +5233,6 @@
       "end": "13:18",
       "genre": "",
       "region": "東京都、新潟県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5621,7 +5247,6 @@
       "end": "13:18",
       "genre": "",
       "region": "静岡県沼津市・神奈川県横浜市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5636,7 +5261,6 @@
       "end": "13:18",
       "genre": "",
       "region": "東京都中目黒",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5651,7 +5275,6 @@
       "end": "13:18",
       "genre": "",
       "region": "東京都杉並区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5666,7 +5289,6 @@
       "end": "13:18",
       "genre": "",
       "region": "神奈川県横浜市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5681,7 +5303,6 @@
       "end": "13:18",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5696,7 +5317,6 @@
       "end": "13:18",
       "genre": "",
       "region": "東京都小平市・東村山市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -5711,7 +5331,6 @@
       "end": "13:18",
       "genre": "",
       "region": "東京都新宿区・江東区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5726,7 +5345,6 @@
       "end": "13:24",
       "genre": "",
       "region": "東京都港区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -5741,7 +5359,6 @@
       "end": "13:24",
       "genre": "",
       "region": "東京都日野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5756,7 +5373,6 @@
       "end": "13:24",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5771,7 +5387,6 @@
       "end": "13:24",
       "genre": "",
       "region": "北海道函館市・札幌市、青森県、関東",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -5786,7 +5401,6 @@
       "end": "13:24",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5801,7 +5415,6 @@
       "end": "13:24",
       "genre": "",
       "region": "東京都中央区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5816,7 +5429,6 @@
       "end": "13:24",
       "genre": "",
       "region": "愛媛県松山市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -5831,7 +5443,6 @@
       "end": "13:24",
       "genre": "",
       "region": "東京都世田谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5846,7 +5457,6 @@
       "end": "13:30",
       "genre": "",
       "region": "埼玉県朝霞市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -5861,7 +5471,6 @@
       "end": "13:30",
       "genre": "",
       "region": "埼玉県飯能市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -5876,7 +5485,6 @@
       "end": "13:30",
       "genre": "",
       "region": "愛知県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5891,7 +5499,6 @@
       "end": "13:30",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5906,7 +5513,6 @@
       "end": "13:30",
       "genre": "",
       "region": "神奈川県相模原市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -5921,7 +5527,6 @@
       "end": "13:30",
       "genre": "",
       "region": "富山県砺波市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5936,7 +5541,6 @@
       "end": "13:30",
       "genre": "",
       "region": "埼玉県志木市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -5951,7 +5555,6 @@
       "end": "13:30",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5966,7 +5569,6 @@
       "end": "13:36",
       "genre": "",
       "region": "東京都千代田区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -5981,7 +5583,6 @@
       "end": "13:36",
       "genre": "",
       "region": "東京都青梅市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -5996,7 +5597,6 @@
       "end": "13:36",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6011,7 +5611,6 @@
       "end": "13:36",
       "genre": "",
       "region": "東京都北区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6026,7 +5625,6 @@
       "end": "13:36",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6041,7 +5639,6 @@
       "end": "13:36",
       "genre": "",
       "region": "東京都中野区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6056,7 +5653,6 @@
       "end": "13:36",
       "genre": "",
       "region": "東京都渋谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6071,7 +5667,6 @@
       "end": "13:42",
       "genre": "",
       "region": "香川県高松市、東京都清瀬市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6086,7 +5681,6 @@
       "end": "13:42",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6101,7 +5695,6 @@
       "end": "13:42",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6116,7 +5709,6 @@
       "end": "13:42",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6131,7 +5723,6 @@
       "end": "13:42",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6146,7 +5737,6 @@
       "end": "13:42",
       "genre": "",
       "region": "茨城県牛久市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6161,7 +5751,6 @@
       "end": "13:42",
       "genre": "",
       "region": "富山県全域",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6176,7 +5765,6 @@
       "end": "13:48",
       "genre": "",
       "region": "東京都世田谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6191,7 +5779,6 @@
       "end": "13:48",
       "genre": "",
       "region": "北海道函館市・札幌市、青森県、関東",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -6206,7 +5793,6 @@
       "end": "13:48",
       "genre": "",
       "region": "茨城県つくば市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -6221,7 +5807,6 @@
       "end": "13:48",
       "genre": "",
       "region": "東京都港区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -6236,7 +5821,6 @@
       "end": "13:48",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6251,7 +5835,6 @@
       "end": "13:48",
       "genre": "",
       "region": "東京都西東京市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6266,7 +5849,6 @@
       "end": "13:48",
       "genre": "",
       "region": "北海道千歳市・関東",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6281,7 +5863,6 @@
       "end": "13:54",
       "genre": "",
       "region": "東京都北区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6296,7 +5877,6 @@
       "end": "13:54",
       "genre": "",
       "region": "愛知県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6311,7 +5891,6 @@
       "end": "13:54",
       "genre": "",
       "region": "高知県、東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6326,7 +5905,6 @@
       "end": "13:54",
       "genre": "",
       "region": "札幌、関東、名古屋",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6341,7 +5919,6 @@
       "end": "13:54",
       "genre": "",
       "region": "愛媛県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6356,7 +5933,6 @@
       "end": "13:54",
       "genre": "",
       "region": "栃木県栃木市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6371,7 +5947,6 @@
       "end": "13:54",
       "genre": "",
       "region": "東京都世田谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6386,7 +5961,6 @@
       "end": "14:00",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6401,7 +5975,6 @@
       "end": "14:00",
       "genre": "",
       "region": "東京都中央区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6416,7 +5989,6 @@
       "end": "14:00",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6431,7 +6003,6 @@
       "end": "14:00",
       "genre": "",
       "region": "東京都、新潟県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6446,7 +6017,6 @@
       "end": "14:00",
       "genre": "",
       "region": "東京都千代田区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6461,7 +6031,6 @@
       "end": "14:00",
       "genre": "",
       "region": "埼玉県朝霞市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6476,7 +6045,6 @@
       "end": "14:00",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6491,7 +6059,6 @@
       "end": "14:00",
       "genre": "",
       "region": "東京都練馬区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6506,7 +6073,6 @@
       "end": "14:06",
       "genre": "",
       "region": "神奈川県平塚市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6521,7 +6087,6 @@
       "end": "14:06",
       "genre": "",
       "region": "東京都渋谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 1
@@ -6536,7 +6101,6 @@
       "end": "14:06",
       "genre": "",
       "region": "埼玉県朝霞市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6551,7 +6115,6 @@
       "end": "14:06",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6566,7 +6129,6 @@
       "end": "14:06",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6581,7 +6143,6 @@
       "end": "14:06",
       "genre": "",
       "region": "静岡県沼津市・神奈川県横浜市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6596,7 +6157,6 @@
       "end": "14:06",
       "genre": "",
       "region": "東京都世田谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6611,7 +6171,6 @@
       "end": "14:06",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -6626,7 +6185,6 @@
       "end": "14:12",
       "genre": "",
       "region": "神奈川県厚木市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -6641,7 +6199,6 @@
       "end": "14:12",
       "genre": "",
       "region": "東京都三鷹市、日野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6656,7 +6213,6 @@
       "end": "14:12",
       "genre": "",
       "region": "東京都杉並区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6671,7 +6227,6 @@
       "end": "14:12",
       "genre": "",
       "region": "埼玉県さいたま市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6686,7 +6241,6 @@
       "end": "14:12",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6701,7 +6255,6 @@
       "end": "14:12",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6716,7 +6269,6 @@
       "end": "14:12",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6731,7 +6283,6 @@
       "end": "14:12",
       "genre": "",
       "region": "地球",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6746,7 +6297,6 @@
       "end": "14:18",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6761,7 +6311,6 @@
       "end": "14:18",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6776,7 +6325,6 @@
       "end": "14:24",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6791,7 +6339,6 @@
       "end": "14:24",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6806,7 +6353,6 @@
       "end": "14:30",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6821,7 +6367,6 @@
       "end": "14:30",
       "genre": "",
       "region": "埼玉県志木市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -6836,7 +6381,6 @@
       "end": "14:30",
       "genre": "",
       "region": "茨城県つくば市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6851,7 +6395,6 @@
       "end": "14:30",
       "genre": "",
       "region": "東京都渋谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6866,7 +6409,6 @@
       "end": "14:30",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6881,7 +6423,6 @@
       "end": "14:30",
       "genre": "",
       "region": "東京都北区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6896,7 +6437,6 @@
       "end": "14:30",
       "genre": "",
       "region": "東京都日野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6911,7 +6451,6 @@
       "end": "14:30",
       "genre": "",
       "region": "富山県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6926,7 +6465,6 @@
       "end": "14:36",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6941,7 +6479,6 @@
       "end": "14:36",
       "genre": "",
       "region": "東京都調布市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6956,7 +6493,6 @@
       "end": "14:36",
       "genre": "",
       "region": "神奈川県相模原市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -6971,7 +6507,6 @@
       "end": "14:36",
       "genre": "",
       "region": "東京都世田谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -6986,7 +6521,6 @@
       "end": "14:36",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -7001,7 +6535,6 @@
       "end": "14:36",
       "genre": "",
       "region": "東京都目黒区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -7016,7 +6549,6 @@
       "end": "14:36",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7031,7 +6563,6 @@
       "end": "14:36",
       "genre": "",
       "region": "東京都府中市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -7046,7 +6577,6 @@
       "end": "14:42",
       "genre": "",
       "region": "愛媛県松山市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -7061,7 +6591,6 @@
       "end": "14:42",
       "genre": "",
       "region": "東京都小平市・東村山市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -7076,7 +6605,6 @@
       "end": "14:42",
       "genre": "",
       "region": "東京都千代田区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -7091,7 +6619,6 @@
       "end": "14:42",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7106,7 +6633,6 @@
       "end": "14:42",
       "genre": "",
       "region": "神奈川県平塚市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -7121,7 +6647,6 @@
       "end": "14:42",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7136,7 +6661,6 @@
       "end": "14:42",
       "genre": "",
       "region": "東京都青梅市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -7151,7 +6675,6 @@
       "end": "14:42",
       "genre": "",
       "region": "東京都中野区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7166,7 +6689,6 @@
       "end": "14:48",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7181,7 +6703,6 @@
       "end": "14:48",
       "genre": "",
       "region": "東京都・山口県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7196,7 +6717,6 @@
       "end": "14:48",
       "genre": "",
       "region": "東京都新宿区・江東区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7211,7 +6731,6 @@
       "end": "14:48",
       "genre": "",
       "region": "東京都渋谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -7226,7 +6745,6 @@
       "end": "14:48",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7241,7 +6759,6 @@
       "end": "14:48",
       "genre": "",
       "region": "埼玉県さいたま市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -7256,7 +6773,6 @@
       "end": "14:48",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7271,7 +6787,6 @@
       "end": "14:48",
       "genre": "",
       "region": "千葉県四街道市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7286,7 +6801,6 @@
       "end": "14:54",
       "genre": "",
       "region": "愛知県一宮市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7301,7 +6815,6 @@
       "end": "14:54",
       "genre": "",
       "region": "豊島区池袋",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7316,7 +6829,6 @@
       "end": "14:54",
       "genre": "",
       "region": "東京都西東京市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -7331,7 +6843,6 @@
       "end": "14:54",
       "genre": "",
       "region": "札幌、関東、名古屋",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7346,7 +6857,6 @@
       "end": "14:54",
       "genre": "",
       "region": "東京都中目黒",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7361,7 +6871,6 @@
       "end": "14:54",
       "genre": "",
       "region": "東京都国分寺市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7376,7 +6885,6 @@
       "end": "14:54",
       "genre": "",
       "region": "埼玉県朝霞市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7391,7 +6899,6 @@
       "end": "14:54",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -7406,7 +6913,6 @@
       "end": "14:59",
       "genre": "",
       "region": "山梨県韮崎市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -7421,7 +6927,6 @@
       "end": "15:00",
       "genre": "",
       "region": "埼玉県飯能市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7436,7 +6941,6 @@
       "end": "15:00",
       "genre": "",
       "region": "北海道札幌市、東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7451,7 +6955,6 @@
       "end": "15:00",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -7466,7 +6969,6 @@
       "end": "15:00",
       "genre": "",
       "region": "埼玉県朝霞市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7481,7 +6983,6 @@
       "end": "15:00",
       "genre": "",
       "region": "高知県、東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7496,7 +6997,6 @@
       "end": "15:00",
       "genre": "",
       "region": "香川県高松市、東京都清瀬市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7511,7 +7011,6 @@
       "end": "15:00",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7526,7 +7025,6 @@
       "end": "15:06",
       "genre": "",
       "region": "大阪府大阪市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -7541,7 +7039,6 @@
       "end": "15:06",
       "genre": "",
       "region": "東京都町田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7556,7 +7053,6 @@
       "end": "15:06",
       "genre": "",
       "region": "東京都調布市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -7571,7 +7067,6 @@
       "end": "15:06",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -7586,7 +7081,6 @@
       "end": "15:06",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7601,7 +7095,6 @@
       "end": "15:06",
       "genre": "",
       "region": "東京都世田谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7616,7 +7109,6 @@
       "end": "15:06",
       "genre": "",
       "region": "富山県全域",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7631,7 +7123,6 @@
       "end": "15:06",
       "genre": "",
       "region": "埼玉県草加市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7646,7 +7137,6 @@
       "end": "15:12",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -7661,7 +7151,6 @@
       "end": "15:12",
       "genre": "",
       "region": "神奈川県相模原市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7676,7 +7165,6 @@
       "end": "15:12",
       "genre": "",
       "region": "東京都中央区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -7691,7 +7179,6 @@
       "end": "15:12",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7706,7 +7193,6 @@
       "end": "15:12",
       "genre": "",
       "region": "茨城県つくば市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7721,7 +7207,6 @@
       "end": "15:12",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -7736,7 +7221,6 @@
       "end": "15:12",
       "genre": "",
       "region": "愛媛県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -7751,7 +7235,6 @@
       "end": "15:12",
       "genre": "",
       "region": "神奈川県相模原市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -7766,7 +7249,6 @@
       "end": "15:18",
       "genre": "",
       "region": "富山県砺波市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7781,7 +7263,6 @@
       "end": "15:18",
       "genre": "",
       "region": "札幌、関東、名古屋",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -7796,7 +7277,6 @@
       "end": "15:18",
       "genre": "",
       "region": "東京都世田谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7811,7 +7291,6 @@
       "end": "15:18",
       "genre": "",
       "region": "愛知県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -7826,7 +7305,6 @@
       "end": "15:18",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -7841,7 +7319,6 @@
       "end": "15:18",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -7856,7 +7333,6 @@
       "end": "15:18",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7871,7 +7347,6 @@
       "end": "15:24",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7886,7 +7361,6 @@
       "end": "15:24",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7901,7 +7375,6 @@
       "end": "15:24",
       "genre": "",
       "region": "豊島区池袋",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -7916,7 +7389,6 @@
       "end": "15:24",
       "genre": "",
       "region": "東京都目黒区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7931,7 +7403,6 @@
       "end": "15:24",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7946,7 +7417,6 @@
       "end": "15:24",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7961,7 +7431,6 @@
       "end": "15:24",
       "genre": "",
       "region": "静岡県沼津市・神奈川県横浜市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -7976,7 +7445,6 @@
       "end": "15:30",
       "genre": "",
       "region": "東京都北区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -7991,7 +7459,6 @@
       "end": "15:30",
       "genre": "",
       "region": "高知県、東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8006,7 +7473,6 @@
       "end": "15:30",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8021,7 +7487,6 @@
       "end": "15:30",
       "genre": "",
       "region": "東京都渋谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -8036,7 +7501,6 @@
       "end": "15:30",
       "genre": "",
       "region": "神奈川県平塚市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8051,7 +7515,6 @@
       "end": "15:30",
       "genre": "",
       "region": "東京都北区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8066,7 +7529,6 @@
       "end": "15:30",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8081,7 +7543,6 @@
       "end": "15:36",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8096,7 +7557,6 @@
       "end": "15:36",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -8111,7 +7571,6 @@
       "end": "15:36",
       "genre": "",
       "region": "東京都千代田区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -8126,7 +7585,6 @@
       "end": "15:36",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -8141,7 +7599,6 @@
       "end": "15:36",
       "genre": "",
       "region": "東京都三鷹市、日野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8156,7 +7613,6 @@
       "end": "15:36",
       "genre": "",
       "region": "東京都世田谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8171,7 +7627,6 @@
       "end": "15:36",
       "genre": "",
       "region": "埼玉県飯能市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8186,7 +7641,6 @@
       "end": "15:42",
       "genre": "",
       "region": "東京都府中市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -8201,7 +7655,6 @@
       "end": "15:42",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -8216,7 +7669,6 @@
       "end": "15:42",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8231,7 +7683,6 @@
       "end": "15:42",
       "genre": "",
       "region": "香川県高松市、東京都清瀬市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8246,7 +7697,6 @@
       "end": "15:42",
       "genre": "",
       "region": "東京都、新潟県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8261,7 +7711,6 @@
       "end": "15:42",
       "genre": "",
       "region": "東京都日野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8276,7 +7725,6 @@
       "end": "15:42",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8291,7 +7739,6 @@
       "end": "15:42",
       "genre": "",
       "region": "埼玉県朝霞市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8306,7 +7753,6 @@
       "end": "15:48",
       "genre": "",
       "region": "茨城県つくば市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8321,7 +7767,6 @@
       "end": "15:48",
       "genre": "",
       "region": "北海道千歳市・関東",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8336,7 +7781,6 @@
       "end": "15:48",
       "genre": "",
       "region": "東京都目黒区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8351,7 +7795,6 @@
       "end": "15:48",
       "genre": "",
       "region": "埼玉県飯能市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8366,7 +7809,6 @@
       "end": "15:48",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -8381,7 +7823,6 @@
       "end": "15:48",
       "genre": "",
       "region": "地球",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -8396,7 +7837,6 @@
       "end": "15:48",
       "genre": "",
       "region": "東京都新宿区・江東区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8411,7 +7851,6 @@
       "end": "15:48",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8426,7 +7865,6 @@
       "end": "15:54",
       "genre": "",
       "region": "神奈川県平塚市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -8441,7 +7879,6 @@
       "end": "15:54",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -8456,7 +7893,6 @@
       "end": "15:54",
       "genre": "",
       "region": "東京都・山口県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8471,7 +7907,6 @@
       "end": "15:54",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -8486,7 +7921,6 @@
       "end": "15:54",
       "genre": "",
       "region": "東京都・千葉県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -8501,7 +7935,6 @@
       "end": "15:54",
       "genre": "",
       "region": "東京都練馬区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8516,7 +7949,6 @@
       "end": "15:54",
       "genre": "",
       "region": "東京都国分寺市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8531,7 +7963,6 @@
       "end": "15:54",
       "genre": "",
       "region": "茨城県牛久市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8546,7 +7977,6 @@
       "end": "16:00",
       "genre": "",
       "region": "東京都中野区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8561,7 +7991,6 @@
       "end": "16:00",
       "genre": "",
       "region": "埼玉県朝霞市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -8576,7 +8005,6 @@
       "end": "16:00",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 5
@@ -8591,7 +8019,6 @@
       "end": "16:06",
       "genre": "",
       "region": "東京都渋谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8606,7 +8033,6 @@
       "end": "16:12",
       "genre": "",
       "region": "富山県全域",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8621,7 +8047,6 @@
       "end": "16:12",
       "genre": "",
       "region": "埼玉県朝霞市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8636,7 +8061,6 @@
       "end": "16:12",
       "genre": "",
       "region": "富山県砺波市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8651,7 +8075,6 @@
       "end": "16:12",
       "genre": "",
       "region": "千葉県習志野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 2
@@ -8666,7 +8089,6 @@
       "end": "16:18",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8681,7 +8103,6 @@
       "end": "16:18",
       "genre": "",
       "region": "東京都杉並区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8696,7 +8117,6 @@
       "end": "16:18",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8711,7 +8131,6 @@
       "end": "16:18",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8726,7 +8145,6 @@
       "end": "16:24",
       "genre": "",
       "region": "埼玉県草加市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8741,7 +8159,6 @@
       "end": "16:24",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8756,7 +8173,6 @@
       "end": "16:24",
       "genre": "",
       "region": "東京都町田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8771,7 +8187,6 @@
       "end": "16:24",
       "genre": "",
       "region": "東京都世田谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8786,7 +8201,6 @@
       "end": "16:30",
       "genre": "",
       "region": "東京都・千葉県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -8801,7 +8215,6 @@
       "end": "16:30",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8816,7 +8229,6 @@
       "end": "16:30",
       "genre": "",
       "region": "北海道札幌市、東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8831,7 +8243,6 @@
       "end": "16:30",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8846,7 +8257,6 @@
       "end": "16:36",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -8861,7 +8271,6 @@
       "end": "16:36",
       "genre": "",
       "region": "埼玉県朝霞市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8876,7 +8285,6 @@
       "end": "16:36",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8891,7 +8299,6 @@
       "end": "16:36",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -8906,7 +8313,6 @@
       "end": "16:42",
       "genre": "",
       "region": "山梨県韮崎市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -8921,7 +8327,6 @@
       "end": "16:42",
       "genre": "",
       "region": "富山県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -8936,7 +8341,6 @@
       "end": "16:42",
       "genre": "",
       "region": "東京都北区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8951,7 +8355,6 @@
       "end": "16:42",
       "genre": "",
       "region": "神奈川県平塚市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8966,7 +8369,6 @@
       "end": "16:48",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8981,7 +8383,6 @@
       "end": "16:48",
       "genre": "",
       "region": "東京都板橋区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -8996,7 +8397,6 @@
       "end": "16:48",
       "genre": "",
       "region": "東京都千代田区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9011,7 +8411,6 @@
       "end": "16:48",
       "genre": "",
       "region": "神奈川県相模原市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9026,7 +8425,6 @@
       "end": "16:54",
       "genre": "",
       "region": "栃木県栃木市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -9041,7 +8439,6 @@
       "end": "16:54",
       "genre": "",
       "region": "東京都世田谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9056,7 +8453,6 @@
       "end": "16:54",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9071,7 +8467,6 @@
       "end": "16:54",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9086,7 +8481,6 @@
       "end": "17:00",
       "genre": "",
       "region": "神奈川県横浜市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -9101,7 +8495,6 @@
       "end": "17:00",
       "genre": "",
       "region": "千葉県習志野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 3
@@ -9116,7 +8509,6 @@
       "end": "17:00",
       "genre": "",
       "region": "埼玉県朝霞市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9131,7 +8523,6 @@
       "end": "17:00",
       "genre": "",
       "region": "東京都中目黒",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9146,7 +8537,6 @@
       "end": "17:06",
       "genre": "",
       "region": "東京都世田谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9161,7 +8551,6 @@
       "end": "17:06",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9176,7 +8565,6 @@
       "end": "17:06",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9191,7 +8579,6 @@
       "end": "17:06",
       "genre": "",
       "region": "地球",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9206,7 +8593,6 @@
       "end": "17:12",
       "genre": "",
       "region": "東京都千代田区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 5
@@ -9221,7 +8607,6 @@
       "end": "17:12",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9236,7 +8621,6 @@
       "end": "17:12",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9251,7 +8635,6 @@
       "end": "17:18",
       "genre": "",
       "region": "神奈川県相模原市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 5
@@ -9266,7 +8649,6 @@
       "end": "17:18",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9281,7 +8663,6 @@
       "end": "17:18",
       "genre": "",
       "region": "山梨県韮崎市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9296,7 +8677,6 @@
       "end": "17:24",
       "genre": "",
       "region": "東京都日野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 5
@@ -9311,7 +8691,6 @@
       "end": "17:24",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9326,7 +8705,6 @@
       "end": "17:24",
       "genre": "",
       "region": "千葉県四街道市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9341,7 +8719,6 @@
       "end": "17:24",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9356,7 +8733,6 @@
       "end": "17:30",
       "genre": "",
       "region": "神奈川県厚木市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 5
@@ -9371,7 +8747,6 @@
       "end": "17:30",
       "genre": "",
       "region": "東京都・千葉県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9386,7 +8761,6 @@
       "end": "17:30",
       "genre": "",
       "region": "高知県高知市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9401,7 +8775,6 @@
       "end": "17:30",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9416,7 +8789,6 @@
       "end": "17:36",
       "genre": "",
       "region": "千葉県野田市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 5
@@ -9431,7 +8803,6 @@
       "end": "17:36",
       "genre": "",
       "region": "愛知県一宮市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9446,7 +8817,6 @@
       "end": "17:36",
       "genre": "",
       "region": "富山県",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9461,7 +8831,6 @@
       "end": "17:36",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9476,7 +8845,6 @@
       "end": "17:42",
       "genre": "",
       "region": "神奈川県平塚市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 5
@@ -9491,7 +8859,6 @@
       "end": "17:42",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9506,7 +8873,6 @@
       "end": "17:48",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 5
@@ -9521,7 +8887,6 @@
       "end": "17:48",
       "genre": "",
       "region": "栃木県栃木市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9536,7 +8901,6 @@
       "end": "17:54",
       "genre": "",
       "region": "東京都世田谷区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 5
@@ -9551,7 +8915,6 @@
       "end": "17:54",
       "genre": "",
       "region": "神奈川県横浜市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9566,7 +8929,6 @@
       "end": "17:54",
       "genre": "",
       "region": "千葉県習志野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9581,7 +8943,6 @@
       "end": "18:00",
       "genre": "",
       "region": "東京都",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 5
@@ -9596,7 +8957,6 @@
       "end": "18:00",
       "genre": "",
       "region": "埼玉県朝霞市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9611,7 +8971,6 @@
       "end": "18:00",
       "genre": "",
       "region": "東京都府中市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 4
@@ -9626,7 +8985,6 @@
       "end": "18:06",
       "genre": "",
       "region": "東京都豊島区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 5
@@ -9641,7 +8999,6 @@
       "end": "18:12",
       "genre": "",
       "region": "東京都新宿区",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 5
@@ -9656,7 +9013,6 @@
       "end": "18:18",
       "genre": "",
       "region": "千葉県習志野市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 5
@@ -9671,7 +9027,6 @@
       "end": "18:24",
       "genre": "",
       "region": "神奈川県横浜市",
-      "intro": "",
       "awardEntry": "",
       "isU25": false,
       "order": 5
