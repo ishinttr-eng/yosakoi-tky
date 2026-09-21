@@ -1,0 +1,5 @@
+CLAUDE.local.md
+.claude/settings.local.json
+.venv/
+tools/raw/
+.DS_Store
