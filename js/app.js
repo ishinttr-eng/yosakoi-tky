@@ -656,6 +656,14 @@ function renderMap(root, date, min) {
   );
   root.appendChild(toolbar);
 
+  // まだ一度も地図を操作していない（mapState.centerが未設定=初回表示）場合、
+  // 固定ズーム15+V-01中心のフォールバックだけだと池袋6会場が密集して重なるので、
+  // 現在選択中のエリアで最初からfitBoundsさせる。2回目以降のタブ切替では
+  // mapState.centerが既にあるため、ここは発火せず既存の「表示位置を保持する」動作を優先する。
+  if (!mapState.center && !mapState.pendingAreaFit) {
+    mapState.pendingAreaFit = ui.mapArea;
+  }
+
   // 大塚・巣鴨は池袋の6会場から2km以上離れており、池袋クラスタに合わせたズームでは
   // 画面外になる。エリアを切り替えて明示的にfitBoundsするタブを設ける。
   const areaTabs = el("div", { class: "map-area-tabs" });
