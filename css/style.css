@@ -349,6 +349,15 @@ details.finished-group[open] > summary { margin-bottom: 4px; }
 }
 .toggle-btn.active { background: var(--route-soft); color: var(--route); border-color: var(--route); }
 
+.map-area-tabs { display: flex; gap: 6px; margin-bottom: 10px; overflow-x: auto; }
+.map-area-tab {
+  flex: 0 0 auto;
+  padding: 7px 14px; border-radius: 20px; border: 1px solid var(--line);
+  background: var(--card); color: var(--muted); cursor: pointer; font-size: .85rem;
+  white-space: nowrap;
+}
+.map-area-tab.active { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); font-weight: 700; }
+
 .leaflet-popup-content-wrapper { background: var(--bg-2); color: var(--ink); }
 .leaflet-popup-tip { background: var(--bg-2); }
 .map-loc-btn {

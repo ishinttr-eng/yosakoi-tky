@@ -26,6 +26,7 @@ const ui = {
   artistsVenue: "",
   artistsGenre: "",
   mapMode: "normal", // normal | myroute
+  mapArea: "ikebukuro", // ikebukuro | otsuka-sugamo（大塚・巣鴨は池袋から2km以上離れておりズーム15では画面外になるため、エリア切替で表示を合わせる）
   mapSearch: "",
   myttMode: "list", // list | schedule
 };
@@ -43,6 +44,12 @@ const mapState = {
   myRouteApplyHighlight: null,
   myRouteFocusMap: null,
   selectedVenueId: null,
+  pendingAreaFit: null, // エリア切替ボタンが押された直後だけセットされ、初期表示ではfitBoundsしない
+};
+
+const MAP_AREAS = {
+  ikebukuro: { label: "池袋" },
+  "otsuka-sugamo": { label: "大塚・巣鴨" },
 };
 
 // 選択中の会場ピンの色を即座に反映する（地図タブを表示中なら再描画、そうでなければ何もしない）
@@ -474,7 +481,13 @@ function openDetailModal(p) {
       activeTab = "map";
       mapState.selectedVenueId = venue.id;
       render();
-      focusMapOnVenue(venue);
+      // render()が呼ぶrenderMap()はrequestAnimationFrameで地図のDOM再接続(initOrUpdateMap)を
+      // 次フレームに遅延させている。ここで同期的にfocusMapOnVenue（animate付きsetView）を呼ぶと
+      // 地図コンテナがまだ新しいdivに繋がっていない状態でアニメーションが始まり、その後の
+      // invalidateSize/再接続処理中に発火するmoveendが「移動前の中心」でmapState.centerを
+      // 上書きしてしまい、結局ジャンプ先ではなく元の位置に戻る不具合になる。
+      // DOM再接続と同じフレームキューに積むことで、再接続が終わってから確実に呼ぶ。
+      requestAnimationFrame(() => focusMapOnVenue(venue));
     });
     sheet.appendChild(mapBtn);
   }
@@ -643,6 +656,29 @@ function renderMap(root, date, min) {
   );
   root.appendChild(toolbar);
 
+  // 大塚・巣鴨は池袋の6会場から2km以上離れており、池袋クラスタに合わせたズームでは
+  // 画面外になる。エリアを切り替えて明示的にfitBoundsするタブを設ける。
+  const areaTabs = el("div", { class: "map-area-tabs" });
+  for (const [key, info] of Object.entries(MAP_AREAS)) {
+    areaTabs.appendChild(
+      el(
+        "button",
+        {
+          class: `map-area-tab${ui.mapArea === key ? " active" : ""}`,
+          "data-area": key,
+          onclick: () => {
+            if (ui.mapArea === key) return;
+            ui.mapArea = key;
+            mapState.pendingAreaFit = key;
+            render();
+          },
+        },
+        info.label
+      )
+    );
+  }
+  root.appendChild(areaTabs);
+
   if (mapState.singleRoute) renderRouteBanner(root);
   else if (ui.mapMode === "myroute") renderMyRouteBanner(root, date, min);
 
@@ -782,6 +818,16 @@ function selectMapSearchResult(v) {
 }
 
 function focusMapOnVenue(venue) {
+  // 検索結果選択・会場詳細モーダルの「地図で見る」等、どの導線でジャンプしても
+  // エリアタブの表示（大塚・巣鴨 ⇔ 池袋）をジャンプ先の会場に合わせておく。
+  // renderMap全体は呼ばずDOM上のタブのactiveクラスだけ直接更新する（無駄な再描画を避ける）。
+  const area = venue.area || "ikebukuro";
+  if (ui.mapArea !== area) {
+    ui.mapArea = area;
+    document.querySelectorAll(".map-area-tab").forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.area === area);
+    });
+  }
   // mapState.center/zoomも更新しておく。タブ切替直後はrequestAnimationFrame内で
   // initOrUpdateMap()がこの値を使って再度setViewするため、ここを更新しないと
   // 下記のsetViewがその後の再アタッチ処理で上書きされて元の表示位置に戻ってしまう
@@ -899,6 +945,16 @@ function initOrUpdateMap(mapDiv, date, min) {
     if (mapState.center) mapState.instance.setView(mapState.center, mapState.zoom);
   }
   drawMapLayer(date, min);
+
+  if (mapState.pendingAreaFit) {
+    const areaVenues = store.state.venues.filter((v) => (v.area || "ikebukuro") === mapState.pendingAreaFit);
+    mapState.pendingAreaFit = null;
+    if (areaVenues.length === 1) {
+      mapState.instance.setView([areaVenues[0].lat, areaVenues[0].lng], 16);
+    } else if (areaVenues.length > 1) {
+      mapState.instance.fitBounds(L.latLngBounds(areaVenues.map((v) => [v.lat, v.lng])), { padding: [48, 48] });
+    }
+  }
 }
 
 function drawMapLayer(date, min) {
