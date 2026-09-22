@@ -14,6 +14,9 @@
   4. team_year/2026/ ページから正式なチーム名・かな・地域一覧を取得し、
      PDF側の抽出名（改行欠落等でハイフンや引用符が化けることがある）を
      正規化キーで突き合わせて正式名称に解決する
+  4.5. 各チームの個別ページ（team_year一覧のリンク先、107ページ程度）を取得し、
+     紹介文・チーム画像・SNS/公式サイトリンクを performances.json の
+     intro/image/sns フィールドに反映する
   5. 差分検出して changes.json に追記、checked.json を更新
 
 実行:
@@ -201,7 +204,7 @@ def parse_schedule_pdf(pdf_bytes, date):
 
 TEAM_BLOCK_RE = re.compile(r'<div class="team_block">(.*?)</div>\s*(?=<div class="team_block">|<div class="pager|</div>\s*</section)', re.S)
 TEXT1_RE = re.compile(r'class="team_text1"[^>]*>([^<]*)<')
-TEXT2_RE = re.compile(r'class="team_text2"[^>]*>([^<]*)<')
+TEXT2_RE = re.compile(r'class="team_text2"[^>]*href="([^"]+)"[^>]*>([^<]*)<')
 TEXT3_RE = re.compile(r'class="team_text3"[^>]*>([^<]*)<')
 TEXT4_RE = re.compile(r'class="team_text4"[^>]*>([^<]*)<')
 
@@ -214,10 +217,47 @@ def parse_team_list(html):
             continue
         teams.append({
             "entryNo": (m1.group(1).replace("受付番号：", "").strip() if m1 else ""),
-            "name": html_unescape(m2.group(1).strip()),
+            "url": m2.group(1),
+            "name": html_unescape(m2.group(2).strip()),
             "kana": html_unescape(m3.group(1).strip()),
             "region": html_unescape(m4.group(1).strip()),
         })
+    return teams
+
+
+DETAIL_AREA_RE = re.compile(r'<div class="detail_common_area">(.*?)</div>\s*</div>', re.S)
+DETAIL_IMG_RE = re.compile(r'<img[\s\S]*?src="([^"]+)"')
+DETAIL_PARA_RE = re.compile(r'<p class="wp-block-paragraph">(.*?)</p>', re.S)
+SNS_LINK_RE = re.compile(r'class="team_sns_link"\s+href="([^"]+)"')
+
+
+def fetch_team_detail(url):
+    """チーム個別ページから紹介文・チーム画像・SNS/公式サイトリンクを取得する。
+    個別ページのマークアップが変わって取得できなくなった場合、intro等は空のまま
+    performances.jsonに残り、アプリ側では単に非表示になるだけなので致命的ではない。"""
+    html = fetch_text(url)
+    area_m = DETAIL_AREA_RE.search(html)
+    area = area_m.group(1) if area_m else ""
+    img_m = DETAIL_IMG_RE.search(area)
+    image = img_m.group(1) if img_m else ""
+    paras = DETAIL_PARA_RE.findall(area)
+    intro = "\n".join(html_unescape(re.sub(r"<[^>]+>", "", p)).strip() for p in paras).strip()
+    sns = SNS_LINK_RE.findall(html)
+    return {"image": image, "intro": intro, "sns": sns}
+
+
+def enrich_teams_with_detail(teams):
+    """各チームの個別ページを取得してintro/image/snsを付与する。
+    107ページ程度なので逐次取得でも数十秒〜1分程度で終わる。1件失敗しても
+    他のチームの取得を止めない。"""
+    for t in teams:
+        try:
+            detail = fetch_team_detail(t["url"])
+        except Exception as e:
+            print(f"[build_data] チーム詳細の取得に失敗: {t['name']} ({t['url']}): {e}", file=sys.stderr)
+            detail = {"image": "", "intro": "", "sns": []}
+        t.update(detail)
+        time.sleep(0.2)
     return teams
 
 
@@ -252,6 +292,9 @@ def reconcile_with_teams(perfs, teams):
             p["name"] = team["name"]
             p["kana"] = team["kana"]
             p["region"] = team["region"]
+            p["intro"] = team.get("intro", "")
+            p["image"] = team.get("image", "")
+            p["sns"] = team.get("sns", [])
             resolved.append(p)
         else:
             dropped.append(p)
@@ -276,10 +319,12 @@ def build_performances(raw_entries, teams):
             "end": minutes_to_hhmm(p["endMin"]),
             "genre": "特別演舞" if p.get("isSpecial") else "",
             "region": p.get("region", ""),
-            "intro": "",
+            "intro": p.get("intro", ""),
             "awardEntry": "",
             "isU25": False,
             "order": order_counter[key],
+            "image": p.get("image", ""),
+            "sns": p.get("sns", []),
         })
     return out, dropped
 
@@ -354,6 +399,7 @@ def main():
     if not teams:
         print("[build_data] チーム一覧を1件も抽出できませんでした。TEAM_BLOCK_RE等のセレクタを見直してください。", file=sys.stderr)
         sys.exit(1)
+    teams = enrich_teams_with_detail(teams)
 
     performances, dropped = build_performances(raw_entries, teams)
     if not performances:
