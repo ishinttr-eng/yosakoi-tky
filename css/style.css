@@ -263,6 +263,13 @@ details.finished-group[open] > summary { margin-bottom: 4px; }
 .modal-meta { color: var(--muted); font-size: .85rem; margin-bottom: 14px; }
 .modal-section { margin: 14px 0; }
 .modal-section h4 { font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 8px; }
+.team-photo { display: block; width: 100%; max-width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 12px; margin: 4px 0 14px; }
+.sns-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.sns-link {
+  padding: 7px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--card);
+  color: var(--ink); font-size: .82rem; text-decoration: none; white-space: nowrap;
+}
+.sns-link:hover { border-color: var(--route); color: var(--route); }
 
 .btn {
   padding: 9px 16px; border-radius: 10px; border: 1px solid var(--line); background: var(--card);

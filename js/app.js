@@ -416,6 +416,23 @@ function renderArtistsList(container, date, min) {
   }
 }
 
+// チームのSNS/公式サイトリンクをドメインに応じたラベル・アイコンで表示する
+function snsLink(url) {
+  let label = "🔗 公式サイト";
+  try {
+    const host = new URL(url).hostname.replace(/^www\./, "");
+    if (host.includes("instagram.com")) label = "📷 Instagram";
+    else if (host.includes("x.com") || host.includes("twitter.com")) label = "🐦 X";
+    else if (host.includes("facebook.com")) label = "📘 Facebook";
+    else if (host.includes("tiktok.com")) label = "🎵 TikTok";
+    else if (host.includes("youtube.com") || host.includes("youtu.be")) label = "▶️ YouTube";
+    else if (host.includes("line.me")) label = "💬 LINE";
+  } catch {
+    /* URL解析に失敗した場合は既定の「公式サイト」ラベルのまま表示する */
+  }
+  return el("a", { href: url, target: "_blank", rel: "noopener noreferrer", class: "sns-link" }, label);
+}
+
 // ---------- detail modal ----------
 function openDetailModal(p) {
   const venue = store.venueById(p.venueId);
@@ -445,10 +462,18 @@ function openDetailModal(p) {
     if (p.awardEntry) tags.appendChild(el("span", { class: "badge" }, p.awardEntry));
     sheet.appendChild(tags);
   }
+  if (p.image) {
+    sheet.appendChild(el("img", { src: p.image, class: "team-photo", alt: p.name, loading: "lazy" }));
+  }
   if (p.intro) {
     const s = el("div", { class: "modal-section" });
     s.appendChild(el("h4", {}, "紹介"));
     s.appendChild(el("p", {}, p.intro));
+    sheet.appendChild(s);
+  }
+  if (p.sns && p.sns.length) {
+    const s = el("div", { class: "modal-section sns-row" });
+    p.sns.forEach((url) => s.appendChild(snsLink(url)));
     sheet.appendChild(s);
   }
 
