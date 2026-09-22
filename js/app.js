@@ -28,6 +28,7 @@ const ui = {
   mapArea: "ikebukuro", // ikebukuro | otsuka-sugamo（大塚・巣鴨は池袋から2km以上離れておりズーム15では画面外になるため、エリア切替で表示を合わせる）
   mapSearch: "",
   myttMode: "list", // list | schedule
+  myttVenueIndex: 0, // スケジュール表で1度に1会場ずつ見せるカルーセルの現在位置
 };
 const finishedOpen = { now: new Set(), artists: new Set(), mytt: new Set() };
 const venueCollapseOpen = new Set();
@@ -1331,22 +1332,28 @@ function renderMyTT(root, date, min, over) {
     );
   }
 
-  const warnings = computeWarnings(dayFavs);
-  warnings.forEach((w) => {
-    const banner = el(
-      "div",
-      {
-        class: "warn-banner",
-        onclick: () => {
-          activeTab = "map";
-          ui.mapMode = "myroute";
-          render();
+  // 重なり・移動時間の警告バナーはリスト表示でのみ出す。スケジュール表は
+  // 会場ごとの時間軸を見れば重複や詰まり具合がひと目で分かるうえ、
+  // 1会場ずつのカルーセル表示だと警告文の対象演目が画面内に無いことも多く、
+  // バナーだけ浮いて邪魔になるため。
+  if (ui.myttMode !== "schedule" || over) {
+    const warnings = computeWarnings(dayFavs);
+    warnings.forEach((w) => {
+      const banner = el(
+        "div",
+        {
+          class: "warn-banner",
+          onclick: () => {
+            activeTab = "map";
+            ui.mapMode = "myroute";
+            render();
+          },
         },
-      },
-      `⚠️ ${w}`
-    );
-    root.appendChild(banner);
-  });
+        `⚠️ ${w}`
+      );
+      root.appendChild(banner);
+    });
+  }
 
   if (ui.myttMode === "schedule" && !over) {
     root.appendChild(renderScheduleGrid(dayFavs, date, min));
@@ -1430,42 +1437,52 @@ function renderScheduleGrid(dayFavs, date, min) {
   const pxPerMin = 6;
   const totalMin = (endHour - startHour) * 60;
 
-  // 列 = 会場。今回は会場数自体が少なく(池袋クラスタで最大6)、同じ会場で
-  // 演目が時間的に重なることは無いため、greedyな重なり回避ではなく
-  // 「お気に入りに登場する会場ごとに固定の列を割り当てる」方式にする。
-  // お気に入りが1会場だけなら列は1つで横スクロール自体が発生しない。
+  // 会場ごとに列を分けて横に並べる案は、列数が増えると時間軸ラベルまで
+  // 横スクロールで画面外に流れてしまい「今どの時間帯を見ているか」が
+  // 分かりにくくなる。時間軸は常に画面内に固定したいので、横に並べるのはやめ、
+  // 1度に1会場分だけを表示し、左右の矢印/スワイプで会場を切り替える
+  // カルーセル形式にする。時間軸自体は横スクロールしないので自然に固定される。
   const venueIds = [...new Set(dayFavs.map((p) => p.venueId))].sort((a, b) => {
     const va = store.venueById(a), vb = store.venueById(b);
     return (va?.stageNo ?? 0) - (vb?.stageNo ?? 0);
   });
-  const colOf = new Map(venueIds.map((id, i) => [id, i]));
-  const maxCol = Math.max(1, venueIds.length);
-  if (maxCol > 1) wrap.classList.add("scrollable");
+  if (ui.myttVenueIndex >= venueIds.length) ui.myttVenueIndex = 0;
+  if (ui.myttVenueIndex < 0) ui.myttVenueIndex = venueIds.length - 1;
+  const curVenueId = venueIds[ui.myttVenueIndex];
+  const curVenue = store.venueById(curVenueId);
+  const venuePerfs = dayFavs.filter((p) => p.venueId === curVenueId);
+  const multi = venueIds.length > 1;
 
-  // 会場名ヘッダーの高さ(28px)+ 演目カードの時刻バッジが上に13pxはみ出す分、
-  // 時刻ラベル・演目カードの表示位置をまとめて下にずらす（はみ出し分を差し引かないと
-  // 一番上のカードの時刻バッジがヘッダーの下に隠れてしまう）
-  const HEADER_ROW_H = 28;
+  const goTo = (i) => {
+    ui.myttVenueIndex = ((i % venueIds.length) + venueIds.length) % venueIds.length;
+    render();
+  };
+
+  // 会場名ヘッダーの高さ(34px、矢印ボタン込み。複数会場ある時はドット
+  // インジケーター分14pxを追加)+ 演目カードの時刻バッジが上に13pxはみ出す分、
+  // 時刻ラベル・演目カードの表示位置をまとめて下にずらす（はみ出し分を
+  // 差し引かないと一番上のカードの時刻バッジがヘッダーの下に隠れる）
+  const HEADER_ROW_H = 34 + (multi ? 14 : 0);
   const CONTENT_TOP = HEADER_ROW_H + 14;
 
   // sticky要素は「その基準となる祖先の表示範囲内」でしか画面に張り付き続けられない。
-  // ヘッダー専用の小さいコンテナ(高さ26px程度)の中にsticky要素を置いてしまうと、
+  // ヘッダー専用の小さいコンテナ(高さ34px程度)の中にsticky要素を置いてしまうと、
   // スクロール可能な範囲がほぼ無いためすぐ祖先ごと画面外に流れてしまう。
   // sched-axis(スケジュール表全体の高さを持つ)の直接の子としてstickyを効かせる必要がある。
   const axis = el("div", { class: "sched-axis", style: `height:${totalMin * pxPerMin + CONTENT_TOP}px` });
 
-  const headerRow = el("div", { class: "sched-venue-headers", style: `min-width:${maxCol * 130}px` });
-  venueIds.forEach((vid, i) => {
-    const v = store.venueById(vid);
-    headerRow.appendChild(
-      el(
-        "div",
-        { class: "sched-venue-head-wrap", style: `left:${i * 128}px;width:120px` },
-        v ? `${v.stageNo}. ${v.name}` : vid
-      )
-    );
-  });
+  const headerRow = el("div", { class: "sched-venue-headers" });
+  if (multi) headerRow.appendChild(el("button", { class: "sched-venue-nav", "aria-label": "前の会場", onclick: () => goTo(ui.myttVenueIndex - 1) }, "‹"));
+  headerRow.appendChild(el("div", { class: "sched-venue-head" }, curVenue ? `${curVenue.stageNo}. ${curVenue.name}` : curVenueId));
+  if (multi) headerRow.appendChild(el("button", { class: "sched-venue-nav", "aria-label": "次の会場", onclick: () => goTo(ui.myttVenueIndex + 1) }, "›"));
   axis.appendChild(headerRow);
+  if (multi) {
+    const dots = el("div", { class: "sched-venue-dots" });
+    venueIds.forEach((vid, i) => {
+      dots.appendChild(el("span", { class: `sched-venue-dot${i === ui.myttVenueIndex ? " active" : ""}`, onclick: () => goTo(i) }));
+    });
+    axis.appendChild(dots);
+  }
   // sticky位置(ヘッダーバーの直下)はフォントサイズ設定等で高さが変わりうるため、
   // 固定値決め打ちにせず実測してCSS変数に反映する
   requestAnimationFrame(() => {
@@ -1479,9 +1496,8 @@ function renderScheduleGrid(dayFavs, date, min) {
     axis.appendChild(el("div", { class: "sched-hour-line", style: `top:${top}px` }));
   }
 
-  const grid = el("div", { class: "schedule-grid", style: `top:${CONTENT_TOP}px; height:${totalMin * pxPerMin}px; margin-left:8px; min-width:${maxCol * 130}px` });
-  dayFavs.forEach((p) => {
-    const col = colOf.get(p.venueId) ?? 0;
+  const grid = el("div", { class: "schedule-grid", style: `top:${CONTENT_TOP}px; height:${totalMin * pxPerMin}px; margin-left:8px` });
+  venuePerfs.forEach((p) => {
     const top = (p.startMin - startHour * 60) * pxPerMin;
     // 演目同士の境目が見えるよう、実際の尺より2px短く描画する（隙間を作る）
     const height = Math.max(30, (p.endMin - p.startMin) * pxPerMin - 2);
@@ -1490,7 +1506,7 @@ function renderScheduleGrid(dayFavs, date, min) {
       "div",
       {
         class: "sched-col",
-        style: `top:${top}px;left:${col * 128}px;width:120px;height:${height}px;${playing ? "outline:2px solid var(--ok)" : ""}`,
+        style: `top:${top}px;height:${height}px;${playing ? "outline:2px solid var(--ok)" : ""}`,
         onclick: () => openDetailModal(p),
       },
       [el("div", { class: "t" }, fmtRange(p.start, p.end)), el("div", { class: "n" }, p.name)]
@@ -1498,6 +1514,26 @@ function renderScheduleGrid(dayFavs, date, min) {
     grid.appendChild(box);
   });
   axis.appendChild(grid);
+
+  // 左右スワイプでも会場を切り替えられるようにする（矢印ボタンと同じgoToを使う）
+  if (multi) {
+    let touchStartX = null, touchStartY = null;
+    wrap.addEventListener("touchstart", (e) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    wrap.addEventListener("touchend", (e) => {
+      if (touchStartX == null) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      const dy = e.changedTouches[0].clientY - touchStartY;
+      touchStartX = null;
+      // 横移動が縦移動よりはっきり大きい時だけ切替とみなす（縦スクロール中の
+      // わずかな横ブレで誤爆しないように閾値を設ける）
+      if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        goTo(ui.myttVenueIndex + (dx < 0 ? 1 : -1));
+      }
+    }, { passive: true });
+  }
 
   // 現在時刻の線。表示中の日が「今日」(シミュレーション時刻含む)で、かつ
   // 表示範囲(startHour〜endHour)内にある時だけ出す（別日を見ている時や、

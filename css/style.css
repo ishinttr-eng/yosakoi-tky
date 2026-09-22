@@ -390,14 +390,14 @@ details.finished-group[open] > summary { margin-bottom: 4px; }
 /* ---------- my timetable schedule grid ---------- */
 /* overflow-xだけ指定するとoverflow-yが既定のvisibleのままになり、CSSの仕様上overflow-xが
    実質autoへ変換されてしまう（＝横スクロールバーが出てしまう）ため、必ず両方明示する */
-.schedule-wrap { overflow-x: hidden; overflow-y: visible; max-width: 100%; }
-.schedule-wrap.scrollable { overflow-x: auto; overflow-y: visible; }
-/* sched-axis基準の絶対配置にする（position:relativeのまま通常フローに置くと、
-   sched-venue-headers(sticky, 高さ28px)の下にさらに追加されてしまい、
-   JS側で計算しているCONTENT_TOPのtop値と二重にずれてしまうため） */
-.schedule-grid { position: absolute; top: 0; }
+/* 1度に1会場分だけを表示するカルーセル形式なので、横スクロールは不要
+   （以前は会場を横に複数列並べて横スクロールさせていたが、そうすると
+   時間軸ラベルまで一緒に画面外へ流れてしまい「今どの時間帯か」が分からなく
+   なるため、会場の切替はスワイプ/矢印ボタンによるページ送りに変更した）。 */
+.schedule-wrap { overflow: visible; max-width: 100%; touch-action: pan-y; }
+.schedule-grid { position: absolute; top: 0; left: 0; right: 0; }
 .sched-col {
-  position: absolute; top: 0;
+  position: absolute; left: 0; right: 0;
   border-radius: 8px; padding: 2px 8px 3px; background: var(--accent-soft); border: 1px solid var(--accent);
   font-size: .76rem; overflow: visible; cursor: pointer;
 }
@@ -422,18 +422,28 @@ details.finished-group[open] > summary { margin-bottom: 4px; }
    ヘッダーの高さが変わっても、sticky位置が固定値のままズレないようにするため）。 */
 .sched-venue-headers {
   position: sticky; top: var(--header-h, 56px);
-  /* margin-leftはschedule-grid側と揃えること。sched-axis自体が既に46pxの
-     margin-leftを持っており、ここでさらに46pxを指定すると二重にずれて
-     ヘッダーと演目カードの列位置が合わなくなる */
-  height: 28px; margin-left: 8px; z-index: 10;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  height: 34px; background: var(--bg); z-index: 10;
 }
-.sched-venue-head-wrap {
-  position: absolute; top: 0;
-  padding: 3px 8px; border-radius: 8px 8px 0 0;
-  background: var(--bg); border-bottom: 2px solid var(--accent);
-  font-size: .74rem; font-weight: 700;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+.sched-venue-head {
+  font-size: .86rem; font-weight: 700;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 70%;
 }
+.sched-venue-nav {
+  flex: 0 0 auto; width: 30px; height: 30px; border-radius: 50%;
+  border: 1px solid var(--line); background: var(--card); color: var(--ink);
+  font-size: 1.1rem; line-height: 1; cursor: pointer;
+}
+.sched-venue-nav:hover { border-color: var(--accent); color: var(--accent); }
+.sched-venue-dots {
+  position: sticky; top: calc(var(--header-h, 56px) + 34px);
+  display: flex; justify-content: center; gap: 6px;
+  height: 14px; background: var(--bg); z-index: 10;
+}
+.sched-venue-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--line); cursor: pointer;
+}
+.sched-venue-dot.active { background: var(--accent); width: 16px; border-radius: 3px; }
 .sched-axis { position: relative; border-left: 1px solid var(--line); margin-left: 46px; }
 .sched-hour-label {
   position: absolute; left: -46px; width: 40px; text-align: right;
