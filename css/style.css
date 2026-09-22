@@ -392,7 +392,10 @@ details.finished-group[open] > summary { margin-bottom: 4px; }
    実質autoへ変換されてしまう（＝横スクロールバーが出てしまう）ため、必ず両方明示する */
 .schedule-wrap { overflow-x: hidden; overflow-y: visible; max-width: 100%; }
 .schedule-wrap.scrollable { overflow-x: auto; overflow-y: visible; }
-.schedule-grid { position: relative; padding-top: 13px; }
+/* sched-axis基準の絶対配置にする（position:relativeのまま通常フローに置くと、
+   sched-venue-headers(sticky, 高さ28px)の下にさらに追加されてしまい、
+   JS側で計算しているCONTENT_TOPのtop値と二重にずれてしまうため） */
+.schedule-grid { position: absolute; top: 0; }
 .sched-col {
   position: absolute; top: 0;
   border-radius: 8px; padding: 2px 8px 3px; background: var(--accent-soft); border: 1px solid var(--accent);
@@ -412,12 +415,42 @@ details.finished-group[open] > summary { margin-bottom: 4px; }
   font-weight: 700; line-height: 1.25;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
+/* 会場名の固定ヘッダー。position:stickyは「基準となる祖先の表示範囲内」でしか
+   画面に張り付き続けられないため、ヘッダー専用の小さい要素にstickyを付けるのではなく
+   sched-axis(スケジュール表全体の高さを持つ)の直接の子であるこの行自体にstickyを効かせる。
+   --header-h はJS側でヘッダーバーの実測高さを都度セットする（フォントサイズ設定等で
+   ヘッダーの高さが変わっても、sticky位置が固定値のままズレないようにするため）。 */
+.sched-venue-headers {
+  position: sticky; top: var(--header-h, 56px);
+  /* margin-leftはschedule-grid側と揃えること。sched-axis自体が既に46pxの
+     margin-leftを持っており、ここでさらに46pxを指定すると二重にずれて
+     ヘッダーと演目カードの列位置が合わなくなる */
+  height: 28px; margin-left: 8px; z-index: 10;
+}
+.sched-venue-head-wrap {
+  position: absolute; top: 0;
+  padding: 3px 8px; border-radius: 8px 8px 0 0;
+  background: var(--bg); border-bottom: 2px solid var(--accent);
+  font-size: .74rem; font-weight: 700;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
 .sched-axis { position: relative; border-left: 1px solid var(--line); margin-left: 46px; }
 .sched-hour-label {
   position: absolute; left: -46px; width: 40px; text-align: right;
   font-family: var(--font-mono); font-size: .68rem; color: var(--muted);
 }
 .sched-hour-line { position: absolute; left: 0; right: 0; border-top: 1px dashed var(--line); }
+.sched-now-line {
+  position: absolute; left: 0; right: 0; border-top: 2px solid var(--ng);
+  z-index: 8; pointer-events: none;
+}
+.sched-now-line::before {
+  content: ""; position: absolute; left: -5px; top: -4px;
+  width: 8px; height: 8px; border-radius: 50%; background: var(--ng);
+}
+/* ラベル文字("現在")は左の時間軸の外側に出す。時刻ラベルと同じ位置(left:-46px)だと
+   hour-labelの数字と重なることがあるため、少し上にずらして避ける */
+.sched-now-line { color: var(--ng); font-size: .62rem; font-family: var(--font-mono); font-weight: 700; text-indent: -40px; line-height: 1; }
 
 .warn-banner {
   display: flex; gap: 8px; align-items: flex-start;
