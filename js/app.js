@@ -1279,6 +1279,7 @@ function renderMyTT(root, date, min, over) {
           class: `day-tab${d === (ui.myttDay || curDay) ? " active" : ""}`,
           onclick: () => {
             ui.myttDay = d;
+            ui.myttVenueIndex = 0; // 日付を切り替えたら、スケジュール表は「今見るべき会場」に戻す
             render();
           },
         },
@@ -1301,7 +1302,16 @@ function renderMyTT(root, date, min, over) {
     modeRow.appendChild(
       el(
         "button",
-        { class: `toggle-btn${ui.myttMode === "schedule" ? " active" : ""}`, onclick: () => { ui.myttMode = "schedule"; render(); } },
+        {
+          class: `toggle-btn${ui.myttMode === "schedule" ? " active" : ""}`,
+          onclick: () => {
+            // スケジュール表に切り替えるたび、会場の並び替え(venueSortKey)の
+            // 結果である「今いちばん見るべき会場」(先頭)を表示させる
+            ui.myttMode = "schedule";
+            ui.myttVenueIndex = 0;
+            render();
+          },
+        },
         "スケジュール表"
       )
     );
@@ -1442,10 +1452,25 @@ function renderScheduleGrid(dayFavs, date, min) {
   // 分かりにくくなる。時間軸は常に画面内に固定したいので、横に並べるのはやめ、
   // 1度に1会場分だけを表示し、左右の矢印/スワイプで会場を切り替える
   // カルーセル形式にする。時間軸自体は横スクロールしないので自然に固定される。
-  const venueIds = [...new Set(dayFavs.map((p) => p.venueId))].sort((a, b) => {
-    const va = store.venueById(a), vb = store.venueById(b);
-    return (va?.stageNo ?? 0) - (vb?.stageNo ?? 0);
-  });
+  //
+  // 会場の並び順は固定のstageNo順ではなく、「今演舞中」→「次に見る予定」→
+  // 「もう終わった」の順（＝マイルートモードと同じ考え方）に動的に並べ替える。
+  // これにより、0番目(=カルーセルの初期表示)が常に「今いちばん見るべき会場」になる。
+  const isToday = dayFavs.length > 0 && dayFavs[0].date === date;
+  const perfsOfVenue = (vid) => dayFavs.filter((p) => p.venueId === vid);
+  const venueSortKey = (vid) => {
+    const list = perfsOfVenue(vid);
+    if (isToday) {
+      const playing = list.find((p) => min >= p.startMin && min < p.endMin);
+      if (playing) return playing.startMin - 1e6; // 演舞中を最優先（複数あれば開始が早い方）
+      const upcoming = list.filter((p) => p.startMin >= min).sort((a, b) => a.startMin - b.startMin)[0];
+      if (upcoming) return upcoming.startMin;
+      return Infinity; // その日の演目が全部終了済み
+    }
+    // 別日(過去/未来)を見ている時は「現在時刻」に意味が無いのでステージ番号順に戻す
+    return store.venueById(vid)?.stageNo ?? 0;
+  };
+  const venueIds = [...new Set(dayFavs.map((p) => p.venueId))].sort((a, b) => venueSortKey(a) - venueSortKey(b));
   if (ui.myttVenueIndex >= venueIds.length) ui.myttVenueIndex = 0;
   if (ui.myttVenueIndex < 0) ui.myttVenueIndex = venueIds.length - 1;
   const curVenueId = venueIds[ui.myttVenueIndex];
@@ -1538,7 +1563,6 @@ function renderScheduleGrid(dayFavs, date, min) {
   // 現在時刻の線。表示中の日が「今日」(シミュレーション時刻含む)で、かつ
   // 表示範囲(startHour〜endHour)内にある時だけ出す（別日を見ている時や、
   // まだ開演前/終演後で範囲外の時は表示しない）
-  const isToday = dayFavs.length && dayFavs[0].date === date;
   if (isToday && min >= startHour * 60 && min <= endHour * 60) {
     const nowTop = (min - startHour * 60) * pxPerMin + CONTENT_TOP;
     axis.appendChild(el("div", { class: "sched-now-line", style: `top:${nowTop}px` }, "現在"));
