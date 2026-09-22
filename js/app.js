@@ -126,13 +126,19 @@ document.querySelectorAll(".tab-btn").forEach((btn) => {
 });
 
 // ---------- weather badge ----------
+// Open-Meteoの無料予報は開催日の16日前を切らないと該当時刻のデータが
+// そもそも存在しない（fetchWeather自体がHTTP 400で失敗しweatherDataがnullのまま
+// になる）。値が無い間もバッジ自体は消さず、天気・気温・降水確率を「-」で
+// 表示しておく（何も出ないと「壊れているのか、まだ無いだけなのか」が
+// 見分けられないため）。
 function weatherBadgeFor(dateStr, startMin) {
-  if (!weatherData) return null;
   const hour = Math.floor(startMin / 60);
   const key = `${dateStr}T${String(hour).padStart(2, "0")}:00`;
-  const w = weatherData[key];
-  if (!w) return null;
-  return el("span", { class: "badge weather" }, `${store.weatherIcon(w.code)} ${Math.round(w.temp)}° ${w.pop}%`);
+  const w = weatherData ? weatherData[key] : null;
+  const text = w
+    ? `${store.weatherIcon(w.code)} ${Math.round(w.temp)}° ${w.pop}%`
+    : `- -° -%`;
+  return el("span", { class: "badge weather" }, text);
 }
 
 // ---------- performance card ----------
