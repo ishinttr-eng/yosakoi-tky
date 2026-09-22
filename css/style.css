@@ -392,16 +392,26 @@ details.finished-group[open] > summary { margin-bottom: 4px; }
    実質autoへ変換されてしまう（＝横スクロールバーが出てしまう）ため、必ず両方明示する */
 .schedule-wrap { overflow-x: hidden; overflow-y: visible; max-width: 100%; }
 .schedule-wrap.scrollable { overflow-x: auto; overflow-y: visible; }
-.schedule-grid { position: relative; }
+.schedule-grid { position: relative; padding-top: 13px; }
 .sched-col {
   position: absolute; top: 0;
-  border-radius: 10px; padding: 6px 8px; background: var(--accent-soft); border: 1px solid var(--accent);
-  font-size: .76rem; overflow: hidden; cursor: pointer;
+  border-radius: 8px; padding: 2px 8px 3px; background: var(--accent-soft); border: 1px solid var(--accent);
+  font-size: .76rem; overflow: visible; cursor: pointer;
 }
-.sched-col .t { font-family: var(--font-mono); font-size: .68rem; color: var(--muted); white-space: nowrap; }
-/* チーム名は1行に収め、はみ出す分は省略記号にする（2行だと6分演目の枠高では
-   途中で物理的に見切れてしまうため）。全文は詳細モーダルで確認できる */
-.sched-col .n { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* 時刻は枠内の1行として確保せず、カード上辺の境界線に小さく乗せる形にする。
+   6分演目だと枠の高さが「時刻1行+チーム名1行」を両方収めるには足りず、
+   チーム名の方が優先度が高い（時刻は左の時間軸からも大まかに分かる）ため、
+   カードの中身は実質チーム名だけに使う。 */
+.sched-col .t {
+  position: absolute; top: -13px; left: -1px;
+  font-family: var(--font-mono); font-size: .6rem; color: var(--bg);
+  background: var(--accent); padding: 0 4px; border-radius: 4px 4px 0 0;
+  white-space: nowrap; line-height: 1.4;
+}
+.sched-col .n {
+  font-weight: 700; line-height: 1.25;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
 .sched-axis { position: relative; border-left: 1px solid var(--line); margin-left: 46px; }
 .sched-hour-label {
   position: absolute; left: -46px; width: 40px; text-align: right;
