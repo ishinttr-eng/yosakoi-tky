@@ -24,7 +24,6 @@ const ui = {
   artistsDay: "all",
   artistsSearch: "",
   artistsVenue: "",
-  artistsGenre: "",
   mapMode: "normal", // normal | myroute
   mapArea: "ikebukuro", // ikebukuro | otsuka-sugamo（大塚・巣鴨は池袋から2km以上離れておりズーム15では画面外になるため、エリア切替で表示を合わせる）
   mapSearch: "",
@@ -347,19 +346,7 @@ function renderArtists(root, date, min) {
     venueSelect.appendChild(el("option", { value: v.id, selected: ui.artistsVenue === v.id || undefined }, `${v.stageNo}. ${v.name}`));
   });
 
-  const genres = [...new Set(store.state.performances.map((p) => p.genre).filter(Boolean))].sort();
-  const genreSelect = el("select", {
-    class: "filter-select",
-    onchange: (e) => {
-      ui.artistsGenre = e.target.value;
-      render();
-    },
-  });
-  genreSelect.appendChild(el("option", { value: "" }, "ジャンル: すべて"));
-  genres.forEach((g) => genreSelect.appendChild(el("option", { value: g, selected: ui.artistsGenre === g || undefined }, g)));
-
   filterRow.append(searchInput, venueSelect);
-  if (genres.length) filterRow.append(genreSelect);
   root.appendChild(filterRow);
 
   root.appendChild(listContainer);
@@ -373,7 +360,6 @@ function renderArtistsList(container, date, min) {
   let list = store.state.performances.filter((p) => {
     if (ui.artistsDay !== "all" && p.date !== ui.artistsDay) return false;
     if (ui.artistsVenue && p.venueId !== ui.artistsVenue) return false;
-    if (ui.artistsGenre && p.genre !== ui.artistsGenre) return false;
     if (q && !normalize(p.name).includes(q) && !normalize(p.kana).includes(q) && !normalize(p.awardEntry).includes(q)) return false;
     return true;
   });
@@ -1599,6 +1585,7 @@ function openSettingsModal() {
   const simRow = el("div", { class: "settings-row" });
   simRow.appendChild(el("div", {}, [el("div", { class: "label" }, "時刻シミュレーション"), el("div", { class: "desc" }, "開催日前でも当日の見え方を確認できます")]));
   const simInput = el("input", {
+    class: "sim-time-input",
     type: "datetime-local",
     value: store.state.settings.simTime || "",
     onchange: (e) => {
