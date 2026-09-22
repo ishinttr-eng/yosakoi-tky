@@ -177,14 +177,22 @@ a { color: var(--route); }
 .day-tab.active { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); font-weight: 700; }
 
 .filter-row { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+/* font-sizeを16px未満にすると、iOS Safariがフォーカスのたびにページごとズームインしてしまうため、
+   スマホ幅でだけ見た目上わずかに大きいがoverflow-x:hiddenのbody越しに「画面が横に膨らむ」不具合になる。
+   input/selectは必ず16px以上にする。 */
 .search-input {
   flex: 1 1 160px;
   padding: 9px 12px; border-radius: 10px; border: 1px solid var(--line);
-  background: var(--card); color: var(--ink);
+  background: var(--card); color: var(--ink); font-size: 16px;
 }
 .filter-select {
   padding: 9px 10px; border-radius: 10px; border: 1px solid var(--line);
-  background: var(--card); color: var(--ink); max-width: 40%;
+  background: var(--card); color: var(--ink); max-width: 40%; font-size: 16px;
+}
+/* 16px化でテキスト幅が増えた分、狭い画面ではmax-width:40%だと
+   "ジャンル: すべて"等が見切れるため、スマホ幅では1つずつ全幅で積む */
+@media (max-width: 480px) {
+  .filter-select { flex-basis: 100%; max-width: 100%; }
 }
 
 /* ---------- cards ---------- */
@@ -412,6 +420,7 @@ details.finished-group[open] > summary { margin-bottom: 4px; }
 }
 .settings-row .label { font-weight: 600; }
 .settings-row .desc { color: var(--muted); font-size: .78rem; margin-top: 2px; }
+.sim-time-input { font-size: 16px; }
 .seg-control { display: flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
 .seg-control button { padding: 7px 12px; background: var(--card); border: none; color: var(--muted); cursor: pointer; font-size: .82rem; }
 .seg-control button.active { background: var(--accent); color: #14131a; font-weight: 700; }
