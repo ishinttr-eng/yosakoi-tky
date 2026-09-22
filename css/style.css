@@ -398,8 +398,10 @@ details.finished-group[open] > summary { margin-bottom: 4px; }
   border-radius: 10px; padding: 6px 8px; background: var(--accent-soft); border: 1px solid var(--accent);
   font-size: .76rem; overflow: hidden; cursor: pointer;
 }
-.sched-col .t { font-family: var(--font-mono); font-size: .68rem; color: var(--muted); }
-.sched-col .n { font-weight: 700; }
+.sched-col .t { font-family: var(--font-mono); font-size: .68rem; color: var(--muted); white-space: nowrap; }
+/* チーム名は1行に収め、はみ出す分は省略記号にする（2行だと6分演目の枠高では
+   途中で物理的に見切れてしまうため）。全文は詳細モーダルで確認できる */
+.sched-col .n { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sched-axis { position: relative; border-left: 1px solid var(--line); margin-left: 46px; }
 .sched-hour-label {
   position: absolute; left: -46px; width: 40px; text-align: right;

@@ -1424,7 +1424,10 @@ function renderScheduleGrid(dayFavs, date, min) {
   const wrap = el("div", { class: "schedule-wrap" });
   const startHour = Math.min(...dayFavs.map((p) => Math.floor(p.startMin / 60))) ;
   const endHour = Math.max(...dayFavs.map((p) => Math.ceil(p.endMin / 60)));
-  const pxPerMin = 1.6;
+  // 東京よさこいは1演目6分と短く、すみだジャズナビ由来の1.6px/分のままだと
+  // 最低高さ保証(20px)にほぼ全演目が張り付いて団子状に重なって見えるため、
+  // 6分の演目がちょうど収まる程度まで時間軸を広げる
+  const pxPerMin = 6;
   const totalMin = (endHour - startHour) * 60;
 
   // greedy列割り当て
@@ -1453,7 +1456,8 @@ function renderScheduleGrid(dayFavs, date, min) {
   const grid = el("div", { class: "schedule-grid", style: `height:${totalMin * pxPerMin}px; margin-left:8px; min-width:${maxCol * 130}px` });
   placed.forEach(({ p, col }) => {
     const top = (p.startMin - startHour * 60) * pxPerMin;
-    const height = Math.max(20, (p.endMin - p.startMin) * pxPerMin);
+    // 演目同士の境目が見えるよう、実際の尺より2px短く描画する（隙間を作る）
+    const height = Math.max(30, (p.endMin - p.startMin) * pxPerMin - 2);
     const playing = isNowPlaying(p, date, min);
     const box = el(
       "div",
