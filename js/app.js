@@ -1430,31 +1430,58 @@ function renderScheduleGrid(dayFavs, date, min) {
   const pxPerMin = 6;
   const totalMin = (endHour - startHour) * 60;
 
-  // greedy列割り当て
-  const sorted = [...dayFavs].sort((a, b) => a.startMin - b.startMin);
-  const colEndTimes = [];
-  const placed = sorted.map((p) => {
-    let col = colEndTimes.findIndex((t) => t <= p.startMin);
-    if (col === -1) {
-      col = colEndTimes.length;
-      colEndTimes.push(p.endMin);
-    } else {
-      colEndTimes[col] = p.endMin;
-    }
-    return { p, col };
+  // 列 = 会場。今回は会場数自体が少なく(池袋クラスタで最大6)、同じ会場で
+  // 演目が時間的に重なることは無いため、greedyな重なり回避ではなく
+  // 「お気に入りに登場する会場ごとに固定の列を割り当てる」方式にする。
+  // お気に入りが1会場だけなら列は1つで横スクロール自体が発生しない。
+  const venueIds = [...new Set(dayFavs.map((p) => p.venueId))].sort((a, b) => {
+    const va = store.venueById(a), vb = store.venueById(b);
+    return (va?.stageNo ?? 0) - (vb?.stageNo ?? 0);
   });
-  const maxCol = Math.max(1, colEndTimes.length);
-  if (maxCol > 3) wrap.classList.add("scrollable");
+  const colOf = new Map(venueIds.map((id, i) => [id, i]));
+  const maxCol = Math.max(1, venueIds.length);
+  if (maxCol > 1) wrap.classList.add("scrollable");
 
-  const axis = el("div", { class: "sched-axis", style: `height:${totalMin * pxPerMin}px` });
+  // 会場名ヘッダーの高さ(28px)+ 演目カードの時刻バッジが上に13pxはみ出す分、
+  // 時刻ラベル・演目カードの表示位置をまとめて下にずらす（はみ出し分を差し引かないと
+  // 一番上のカードの時刻バッジがヘッダーの下に隠れてしまう）
+  const HEADER_ROW_H = 28;
+  const CONTENT_TOP = HEADER_ROW_H + 14;
+
+  // sticky要素は「その基準となる祖先の表示範囲内」でしか画面に張り付き続けられない。
+  // ヘッダー専用の小さいコンテナ(高さ26px程度)の中にsticky要素を置いてしまうと、
+  // スクロール可能な範囲がほぼ無いためすぐ祖先ごと画面外に流れてしまう。
+  // sched-axis(スケジュール表全体の高さを持つ)の直接の子としてstickyを効かせる必要がある。
+  const axis = el("div", { class: "sched-axis", style: `height:${totalMin * pxPerMin + CONTENT_TOP}px` });
+
+  const headerRow = el("div", { class: "sched-venue-headers", style: `min-width:${maxCol * 130}px` });
+  venueIds.forEach((vid, i) => {
+    const v = store.venueById(vid);
+    headerRow.appendChild(
+      el(
+        "div",
+        { class: "sched-venue-head-wrap", style: `left:${i * 128}px;width:120px` },
+        v ? `${v.stageNo}. ${v.name}` : vid
+      )
+    );
+  });
+  axis.appendChild(headerRow);
+  // sticky位置(ヘッダーバーの直下)はフォントサイズ設定等で高さが変わりうるため、
+  // 固定値決め打ちにせず実測してCSS変数に反映する
+  requestAnimationFrame(() => {
+    const appHeader = document.getElementById("app-header");
+    if (appHeader) document.documentElement.style.setProperty("--header-h", `${appHeader.getBoundingClientRect().height}px`);
+  });
+
   for (let h = startHour; h <= endHour; h++) {
-    const top = (h - startHour) * 60 * pxPerMin;
+    const top = (h - startHour) * 60 * pxPerMin + CONTENT_TOP;
     axis.appendChild(el("div", { class: "sched-hour-label", style: `top:${top}px` }, `${h}:00`));
     axis.appendChild(el("div", { class: "sched-hour-line", style: `top:${top}px` }));
   }
 
-  const grid = el("div", { class: "schedule-grid", style: `height:${totalMin * pxPerMin}px; margin-left:8px; min-width:${maxCol * 130}px` });
-  placed.forEach(({ p, col }) => {
+  const grid = el("div", { class: "schedule-grid", style: `top:${CONTENT_TOP}px; height:${totalMin * pxPerMin}px; margin-left:8px; min-width:${maxCol * 130}px` });
+  dayFavs.forEach((p) => {
+    const col = colOf.get(p.venueId) ?? 0;
     const top = (p.startMin - startHour * 60) * pxPerMin;
     // 演目同士の境目が見えるよう、実際の尺より2px短く描画する（隙間を作る）
     const height = Math.max(30, (p.endMin - p.startMin) * pxPerMin - 2);
@@ -1471,6 +1498,16 @@ function renderScheduleGrid(dayFavs, date, min) {
     grid.appendChild(box);
   });
   axis.appendChild(grid);
+
+  // 現在時刻の線。表示中の日が「今日」(シミュレーション時刻含む)で、かつ
+  // 表示範囲(startHour〜endHour)内にある時だけ出す（別日を見ている時や、
+  // まだ開演前/終演後で範囲外の時は表示しない）
+  const isToday = dayFavs.length && dayFavs[0].date === date;
+  if (isToday && min >= startHour * 60 && min <= endHour * 60) {
+    const nowTop = (min - startHour * 60) * pxPerMin + CONTENT_TOP;
+    axis.appendChild(el("div", { class: "sched-now-line", style: `top:${nowTop}px` }, "現在"));
+  }
+
   wrap.appendChild(axis);
   return wrap;
 }
