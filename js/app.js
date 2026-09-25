@@ -1691,6 +1691,7 @@ function openSettingsModal() {
   // 時刻シミュレーション
   const simRow = el("div", { class: "settings-row" });
   simRow.appendChild(el("div", {}, [el("div", { class: "label" }, "時刻シミュレーション"), el("div", { class: "desc" }, "開催日前でも当日の見え方を確認できます")]));
+  const simInputWrap = el("div", { class: "sim-time-wrap" });
   const simInput = el("input", {
     class: "sim-time-input",
     type: "datetime-local",
@@ -1701,7 +1702,26 @@ function openSettingsModal() {
       render();
     },
   });
-  simRow.appendChild(simInput);
+  simInputWrap.appendChild(simInput);
+  if (store.state.settings.simTime) {
+    simInputWrap.appendChild(
+      el(
+        "button",
+        {
+          class: "btn small",
+          onclick: () => {
+            store.state.settings.simTime = null;
+            store.persistSettings();
+            render();
+            backdrop.remove();
+            openSettingsModal();
+          },
+        },
+        "リセット"
+      )
+    );
+  }
+  simRow.appendChild(simInputWrap);
   sheet.appendChild(simRow);
 
   // 現在地シミュレーション

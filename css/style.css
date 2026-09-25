@@ -475,6 +475,7 @@ details.finished-group[open] > summary { margin-bottom: 4px; }
 }
 .settings-row .label { font-weight: 600; }
 .settings-row .desc { color: var(--muted); font-size: .78rem; margin-top: 2px; }
+.sim-time-wrap { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .sim-time-input { font-size: 16px; }
 .seg-control { display: flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
 .seg-control button { padding: 7px 12px; background: var(--card); border: none; color: var(--muted); cursor: pointer; font-size: .82rem; }
