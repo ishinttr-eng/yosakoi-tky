@@ -101,6 +101,18 @@ function render() {
   else if (activeTab === "mytt") renderMyTT($main, date, min, over);
 
   syncTabButtons();
+
+  // sticky要素のtop位置・スクロール時のオフセット計算に使う実測ヘッダー高さ。
+  // フォントサイズ設定等で変わりうるため、render()のたびに都度測り直してCSS変数に反映する。
+  // getBoundingClientRectは呼んだ時点で同期的にレイアウトを確定させるため、次の描画を待つ必要はない
+  const appHeader = document.getElementById("app-header");
+  if (appHeader) document.documentElement.style.setProperty("--header-h", `${appHeader.getBoundingClientRect().height}px`);
+}
+
+// タブ切り替えでマイタイムテーブルに入った時、現在時刻の位置(演舞中/次の演目、
+// またはスケジュール表の現在時刻線)が画面上部(ヘッダー分を除く)に来るようスクロールする
+function scrollMyTTNowIntoView() {
+  document.getElementById("mytt-now-anchor")?.scrollIntoView({ block: "start" });
 }
 
 function applyTabVisibility() {
@@ -120,8 +132,12 @@ function syncTabButtons() {
 
 document.querySelectorAll(".tab-btn").forEach((btn) => {
   btn.addEventListener("click", () => {
+    const prevTab = activeTab;
     activeTab = btn.dataset.tab;
     render();
+    // 他のタブからマイタイムテーブルに切り替えた時だけ、現在時刻の位置が
+    // 画面上部に来るようスクロールする（タブ内の日付/表示モード切替では動かさない）
+    if (activeTab === "mytt" && prevTab !== "mytt") scrollMyTTNowIntoView();
   });
 });
 
@@ -1385,7 +1401,10 @@ function renderMyTT(root, date, min, over) {
   } else {
     const finished = dayFavs.filter((p) => p.date < date || (p.date === date && p.endMin <= min));
     const active = dayFavs.filter((p) => !finished.includes(p));
-    appendPerfCardsWithConnectors(root, active, date, min);
+    // 終了済み以外(=演舞中・これから)の先頭が「現在」の位置。タブ切り替え時のスクロール先として使う
+    const activeWrap = el("div", { id: "mytt-now-anchor" });
+    appendPerfCardsWithConnectors(activeWrap, active, date, min);
+    root.appendChild(activeWrap);
     if (finished.length) {
       const wrap = el("div", {});
       appendPerfCardsWithConnectors(wrap, finished, date, min);
@@ -1535,12 +1554,6 @@ function renderScheduleGrid(dayFavs, date, min) {
     });
     axis.appendChild(dots);
   }
-  // sticky位置(ヘッダーバーの直下)はフォントサイズ設定等で高さが変わりうるため、
-  // 固定値決め打ちにせず実測してCSS変数に反映する
-  requestAnimationFrame(() => {
-    const appHeader = document.getElementById("app-header");
-    if (appHeader) document.documentElement.style.setProperty("--header-h", `${appHeader.getBoundingClientRect().height}px`);
-  });
 
   for (let h = startHour; h <= endHour; h++) {
     const top = (h - startHour) * 60 * pxPerMin + CONTENT_TOP;
@@ -1592,7 +1605,7 @@ function renderScheduleGrid(dayFavs, date, min) {
   // まだ開演前/終演後で範囲外の時は表示しない）
   if (isToday && min >= startHour * 60 && min <= endHour * 60) {
     const nowTop = (min - startHour * 60) * pxPerMin + CONTENT_TOP;
-    axis.appendChild(el("div", { class: "sched-now-line", style: `top:${nowTop}px` }, "現在"));
+    axis.appendChild(el("div", { id: "mytt-now-anchor", class: "sched-now-line", style: `top:${nowTop}px` }, "現在"));
   }
 
   wrap.appendChild(axis);
