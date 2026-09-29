@@ -1404,7 +1404,13 @@ function appendPerfCardsWithConnectors(container, list, date, min) {
     while (j + 1 < list.length && list[j + 1].venueId === list[i].venueId) j++;
     if (j > i) {
       const box = el("div", { class: "mytt-samevenue-box" });
-      for (let k = i; k <= j; k++) box.appendChild(perfCard(list[k], { date, min }));
+      const venue = store.venueById(list[i].venueId);
+      if (venue) {
+        box.appendChild(
+          el("div", { class: "mytt-samevenue-head" }, [el("span", { class: "stageno" }, `#${venue.stageNo}`), venue.name])
+        );
+      }
+      for (let k = i; k <= j; k++) box.appendChild(perfCard(list[k], { date, min, showVenue: false }));
       container.appendChild(box);
     } else {
       container.appendChild(perfCard(list[i], { date, min }));

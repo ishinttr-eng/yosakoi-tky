@@ -233,6 +233,13 @@ a { color: var(--route); }
   background: var(--card); border: 1px solid var(--line); border-radius: 12px;
   margin-bottom: 8px; box-shadow: var(--shadow); overflow: hidden;
 }
+.mytt-samevenue-head {
+  display: flex; align-items: baseline; gap: 8px;
+  font-family: var(--font-display); font-weight: 700; font-size: .95rem;
+  padding: 10px 12px; color: var(--accent);
+  background: var(--bg-2); border-bottom: 1px solid var(--line);
+}
+.mytt-samevenue-head .stageno { font-family: var(--font-mono); font-size: .75rem; color: var(--muted); }
 .mytt-samevenue-box .perf-card {
   background: none; border: none; border-left: 3px solid transparent; border-radius: 0;
   box-shadow: none; margin-bottom: 0; padding: 12px;
