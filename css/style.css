@@ -465,6 +465,10 @@ details.finished-group[open] > summary { margin-bottom: 4px; }
   width: 6px; height: 6px; border-radius: 50%; background: var(--line); cursor: pointer;
 }
 .sched-venue-dot.active { background: var(--accent); width: 16px; border-radius: 3px; }
+
+/* タブ切り替えでマイタイムテーブルに入った時、scrollIntoViewの着地先がsticky
+   ヘッダーの下に隠れないよう、ヘッダー実測高さぶんだけ上に余白を持たせる */
+#mytt-now-anchor { scroll-margin-top: var(--header-h, 56px); }
 .sched-axis { position: relative; border-left: 1px solid var(--line); margin-left: 46px; }
 .sched-hour-label {
   position: absolute; left: -46px; width: 40px; text-align: right;
