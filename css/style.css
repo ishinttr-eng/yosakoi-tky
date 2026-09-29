@@ -227,6 +227,20 @@ a { color: var(--route); }
   border-left: 2px dotted var(--line);
 }
 .mytt-connector.tight { color: var(--ng); font-weight: 700; border-left-color: var(--ng); }
+
+/* 同じ会場が連続する演目は移動が発生しないため、1つの箱にまとめて表示する */
+.mytt-samevenue-box {
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  margin-bottom: 8px; box-shadow: var(--shadow); overflow: hidden;
+}
+.mytt-samevenue-box .perf-card {
+  background: none; border: none; border-left: 3px solid transparent; border-radius: 0;
+  box-shadow: none; margin-bottom: 0; padding: 12px;
+  border-bottom: 1px dashed var(--line);
+}
+.mytt-samevenue-box .perf-card:last-child { border-bottom: none; }
+.mytt-samevenue-box .perf-card.now { border-left-color: var(--ok); }
+.mytt-samevenue-box .perf-card.soon { border-left-color: var(--warn); }
 .badge {
   font-size: .68rem; padding: 2px 7px; border-radius: 20px; background: var(--bg-2); color: var(--muted);
   border: 1px solid var(--line);
