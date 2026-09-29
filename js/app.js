@@ -1088,7 +1088,8 @@ function walkTimeIcon(minutes, color = "#0f9c8c") {
 }
 
 // 現在時刻（シミュレーション込み）を基準に、マイタイムテーブルでまだ終了していない移動区間を
-// すべて求める（直前の（終了済み最後の）お気に入り→次のお気に入り→その次…と連なる区間の配列）
+// すべて求める（直前の（終了済み最後の）お気に入り→次のお気に入り→その次…と連なる区間の配列）。
+// 同じ会場が連続していて移動が発生しない区間は最初から除外する
 function computeMyRouteSegments(date, min) {
   const favs = [...store.state.favorites]
     .map((key) => store.state.performances.find((p) => perfKey(p) === key))
@@ -1102,12 +1103,16 @@ function computeMyRouteSegments(date, min) {
   const prevList = favs.filter((p) => p.startMin <= min);
   const prev = prevList.length ? prevList[prevList.length - 1] : null;
 
-  const segments = [];
+  const allSegments = [];
   let fromId = prev ? prev.venueId : null; // null = 最初の区間のみ「現在地から」
   upcoming.forEach((p) => {
-    segments.push({ fromId, toId: p.venueId, toPerf: p });
+    allSegments.push({ fromId, toId: p.venueId, toPerf: p });
     fromId = p.venueId;
   });
+  // 同じ会場が連続する区間は移動が発生しないため、カルーセル・地図のどちらにも出さない
+  // （fromIdの連鎖自体はallSegments側で正しく繋がっているので、ここでは表示対象を絞るだけでよい）
+  const segments = allSegments.filter((s) => s.fromId !== s.toId);
+  if (!segments.length) return { message: "この後のお気に入りは今いる会場のままで、移動は発生しません" };
   return { segments };
 }
 
