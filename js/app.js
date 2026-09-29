@@ -1395,21 +1395,29 @@ function renderMyTT(root, date, min, over) {
   }
 }
 
-// お気に入りの演目カードを、連続する2件の間にそのステージ間の移動時間を挟みながら描画する
+// お気に入りの演目カードを、連続する2件の間にそのステージ間の移動時間を挟みながら描画する。
+// 会場が同じまま連続する演目は移動が発生しないので、移動時間を挟まず1つの箱にまとめて表示する
 function appendPerfCardsWithConnectors(container, list, date, min) {
-  list.forEach((p, i) => {
-    container.appendChild(perfCard(p, { date, min }));
-    if (i < list.length - 1) {
-      const connector = travelConnector(list[i], list[i + 1]);
+  let i = 0;
+  while (i < list.length) {
+    let j = i;
+    while (j + 1 < list.length && list[j + 1].venueId === list[i].venueId) j++;
+    if (j > i) {
+      const box = el("div", { class: "mytt-samevenue-box" });
+      for (let k = i; k <= j; k++) box.appendChild(perfCard(list[k], { date, min }));
+      container.appendChild(box);
+    } else {
+      container.appendChild(perfCard(list[i], { date, min }));
+    }
+    if (j < list.length - 1) {
+      const connector = travelConnector(list[j], list[j + 1]);
       if (connector) container.appendChild(connector);
     }
-  });
+    i = j + 1;
+  }
 }
 
 function travelConnector(a, b) {
-  if (a.venueId === b.venueId) {
-    return el("div", { class: "mytt-connector" }, "同じ会場");
-  }
   const venueA = store.venueById(a.venueId);
   const venueB = store.venueById(b.venueId);
   if (!venueA || !venueB) return null;
