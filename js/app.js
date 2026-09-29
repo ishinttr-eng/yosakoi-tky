@@ -27,7 +27,7 @@ const ui = {
   mapMode: "normal", // normal | myroute
   mapArea: "ikebukuro", // ikebukuro | otsuka-sugamo（大塚・巣鴨は池袋から2km以上離れておりズーム15では画面外になるため、エリア切替で表示を合わせる）
   mapSearch: "",
-  myttMode: "list", // list | schedule
+  myttMode: null, // list | schedule | null（未指定時はその日のお気に入り会場数から自動判定）
   myttVenueIndex: 0, // スケジュール表で1度に1会場ずつ見せるカルーセルの現在位置
 };
 const finishedOpen = { now: new Set(), artists: new Set(), mytt: new Set() };
@@ -1256,6 +1256,9 @@ function renderMyRouteBanner(root, date, min) {
 }
 
 // ---------- Tab: マイタイムテーブル ----------
+// この会場数以下ならリスト表示、超えたらスケジュール表をデフォルトにする
+const MYTT_AUTO_SCHEDULE_VENUE_THRESHOLD = 8;
+
 function renderMyTT(root, date, min, over) {
   root.appendChild(el("h1", { class: "screen-title" }, "★ マイタイムテーブル"));
 
@@ -1296,12 +1299,19 @@ function renderMyTT(root, date, min, over) {
   root.appendChild(dayTabs);
   const activeDay = ui.myttDay || curDay;
 
+  const dayFavs = favs.filter((p) => p.date === activeDay).sort((a, b) => a.startMin - b.startMin);
+  // モード未指定（ユーザーがリスト/スケジュール表を明示的に選んでいない）間は、
+  // その日のお気に入り会場数から見やすい方を自動選択する。会場数が少なければ
+  // 会場ごとの箱にまとまったリストが見やすく、多くなると1会場ずつ追えるスケジュール表の方が把握しやすい
+  const dayVenueCount = new Set(dayFavs.map((p) => p.venueId)).size;
+  const effectiveMyttMode = ui.myttMode || (dayVenueCount <= MYTT_AUTO_SCHEDULE_VENUE_THRESHOLD ? "list" : "schedule");
+
   if (!over) {
     const modeRow = el("div", { class: "map-toolbar" });
     modeRow.appendChild(
       el(
         "button",
-        { class: `toggle-btn${ui.myttMode === "list" ? " active" : ""}`, onclick: () => { ui.myttMode = "list"; render(); } },
+        { class: `toggle-btn${effectiveMyttMode === "list" ? " active" : ""}`, onclick: () => { ui.myttMode = "list"; render(); } },
         "リスト"
       )
     );
@@ -1309,7 +1319,7 @@ function renderMyTT(root, date, min, over) {
       el(
         "button",
         {
-          class: `toggle-btn${ui.myttMode === "schedule" ? " active" : ""}`,
+          class: `toggle-btn${effectiveMyttMode === "schedule" ? " active" : ""}`,
           onclick: () => {
             // スケジュール表に切り替えるたび、会場の並び替え(venueSortKey)の
             // 結果である「今いちばん見るべき会場」(先頭)を表示させる
@@ -1324,7 +1334,6 @@ function renderMyTT(root, date, min, over) {
     root.appendChild(modeRow);
   }
 
-  const dayFavs = favs.filter((p) => p.date === activeDay).sort((a, b) => a.startMin - b.startMin);
   if (!dayFavs.length) {
     root.appendChild(el("div", { class: "empty-state" }, [el("span", { class: "emoji" }, "📅"), el("div", {}, "この日のお気に入りはありません")]));
     return;
@@ -1352,7 +1361,7 @@ function renderMyTT(root, date, min, over) {
   // 会場ごとの時間軸を見れば重複や詰まり具合がひと目で分かるうえ、
   // 1会場ずつのカルーセル表示だと警告文の対象演目が画面内に無いことも多く、
   // バナーだけ浮いて邪魔になるため。
-  if (ui.myttMode !== "schedule" || over) {
+  if (effectiveMyttMode !== "schedule" || over) {
     const warnings = computeWarnings(dayFavs);
     warnings.forEach((w) => {
       const banner = el(
@@ -1371,7 +1380,7 @@ function renderMyTT(root, date, min, over) {
     });
   }
 
-  if (ui.myttMode === "schedule" && !over) {
+  if (effectiveMyttMode === "schedule" && !over) {
     root.appendChild(renderScheduleGrid(dayFavs, date, min));
   } else {
     const finished = dayFavs.filter((p) => p.date < date || (p.date === date && p.endMin <= min));
