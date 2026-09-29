@@ -1396,25 +1396,23 @@ function renderMyTT(root, date, min, over) {
 }
 
 // お気に入りの演目カードを、連続する2件の間にそのステージ間の移動時間を挟みながら描画する。
-// 会場が同じまま連続する演目は移動が発生しないので、移動時間を挟まず1つの箱にまとめて表示する
+// 会場ごとに箱でまとめ、箱の先頭に会場名を表示する（1件だけの会場でも同じ見た目で統一する）
 function appendPerfCardsWithConnectors(container, list, date, min) {
   let i = 0;
   while (i < list.length) {
     let j = i;
     while (j + 1 < list.length && list[j + 1].venueId === list[i].venueId) j++;
-    if (j > i) {
-      const box = el("div", { class: "mytt-samevenue-box" });
-      const venue = store.venueById(list[i].venueId);
-      if (venue) {
-        box.appendChild(
-          el("div", { class: "mytt-samevenue-head" }, [el("span", { class: "stageno" }, `#${venue.stageNo}`), venue.name])
-        );
-      }
-      for (let k = i; k <= j; k++) box.appendChild(perfCard(list[k], { date, min, showVenue: false }));
-      container.appendChild(box);
-    } else {
-      container.appendChild(perfCard(list[i], { date, min }));
+
+    const box = el("div", { class: "mytt-samevenue-box" });
+    const venue = store.venueById(list[i].venueId);
+    if (venue) {
+      box.appendChild(
+        el("div", { class: "mytt-samevenue-head" }, [el("span", { class: "stageno" }, `#${venue.stageNo}`), venue.name])
+      );
     }
+    for (let k = i; k <= j; k++) box.appendChild(perfCard(list[k], { date, min, showVenue: false }));
+    container.appendChild(box);
+
     if (j < list.length - 1) {
       const connector = travelConnector(list[j], list[j + 1]);
       if (connector) container.appendChild(connector);
