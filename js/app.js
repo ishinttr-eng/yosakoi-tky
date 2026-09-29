@@ -988,13 +988,22 @@ function initOrUpdateMap(mapDiv, date, min) {
   }
   drawMapLayer(date, min);
 
+  // drawMapLayer内でマイルート/単一区間ルートを描いた時は、そちら側で既に
+  // ルートに合わせたfitBoundsを行っている。ここで会場クラスタへのfitBoundsを
+  // 続けて実行すると、その直後にルートが画面外へ押し出されてしまう
+  // （初回のマップ訪問がマイルート経由だと経路が全く見えない不具合になる）ため、
+  // ルート表示中はpendingAreaFitを消費するだけに留め、上書きしない
   if (mapState.pendingAreaFit) {
-    const areaVenues = store.state.venues.filter((v) => (v.area || "ikebukuro") === mapState.pendingAreaFit);
+    const skip = ui.mapMode === "myroute" || mapState.singleRoute;
+    const pending = mapState.pendingAreaFit;
     mapState.pendingAreaFit = null;
-    if (areaVenues.length === 1) {
-      mapState.instance.setView([areaVenues[0].lat, areaVenues[0].lng], 16);
-    } else if (areaVenues.length > 1) {
-      mapState.instance.fitBounds(L.latLngBounds(areaVenues.map((v) => [v.lat, v.lng])), { padding: [48, 48] });
+    if (!skip) {
+      const areaVenues = store.state.venues.filter((v) => (v.area || "ikebukuro") === pending);
+      if (areaVenues.length === 1) {
+        mapState.instance.setView([areaVenues[0].lat, areaVenues[0].lng], 16);
+      } else if (areaVenues.length > 1) {
+        mapState.instance.fitBounds(L.latLngBounds(areaVenues.map((v) => [v.lat, v.lng])), { padding: [48, 48] });
+      }
     }
   }
 }
