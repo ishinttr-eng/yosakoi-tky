@@ -135,9 +135,17 @@ document.querySelectorAll(".tab-btn").forEach((btn) => {
     const prevTab = activeTab;
     activeTab = btn.dataset.tab;
     render();
-    // 他のタブからマイタイムテーブルに切り替えた時だけ、現在時刻の位置が
-    // 画面上部に来るようスクロールする（タブ内の日付/表示モード切替では動かさない）
-    if (activeTab === "mytt" && prevTab !== "mytt") scrollMyTTNowIntoView();
+    if (prevTab !== activeTab) {
+      // タブを切り替えた直後は、前のタブでのスクロール位置がそのまま残ってしまう
+      // （中身が短くなっただけでは自動で先頭に戻らない）。切り替え先の内容が前のタブより
+      // 短いと、ページ最下部までスクロールされたまま止まり、上部のツールバーやモード切替
+      // ボタン（例: マップの「マイルート」）が画面外に隠れて気づけなくなる。
+      // タブを切り替えるたびに、まず先頭へ戻して主要な操作ボタンを必ず見える位置に置く
+      window.scrollTo(0, 0);
+      // マイタイムテーブルだけは、さらに現在時刻の位置（演舞中/次の演目）が
+      // 画面上部に来るようスクロールし直す（タブ内の日付/表示モード切替では動かさない）
+      if (activeTab === "mytt") scrollMyTTNowIntoView();
+    }
   });
 });
 
