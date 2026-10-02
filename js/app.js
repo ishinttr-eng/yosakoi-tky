@@ -1828,6 +1828,15 @@ function openSettingsModal() {
   shareSection.append(btnRow, importInput);
   sheet.appendChild(shareSection);
 
+  // ライセンス表示
+  const aboutSection = el("div", { class: "modal-section about-section" });
+  aboutSection.appendChild(el("h4", {}, "このアプリについて"));
+  aboutSection.appendChild(el("div", {}, "東京よさこいナビ（非公式）"));
+  aboutSection.appendChild(el("div", {}, "MIT License © 2026 ishinttr-eng"));
+  aboutSection.appendChild(el("div", {}, "地図: © OpenStreetMap contributors (ODbL)"));
+  aboutSection.appendChild(el("div", {}, "地図ライブラリ: Leaflet (BSD-2-Clause)"));
+  sheet.appendChild(aboutSection);
+
   backdrop.appendChild(sheet);
   $modalRoot.appendChild(backdrop);
 }
