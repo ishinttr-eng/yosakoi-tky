@@ -280,7 +280,9 @@ function renderNow(root, date, min, over) {
   root.appendChild(locationRow());
 
   const playing = store.state.performances.filter((p) => isNowPlaying(p, date, min));
-  const soon = store.state.performances.filter((p) => isSoon(p, date, min));
+  // 演舞が30分に満たない（今回のように数分の演目）場合、30分先まで拾うと同時刻に多数のチームが並んで
+  // 「まもなく」の意味を成さないため、30分以上の演目に限って「まもなく開始」を出す
+  const soon = store.state.performances.filter((p) => isSoon(p, date, min) && p.endMin - p.startMin >= 30);
 
   if (!playing.length && !soon.length) {
     root.appendChild(
@@ -2006,7 +2008,17 @@ if ("serviceWorker" in navigator) {
 }
 
 // ---------- init ----------
+// 初回起動時だけ使い方ページを自動で開く。共有リンク(?fav=)経由の取り込みは邪魔しない
+function showHelpOnFirstLaunch() {
+  if (store.isHelpSeen()) return false;
+  if (new URLSearchParams(location.search).has("fav")) return false;
+  if (!store.markHelpSeen()) return false;
+  location.href = HELP_URL;
+  return true;
+}
+
 async function init() {
+  if (showHelpOnFirstLaunch()) return;
   await store.loadAll();
   updateChangelogBadge();
   checkUrlImport();

@@ -1,6 +1,6 @@
 // 東京よさこいナビ Service Worker
 // UI・見た目・ロジックを変更したら必ず VERSION を上げること
-const VERSION = "v23";
+const VERSION = "v25";
 const CACHE_NAME = `tyk-${VERSION}`;
 
 const APP_SHELL = [
