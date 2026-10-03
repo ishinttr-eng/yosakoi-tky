@@ -45,6 +45,10 @@
   p { margin: 6px 0; font-size: .92rem; }
   ul { margin: 6px 0; padding-left: 1.3em; font-size: .92rem; }
   li { margin: 3px 0; }
+  .first-note {
+    background: var(--card); border: 1px solid var(--accent); border-radius: 12px;
+    padding: 10px 14px; margin: 0 0 16px; font-size: .9rem;
+  }
   .note { color: var(--muted); font-size: .84rem; }
   a { color: var(--accent); }
   .back { display: inline-block; margin-top: 18px; font-size: .92rem; }
@@ -55,10 +59,11 @@
 <main>
   <h1>使い方</h1>
   <p class="lead">東京よさこいナビ 2026（非公式）の使い方ガイドです。画面下のタブで4つの画面を切り替えます。</p>
+  <p class="first-note">📖 このページは、アプリを初めて起動したときに自動で表示されます。もう一度見たいときは、アプリ右上の ☰（メニュー）から「使い方」を選んでください。</p>
 
   <section>
     <h2>💃 演舞中</h2>
-    <p>いま演舞中のステージと、30分以内に始まるステージが一覧で出ます。</p>
+    <p>いま演舞中のステージが一覧で出ます。今回の演目は1チーム数分なので、「まもなく開始」の表示は出しません。次の演目は「参加チーム」や「マイタイムテーブル」で確認してください。</p>
     <ul>
       <li>「現在地を取得して徒歩時間を表示」を押すと、現在地から各会場までの徒歩時間の目安が出ます。</li>
       <li>終わったステージは「終了したステージ」にまとまり、タップで開けます。</li>

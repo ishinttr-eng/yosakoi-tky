@@ -6,6 +6,7 @@ const LS = {
   favorites: "tyk.favorites.v1",
   settings: "tyk.settings.v1",
   seenChanges: "tyk.seenChanges.v1",
+  helpSeen: "tyk.helpSeen.v1",
 };
 
 function loadJSON(key, fallback) {
@@ -54,6 +55,15 @@ export function persistFavorites() {
 }
 export function persistSettings() {
   saveJSON(LS.settings, state.settings);
+}
+// 使い方ページの初回表示済みフラグを保存する。保存できない環境（プライベートモード等）では
+// 毎回の起動で使い方ページへ飛ばしてしまうため、書き込めたことを読み戻して確認し、結果を返す
+export function markHelpSeen() {
+  saveJSON(LS.helpSeen, true);
+  return loadJSON(LS.helpSeen, false) === true;
+}
+export function isHelpSeen() {
+  return loadJSON(LS.helpSeen, false) === true;
 }
 export function persistSeenChanges() {
   saveJSON(LS.seenChanges, state.seenChangeAt);
