@@ -17,6 +17,7 @@ Service Workerがルート相対パスでキャッシュするため、`file://`
 
 ```
 index.html / manifest.webmanifest / sw.js / icon.svg
+help.html      使い方ページ（アプリ本体とは別の静的HTML。Service Workerのキャッシュ対象外で、☰メニューから別タブで開く）
 css/style.css
 js/app.js      UI本体
 js/store.js    状態管理・データ読み込み

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>使い方 | 東京よさこいナビ 2026</title>
+<meta name="description" content="東京よさこいナビ（非公式）の使い方ガイド">
+<meta name="theme-color" content="#a8241f">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<script>
+  try {
+    var s = JSON.parse(localStorage.getItem("tyk.settings.v1") || "{}");
+    if (s.theme === "dark") document.documentElement.setAttribute("data-theme", "dark");
+    if (s.theme === "light") document.documentElement.setAttribute("data-theme", "light");
+  } catch (e) {}
+</script>
+<style>
+  :root {
+    --ink: #1c2029; --muted: #666d80; --bg: #f6f7fb; --card: #ffffff; --line: #dfe3ee; --accent: #b3791b;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #eef1f7; --muted: #9aa3b8; --bg: #10131f; --card: #1b2036; --line: #2a3050; --accent: #e6a740;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #eef1f7; --muted: #9aa3b8; --bg: #10131f; --card: #1b2036; --line: #2a3050; --accent: #e6a740;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink); line-height: 1.75;
+    font-family: "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 20px 16px 48px; }
+  h1 { font-size: 1.4rem; margin: 8px 0 4px; }
+  .lead { color: var(--muted); font-size: .9rem; margin: 0 0 20px; }
+  section {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 14px 16px; margin: 14px 0;
+  }
+  h2 { font-size: 1.05rem; margin: 0 0 6px; }
+  p { margin: 6px 0; font-size: .92rem; }
+  ul { margin: 6px 0; padding-left: 1.3em; font-size: .92rem; }
+  li { margin: 3px 0; }
+  .note { color: var(--muted); font-size: .84rem; }
+  a { color: var(--accent); }
+  .back { display: inline-block; margin-top: 18px; font-size: .92rem; }
+  footer { color: var(--muted); font-size: .78rem; margin-top: 24px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>使い方</h1>
+  <p class="lead">東京よさこいナビ 2026（非公式）の使い方ガイドです。画面下のタブで4つの画面を切り替えます。</p>
+
+  <section>
+    <h2>💃 演舞中</h2>
+    <p>いま演舞中のステージと、30分以内に始まるステージが一覧で出ます。</p>
+    <ul>
+      <li>「現在地を取得して徒歩時間を表示」を押すと、現在地から各会場までの徒歩時間の目安が出ます。</li>
+      <li>終わったステージは「終了したステージ」にまとまり、タップで開けます。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📅 参加チーム</h2>
+    <p>参加チームの一覧です。</p>
+    <ul>
+      <li>日付、会場、チーム名（ひらがなでも検索可）で絞り込めます。</li>
+      <li>チームをタップすると、会場・時間・SNSなどの詳細が開きます。</li>
+      <li>☆を押すとお気に入りに登録されます。登録したステージは「マイタイムテーブル」に並びます。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🗺️ マップ</h2>
+    <p>各会場の場所を地図で確認できます。</p>
+    <ul>
+      <li>ステージ番号や会場名で検索できます。</li>
+      <li>「マイルート」を押すと、お気に入りの会場を時間順につないだ徒歩ルートと所要時間が地図に出ます。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>★ マイタイムテーブル</h2>
+    <p>お気に入りに登録したステージを、時間順に並べて見られます。</p>
+    <ul>
+      <li>「リスト」と「スケジュール表」を切り替えられます。お気に入りの会場数に応じて、見やすいほうが最初に選ばれます。</li>
+      <li>演舞が重なっている場合や、会場間の移動時間が足りない場合は警告が出ます。</li>
+      <li>「マップでステージ間のルート・徒歩時間を見る」から、移動ルートを地図で確認できます。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ 設定とお気に入りの共有・バックアップ</h2>
+    <p>画面右上の ☰ から「設定」を開きます。</p>
+    <ul>
+      <li>文字サイズを「標準」と「大」から選べます。</li>
+      <li>お気に入りを、共有リンクやファイルで書き出せます。機種変更や友だちとの共有に使えます。ファイルからの読み込みも同じ画面からできます。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📢 更新履歴</h2>
+    <p>公式サイトの情報（参加チームや演舞）が変わると、画面右上の 📢 に赤い印が付きます。タップすると変更内容を確認できます。</p>
+  </section>
+
+  <section>
+    <h2>ご注意</h2>
+    <ul>
+      <li>お気に入りはこの端末の中にだけ保存され、外部には送信されません。</li>
+      <li>このアプリは非公式です。開催直前まで内容が変わることがあるため、最新の情報は必ず<a href="https://tokyo-yosakoi.jp/" target="_blank" rel="noopener">東京よさこい公式サイト</a>でもご確認ください。</li>
+      <li>徒歩時間は目安です。混雑や交通規制で変わることがあります。</li>
+    </ul>
+  </section>
+
+  <a class="back" href="./">← アプリに戻る</a>
+  <footer>MIT License © 2026 ishinttr-eng</footer>
+</main>
+</body>
+</html>

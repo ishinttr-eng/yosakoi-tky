@@ -1699,7 +1699,41 @@ function openChangelogModal() {
 }
 
 // ---------- 設定 ----------
-document.getElementById("btn-settings").addEventListener("click", openSettingsModal);
+// ---------- ハンバーガーメニュー（設定 / 使い方） ----------
+const HELP_URL = "help.html";
+const $menuBtn = document.getElementById("btn-menu");
+let $menuPop = null;
+function closeMenu() {
+  if (!$menuPop) return;
+  $menuPop.remove();
+  $menuPop = null;
+  $menuBtn.setAttribute("aria-expanded", "false");
+  document.removeEventListener("click", onDocClickCloseMenu, true);
+  document.removeEventListener("keydown", onKeyCloseMenu);
+}
+function onDocClickCloseMenu(e) {
+  if (!$menuPop.contains(e.target) && !$menuBtn.contains(e.target)) closeMenu();
+}
+function onKeyCloseMenu(e) {
+  if (e.key === "Escape") closeMenu();
+}
+function toggleMenu() {
+  if ($menuPop) return closeMenu();
+  $menuPop = el("div", { class: "menu-pop", role: "menu" }, [
+    el("button", { class: "menu-item", role: "menuitem", onclick: () => { closeMenu(); openSettingsModal(); } }, "⚙️ 設定"),
+    el(
+      "a",
+      { class: "menu-item", role: "menuitem", href: HELP_URL, target: "_blank", rel: "noopener", onclick: closeMenu },
+      "❓ 使い方"
+    ),
+  ]);
+  $menuBtn.parentElement.appendChild($menuPop);
+  $menuBtn.setAttribute("aria-expanded", "true");
+  document.addEventListener("click", onDocClickCloseMenu, true);
+  document.addEventListener("keydown", onKeyCloseMenu);
+}
+$menuBtn.addEventListener("click", toggleMenu);
+
 function openSettingsModal() {
   const backdrop = el("div", { class: "modal-backdrop", onclick: (e) => { if (e.target === backdrop) backdrop.remove(); } });
   const sheet = el("div", { class: "modal-sheet" });
@@ -1825,7 +1859,7 @@ function openSettingsModal() {
 
   const appLog = store.state.appChangelog?.entries || [];
   if (appLog.length) {
-    const logDetails = el("details", { class: "about-changelog" });
+    const logDetails = el("details", { class: "settings-accordion" });
     logDetails.appendChild(el("summary", {}, "アプリの更新履歴"));
     let lastDate = null;
     appLog.forEach((e) => {
