@@ -314,6 +314,7 @@ details.finished-group[open] > summary { margin-bottom: 4px; }
   padding: 9px 16px; border-radius: 10px; border: 1px solid var(--line); background: var(--card);
   color: var(--ink); cursor: pointer; font-size: .88rem;
 }
+a.btn { text-decoration: none; display: inline-block; }
 .btn.primary { background: var(--accent); color: #14131a; border-color: var(--accent); font-weight: 700; }
 .btn.block { width: 100%; }
 .btn.small { padding: 6px 12px; font-size: .8rem; text-decoration: none; display: inline-block; }
