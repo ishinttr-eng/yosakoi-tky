@@ -1690,19 +1690,6 @@ function openChangelogModal() {
     sheet.appendChild(el("p", { style: "color:var(--muted)" }, "参加チーム情報の変更履歴はまだありません。"));
   }
 
-  const app = store.state.appChangelog?.entries || [];
-  if (app.length) {
-    sheet.appendChild(el("h4", { style: "color:var(--muted);font-size:.78rem;text-transform:uppercase;margin:18px 0 6px" }, "アプリの更新履歴"));
-    let lastDate = null;
-    app.forEach((e) => {
-      if (e.date !== lastDate) {
-        sheet.appendChild(el("div", { class: "changelog-date" }, e.date));
-        lastDate = e.date;
-      }
-      sheet.appendChild(el("div", { class: "changelog-item" }, [el("span", { class: "tag" }, e.version), el("span", {}, e.text)]));
-    });
-  }
-
   backdrop.appendChild(sheet);
   $modalRoot.appendChild(backdrop);
 
@@ -1835,6 +1822,21 @@ function openSettingsModal() {
   aboutSection.appendChild(el("div", {}, "MIT License © 2026 ishinttr-eng"));
   aboutSection.appendChild(el("div", {}, "地図: © OpenStreetMap contributors (ODbL)"));
   aboutSection.appendChild(el("div", {}, "地図ライブラリ: Leaflet (BSD-2-Clause)"));
+
+  const appLog = store.state.appChangelog?.entries || [];
+  if (appLog.length) {
+    const logDetails = el("details", { class: "about-changelog" });
+    logDetails.appendChild(el("summary", {}, "アプリの更新履歴"));
+    let lastDate = null;
+    appLog.forEach((e) => {
+      if (e.date !== lastDate) {
+        logDetails.appendChild(el("div", { class: "changelog-date" }, e.date));
+        lastDate = e.date;
+      }
+      logDetails.appendChild(el("div", { class: "changelog-item" }, [el("span", { class: "tag" }, e.version), el("span", {}, e.text)]));
+    });
+    aboutSection.appendChild(logDetails);
+  }
   sheet.appendChild(aboutSection);
 
   backdrop.appendChild(sheet);
