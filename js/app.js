@@ -2008,23 +2008,36 @@ if ("serviceWorker" in navigator) {
 }
 
 // ---------- init ----------
-// 初回起動時だけ使い方ページを自動で開く。共有リンク(?fav=)経由の取り込みは邪魔しない
-function showHelpOnFirstLaunch() {
-  if (store.isHelpSeen()) return false;
-  if (new URLSearchParams(location.search).has("fav")) return false;
-  if (!store.markHelpSeen()) return false;
-  location.href = HELP_URL;
-  return true;
+// 初回起動時だけ、使い方ページへの案内ダイアログを自動表示する。起動時の自動実行にはユーザー操作が無く、
+// window.openはポップアップとしてブロックされるため、ボタン(リンク)のタップで新しいタブに開く。
+// 共有リンク(?fav=)経由の取り込みは邪魔しない。保存できない環境では毎回出てしまうため出さない
+function showHelpWelcome() {
+  if (store.isHelpSeen()) return;
+  if (new URLSearchParams(location.search).has("fav")) return;
+  if (!store.markHelpSeen()) return;
+  const backdrop = el("div", { class: "modal-backdrop", onclick: (e) => { if (e.target === backdrop) backdrop.remove(); } });
+  const sheet = el("div", { class: "modal-sheet" });
+  sheet.appendChild(el("div", { class: "modal-title" }, "はじめての方へ"));
+  sheet.appendChild(el("p", {}, "アプリの使い方をまとめたページがあります。新しいタブで開きます。"));
+  sheet.appendChild(el("p", { class: "sub-note" }, "あとから見たいときは、右上の ☰ → 「使い方」から開けます。"));
+  sheet.appendChild(
+    el("div", { class: "btn-row" }, [
+      el("a", { class: "btn primary", href: HELP_URL, target: "_blank", rel: "noopener", onclick: () => backdrop.remove() }, "❓ 使い方を見る"),
+      el("button", { class: "btn", onclick: () => backdrop.remove() }, "あとで"),
+    ])
+  );
+  backdrop.appendChild(sheet);
+  $modalRoot.appendChild(backdrop);
 }
 
 async function init() {
-  if (showHelpOnFirstLaunch()) return;
   await store.loadAll();
   updateChangelogBadge();
   checkUrlImport();
   updateHeaderInfo();
   if (store.state.settings.autoLocate && !store.state.settings.simGeo) locateOnce();
   render();
+  showHelpWelcome();
   store.fetchWeather().then((w) => {
     weatherData = w;
     render();
