@@ -1,6 +1,6 @@
 // 東京よさこいナビ Service Worker
 // UI・見た目・ロジックを変更したら必ず VERSION を上げること
-const VERSION = "v21";
+const VERSION = "v23";
 const CACHE_NAME = `tyk-${VERSION}`;
 
 const APP_SHELL = [
@@ -53,6 +53,8 @@ self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET") return;
   const url = new URL(req.url);
+
+  if (url.pathname.endsWith("/help.html")) return; // 使い方ページはアプリ本体と切り離し、常にネットワークから取得する
 
   if (isTileRequest(url)) return; // 地図タイルはキャッシュしない（容量対策）
 
