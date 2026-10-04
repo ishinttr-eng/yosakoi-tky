@@ -452,6 +452,36 @@ function snsLink(url) {
   return el("a", { href: url, target: "_blank", rel: "noopener noreferrer", class: "sns-link" }, label);
 }
 
+// ---------- official page viewer ----------
+// 公式のチーム紹介ページをそのまま（加工・切り取りなしで）埋め込み表示する。
+// 紹介文・写真はアプリ内に複製せず、出典と「公式サイトで開く」リンクを常に表示する。
+function openOfficialViewer(p) {
+  const close = () => viewer.remove();
+  const viewer = el("div", { class: "official-viewer" }, [
+    el("div", { class: "official-viewer-bar" }, [
+      el("div", { class: "official-viewer-title" }, [
+        el("strong", {}, p.name),
+        el("span", { class: "official-viewer-source" }, "出典: 東京よさこい公式サイト（©ふくろ祭り協議会）"),
+      ]),
+      el(
+        "a",
+        { href: p.officialUrl, target: "_blank", rel: "noopener noreferrer", class: "sns-link" },
+        "公式サイトで開く ↗"
+      ),
+      el("button", { class: "modal-close", onclick: close, "aria-label": "閉じる" }, "✕"),
+    ]),
+    el("iframe", {
+      src: p.officialUrl,
+      class: "official-viewer-frame",
+      title: `${p.name} 公式チーム紹介`,
+      loading: "lazy",
+      referrerpolicy: "strict-origin-when-cross-origin",
+    }),
+    el("div", { class: "official-viewer-note" }, "表示されない場合は、オンライン接続を確認するか「公式サイトで開く」からご覧ください。"),
+  ]);
+  document.body.appendChild(viewer);
+}
+
 // ---------- detail modal ----------
 function openDetailModal(p) {
   const venue = store.venueById(p.venueId);
@@ -481,18 +511,15 @@ function openDetailModal(p) {
     if (p.awardEntry) tags.appendChild(el("span", { class: "badge" }, p.awardEntry));
     sheet.appendChild(tags);
   }
-  if (p.image) {
-    sheet.appendChild(el("img", { src: p.image, class: "team-photo", alt: p.name, loading: "lazy" }));
-  }
-  if (p.intro) {
-    const s = el("div", { class: "modal-section" });
-    s.appendChild(el("h4", {}, "紹介"));
-    s.appendChild(el("p", {}, p.intro));
-    sheet.appendChild(s);
-  }
-  if (p.sns && p.sns.length) {
+  // 紹介文・写真は公式サイトの著作物のため保持せず、公式のチームページへ誘導する
+  if (p.officialUrl || (p.sns && p.sns.length)) {
     const s = el("div", { class: "modal-section sns-row" });
-    p.sns.forEach((url) => s.appendChild(snsLink(url)));
+    if (p.officialUrl) {
+      s.appendChild(
+        el("button", { class: "sns-link", onclick: () => openOfficialViewer(p) }, "📄 公式サイトのチーム紹介")
+      );
+    }
+    (p.sns || []).forEach((url) => s.appendChild(snsLink(url)));
     sheet.appendChild(s);
   }
 

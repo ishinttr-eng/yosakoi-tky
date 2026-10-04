@@ -39,6 +39,7 @@ tools/         開発用（公開ディレクトリからは除外）
 - `data/performances.json` は公式サイト（https://tokyo-yosakoi.jp/ ）の演舞スケジュールPDF（前夜祭・本祭）と参加チーム一覧ページから2026-09-21時点の内容を収集したもの。
 - 公式サイトの情報は開催直前まで変動するため、`tools/build_data.py` とGitHub Actionsで自動追従する運用を想定（要: GitHub Pages公開・Actions有効化、および `pip install -r tools/requirements.txt`）。
 - 演舞スケジュールPDFのファイル名・列レイアウトが変わった場合は `tools/build_data.py` 内の `find_schedule_pdf_urls` / `SCHEDULE_LAYOUTS` を見直すこと。チーム一覧ページのマークアップが変わった場合は `parse_team_list` 周辺のセレクタを見直すこと。差分検出が動かなくなった場合は `tools/raw/` に保存される生データ（PDF・HTML）を確認する。
+- チーム紹介文・チーム写真は公式サイトの著作物（©ふくろ祭り協議会）で利用許諾がないため、複製・保存・直接参照をしない。`performances.json` には公式のチームページURL（`officialUrl`）とSNSリンクのみ保持し、アプリは公式ページをiframeでそのまま表示する（出典表記・「公式サイトで開く」リンク付き）。公式側が埋め込みを拒否する設定（X-Frame-Options等）に変えた場合は、別タブで開くリンクに戻すこと。
 - 徒歩ルート（`data/routes.json` / `data/walktimes.json`）は `tools/build_routes.py` でOSRM実測値を取得済み。
 
 ## 実装していない機能

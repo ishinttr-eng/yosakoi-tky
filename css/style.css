@@ -302,13 +302,30 @@ details.finished-group[open] > summary { margin-bottom: 4px; }
 .modal-meta { color: var(--muted); font-size: .85rem; margin-bottom: 14px; }
 .modal-section { margin: 14px 0; }
 .modal-section h4 { font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 8px; }
-.team-photo { display: block; width: 100%; max-width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 12px; margin: 4px 0 14px; }
 .sns-row { display: flex; gap: 8px; flex-wrap: wrap; }
 .sns-link {
   padding: 7px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--card);
   color: var(--ink); font-size: .82rem; text-decoration: none; white-space: nowrap;
 }
 .sns-link:hover { border-color: var(--route); color: var(--route); }
+button.sns-link { font-family: inherit; cursor: pointer; }
+
+/* 公式チーム紹介ページのビューア */
+.official-viewer {
+  position: fixed; inset: 0; z-index: 120; background: var(--bg);
+  display: flex; flex-direction: column;
+  padding-top: env(safe-area-inset-top);
+}
+.official-viewer-bar {
+  display: flex; align-items: center; gap: 10px; padding: 8px 12px;
+  background: var(--bg-2); border-bottom: 1px solid var(--line);
+}
+.official-viewer-title { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.official-viewer-title strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.official-viewer-source { color: var(--muted); font-size: .72rem; }
+.official-viewer-bar .modal-close { background: none; border: none; font-size: 1.3rem; color: var(--muted); cursor: pointer; }
+.official-viewer-frame { flex: 1; width: 100%; border: 0; background: #fff; }
+.official-viewer-note { color: var(--muted); font-size: .72rem; padding: 6px 12px calc(6px + var(--safe-bottom)); background: var(--bg-2); border-top: 1px solid var(--line); }
 
 .btn {
   padding: 9px 16px; border-radius: 10px; border: 1px solid var(--line); background: var(--card);
