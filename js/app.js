@@ -1931,7 +1931,7 @@ function handleImportFile(e) {
 function confirmImport(keys) {
   const merge = confirm(`${keys.length}件のお気に入りを取り込みます。\nOK: 既存に追加（マージ） / キャンセル: 中止`);
   if (!merge) return;
-  keys.forEach((k) => store.state.favorites.add(k));
+  keys.map(store.migrateFavoriteKey).filter(Boolean).forEach((k) => store.state.favorites.add(k));
   store.persistFavorites();
   render();
   alert("取り込みました");
@@ -1994,8 +1994,24 @@ function locateOnce() {
   });
 }
 document.addEventListener("visibilitychange", () => {
-  if (document.visibilityState === "visible" && store.state.settings.autoLocate && !store.state.settings.simGeo) locateOnce();
+  if (document.visibilityState !== "visible") return;
+  if (store.state.settings.autoLocate && !store.state.settings.simGeo) locateOnce();
+  refreshTimeView();
 });
+
+// 演舞中・まもなく開始・終了済みの表示は時間経過で変わるため、一定間隔で再描画する。
+// 入力中・モーダル表示中・マップ表示中（地図の位置/ズームやルートカードが初期化される）は見送る
+function refreshTimeView() {
+  const active = document.activeElement;
+  if (active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA" || active.tagName === "SELECT")) return;
+  if ($modalRoot.childElementCount > 0 || activeTab === "map") return;
+  const y = window.scrollY;
+  render();
+  window.scrollTo(0, y);
+}
+setInterval(() => {
+  if (document.visibilityState === "visible") refreshTimeView();
+}, 30_000);
 
 // ---------- ヘッダー: バージョン・公式データ確認日時 ----------
 // sw.js側のCACHE_NAME(=VERSION)と二重管理にならないよう、値そのものはここでは持たない
@@ -2024,7 +2040,7 @@ async function updateHeaderInfo() {
   }
   const d = new Date(checkedAt);
   const text =
-    `確認: ${d.getMonth() + 1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2, "0")}時点` +
+    `更新: ${d.getMonth() + 1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2, "0")}時点` +
     (ver ? ` / ${ver}` : "");
   el2.textContent = text;
 }

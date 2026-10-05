@@ -50,6 +50,26 @@ export const state = {
   currentGeo: null,
 };
 
+// 旧形式のお気に入りキー(p-0001__2026-10-10__10:30)を安定ID(p-xxxxxxxx)へ変換する。
+// 変換表(legacy_ids.json)に無い旧形式キーは対応する演目が特定できないため null を返す
+const LEGACY_KEY_RE = /^(p-\d{4})__/;
+let legacyIdMap = {};
+export function migrateFavoriteKey(key) {
+  if (typeof key !== "string") return null;
+  const m = LEGACY_KEY_RE.exec(key);
+  if (!m) return key;
+  return legacyIdMap[m[1]] || null;
+}
+function migrateFavorites() {
+  // 変換表を取得できなかった時に旧キーを消してしまわないよう、表が空なら何もしない（次回起動で再試行）
+  if (!Object.keys(legacyIdMap).length) return;
+  const before = [...state.favorites];
+  const after = new Set(before.map(migrateFavoriteKey).filter(Boolean));
+  if (after.size === before.length && before.every((k) => after.has(k))) return;
+  state.favorites = after;
+  persistFavorites();
+}
+
 export function persistFavorites() {
   saveJSON(LS.favorites, [...state.favorites]);
 }
@@ -105,13 +125,14 @@ export async function loadAll() {
       return fallback;
     }
   };
-  const [walktimes, routes, tieup, checked, changes, appChangelog] = await Promise.all([
+  const [walktimes, routes, tieup, checked, changes, appChangelog, legacyIds] = await Promise.all([
     optional("data/walktimes.json", null),
     optional("data/routes.json", { routes: {} }),
     optional("data/tieup.json", { stages: [] }),
     optional("data/checked.json", null),
     optional("data/changes.json", { history: [] }),
     optional("data/app_changelog.json", { entries: [] }),
+    optional("data/legacy_ids.json", { map: {} }),
   ]);
   state.walktimes = walktimes;
   state.routes = routes;
@@ -119,6 +140,8 @@ export async function loadAll() {
   state.checked = checked;
   state.changes = changes;
   state.appChangelog = appChangelog;
+  legacyIdMap = legacyIds.map || {};
+  migrateFavorites();
 }
 
 export function venueById(id) {

@@ -1,6 +1,6 @@
 // 東京よさこいナビ Service Worker
 // UI・見た目・ロジックを変更したら必ず VERSION を上げること
-const VERSION = "v28";
+const VERSION = "v29";
 const CACHE_NAME = `tyk-${VERSION}`;
 
 const APP_SHELL = [
@@ -20,12 +20,14 @@ self.addEventListener("install", (event) => {
   event.waitUntil(
     (async () => {
       const cache = await caches.open(CACHE_NAME);
+      // 1つでも取得に失敗したらinstall自体を失敗させる。不完全なキャッシュのまま
+      // 新SWが有効化されて旧キャッシュが消えると、地図などが使えなくなるため（旧SWはそのまま残る）
       await Promise.all(
-        APP_SHELL.map((url) =>
-          fetch(url, { cache: "reload" })
-            .then((res) => (res.ok ? cache.put(url, res) : null))
-            .catch(() => null)
-        )
+        APP_SHELL.map(async (url) => {
+          const res = await fetch(url, { cache: "reload" });
+          if (!res.ok) throw new Error(`precache failed: ${url} (${res.status})`);
+          await cache.put(url, res);
+        })
       );
       self.skipWaiting();
     })()
@@ -46,7 +48,7 @@ function isDataRequest(url) {
   return url.pathname.includes("/data/");
 }
 function isTileRequest(url) {
-  return /tile\.openstreetmap\.org|\{s\}\.tile/.test(url.hostname) || url.hostname.endsWith("tile.openstreetmap.org");
+  return url.hostname.endsWith("tile.openstreetmap.org");
 }
 
 self.addEventListener("fetch", (event) => {
@@ -64,8 +66,11 @@ self.addEventListener("fetch", (event) => {
       (async () => {
         try {
           const res = await fetch(req);
-          const cache = await caches.open(CACHE_NAME);
-          cache.put(req, res.clone());
+          // 404/500などの失敗レスポンスで、保存済みの正常なキャッシュを上書きしない
+          if (res.ok) {
+            const copy = res.clone();
+            event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.put(req, copy)));
+          }
           return res;
         } catch {
           const cached = await caches.match(req);
@@ -85,8 +90,8 @@ self.addEventListener("fetch", (event) => {
       try {
         const res = await fetch(req);
         if (res.ok && (url.origin === self.location.origin || APP_SHELL.includes(req.url))) {
-          const cache = await caches.open(CACHE_NAME);
-          cache.put(req, res.clone());
+          const copy = res.clone();
+          event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.put(req, copy)));
         }
         return res;
       } catch {

@@ -27,8 +27,9 @@ export function normalize(s) {
     .replace(/\s+/g, "");
 }
 
+// お気に入りのキー。idは日付・チーム名・出演順から決まる安定IDなので、時刻変更やスケジュールの増減に左右されない
 export function perfKey(p) {
-  return `${p.id}__${p.date}__${p.start}`;
+  return p.id;
 }
 
 const R = 6371000;

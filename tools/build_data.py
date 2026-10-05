@@ -27,7 +27,9 @@
 venues.json（会場の座標・開催日）はこのスクリプトの対象外。会場の追加・移設が
 あった場合は手動で venues.json を編集すること。
 """
+import hashlib
 import json
+import os
 import re
 import sys
 import time
@@ -292,16 +294,24 @@ def reconcile_with_teams(perfs, teams):
     return resolved, dropped
 
 
+def stable_perf_id(date, name, order):
+    """日付・チーム名・その日の出演順(n回目)から決まる安定ID。
+    スケジュール更新で他チームの出演が増減しても、同じ演目のIDは変わらない
+    （お気に入りのキーに使うため、連番だと途中の増減で全部ずれてしまう）。"""
+    digest = hashlib.sha1(f"{date}|{name}|{order}".encode("utf-8")).hexdigest()
+    return f"p-{digest[:8]}"
+
+
 def build_performances(raw_entries, teams):
     raw_entries.sort(key=lambda p: (p["date"], p["startMin"]))
     resolved, dropped = reconcile_with_teams(raw_entries, teams)
     order_counter = {}
     out = []
-    for i, p in enumerate(resolved, start=1):
+    for p in resolved:
         key = (p["date"], p["name"])
         order_counter[key] = order_counter.get(key, 0) + 1
         out.append({
-            "id": f"p-{i:04d}",
+            "id": stable_perf_id(p["date"], p["name"], order_counter[key]),
             "name": p["name"],
             "kana": p.get("kana", ""),
             "venueId": p["venueId"],
@@ -369,6 +379,13 @@ def diff_performances(old_list, new_list):
     return items
 
 
+def write_json(path, obj):
+    """一時ファイルに書いてから置き換える（途中で落ちても既存ファイルを壊さない）"""
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(obj, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    os.replace(tmp, path)
+
+
 def main():
     RAW.mkdir(parents=True, exist_ok=True)
 
@@ -408,12 +425,15 @@ def main():
         except Exception:
             old_list = []
 
+    # 演目の中身が前回と同一なら performances.json / checked.json は書き換えない。
+    # 毎回タイムスタンプを書くと、変更が無くてもcommitとPagesデプロイが走ってしまう
     now = datetime.now(JST).isoformat()
-    out = {"updatedAt": now, "performances": performances}
-    old_perf_path.write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-
-    checked = {"checkedAt": now}
-    (DATA / "checked.json").write_text(json.dumps(checked, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if old_list != performances:
+        out = {"updatedAt": now, "performances": performances}
+        write_json(old_perf_path, out)
+        write_json(DATA / "checked.json", {"checkedAt": now})
+    else:
+        print("[build_data] 出演情報に変更が無いためファイルは更新しません")
 
     items = diff_performances(old_list, performances)
     if items:
@@ -426,7 +446,7 @@ def main():
                 pass
         changes.setdefault("history", []).insert(0, {"checkedAt": now, "items": items})
         changes["history"] = changes["history"][:20]
-        changes_path.write_text(json.dumps(changes, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        write_json(changes_path, changes)
         print(f"[build_data] 差分 {len(items)} 件を検出しました")
     else:
         print("[build_data] 差分なし")
