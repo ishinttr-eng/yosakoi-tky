@@ -1,6 +1,6 @@
 // 東京よさこいナビ Service Worker
 // UI・見た目・ロジックを変更したら必ず VERSION を上げること
-const VERSION = "v29";
+const VERSION = "v30";
 const CACHE_NAME = `tyk-${VERSION}`;
 
 const APP_SHELL = [
@@ -12,6 +12,7 @@ const APP_SHELL = [
   "js/app.js",
   "js/store.js",
   "js/util.js",
+  "js/ui/modal.js",
   "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css",
   "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js",
 ];

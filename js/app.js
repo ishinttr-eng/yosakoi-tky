@@ -1,6 +1,8 @@
+import { openModal } from "./ui/modal.js";
 import * as store from "./store.js";
 import {
   DAYS,
+  EVENT,
   DAY_LABELS,
   el,
   normalize,
@@ -207,7 +209,15 @@ function perfCard(p, { date, min, showVenue = true, showDate = false } = {}) {
       onclick: (e) => {
         e.stopPropagation();
         store.toggleFavorite(p);
-        render();
+        if (activeTab === "artists") {
+          // 参加チームタブは☆の見た目が変わるだけなので、全体を再描画せずボタンだけ更新する
+          // （スクロール位置や検索欄のフォーカスを保つ）
+          const on = store.isFavorite(p);
+          e.currentTarget.classList.toggle("active", on);
+          e.currentTarget.textContent = on ? "★" : "☆";
+        } else {
+          render();
+        }
       },
     },
     store.isFavorite(p) ? "★" : "☆"
@@ -326,7 +336,7 @@ function overPanel() {
   const panel = el("div", { class: "over-panel" });
   panel.append(
     el("div", { class: "emoji" }, "🎉"),
-    el("h2", {}, "第27回東京よさこい2026、終了しました"),
+    el("h2", {}, `${EVENT.title}、終了しました`),
     el("p", {}, "ご来場ありがとうございました。マイタイムテーブルは引き続きご覧いただけます。")
   );
   return panel;
@@ -393,7 +403,7 @@ function renderArtistsList(container, date, min) {
   let list = store.state.performances.filter((p) => {
     if (ui.artistsDay !== "all" && p.date !== ui.artistsDay) return false;
     if (ui.artistsVenue && p.venueId !== ui.artistsVenue) return false;
-    if (q && !normalize(p.name).includes(q) && !normalize(p.kana).includes(q) && !normalize(p.awardEntry).includes(q)) return false;
+    if (q && !p.searchText.includes(q)) return false;
     return true;
   });
 
@@ -485,9 +495,7 @@ function openOfficialViewer(p) {
 // ---------- detail modal ----------
 function openDetailModal(p) {
   const venue = store.venueById(p.venueId);
-  const backdrop = el("div", { class: "modal-backdrop", onclick: (e) => { if (e.target === backdrop) close(); } });
-  const sheet = el("div", { class: "modal-sheet" });
-  const close = () => backdrop.remove();
+  const { sheet, close } = openModal();
 
   sheet.appendChild(el("button", { class: "modal-close", onclick: close, "aria-label": "閉じる" }, "✕"));
   sheet.appendChild(el("div", { class: "modal-title" }, p.name));
@@ -563,8 +571,6 @@ function openDetailModal(p) {
     sheet.appendChild(mapBtn);
   }
 
-  backdrop.appendChild(sheet);
-  $modalRoot.appendChild(backdrop);
 }
 
 // ---------- 会場詳細モーダル ----------
@@ -578,9 +584,7 @@ function openVenueModal(venueId, day) {
   mapState.selectedVenueId = venue.id;
   refreshMapMarkers();
 
-  const backdrop = el("div", { class: "modal-backdrop", onclick: (e) => { if (e.target === backdrop) close(); } });
-  const sheet = el("div", { class: "modal-sheet" });
-  const close = () => backdrop.remove();
+  const { sheet, close } = openModal();
 
   function redraw() {
     sheet.innerHTML = "";
@@ -635,9 +639,7 @@ function openVenueModal(venueId, day) {
       const fromVenue = store.venueById(state.from);
       fromLat = fromVenue.lat;
       fromLng = fromVenue.lng;
-      const walk = store.walkMinutes(state.from, venue.id);
-      const mins = walk != null ? walk : estimateWalkMin(fromVenue.lat, fromVenue.lng, venue.lat, venue.lng);
-      walkText = `🚶 徒歩 約${mins}分`;
+      walkText = `🚶 徒歩 約${store.walkMinutesBetween(fromVenue, venue)}分`;
     }
     fromRow.append(fromSelect, el("span", { class: "sub-note", style: "margin:0" }, walkText));
     sheet.appendChild(fromRow);
@@ -680,8 +682,6 @@ function openVenueModal(venueId, day) {
   }
 
   redraw();
-  backdrop.appendChild(sheet);
-  $modalRoot.appendChild(backdrop);
 }
 
 // ---------- Tab: マップ ----------
@@ -796,26 +796,27 @@ function ensureMapResizeListener() {
   });
 }
 
+// from→to の区間の座標・徒歩分数。fromが会場(idあり)なら実ルート/実測値、現在地なら直線距離の概算
+function resolveLeg(from, to) {
+  if (from.id) {
+    const route = store.routeBetween(from.id, to.id);
+    if (route && route.poly) return { coords: decodePolyline(route.poly), walkMin: route.durMin, hasRoute: true };
+    return { coords: [[from.lat, from.lng], [to.lat, to.lng]], walkMin: store.walkMinutesBetween(from, to), hasRoute: false };
+  }
+  return {
+    coords: [[from.lat, from.lng], [to.lat, to.lng]],
+    walkMin: estimateWalkMin(from.lat, from.lng, to.lat, to.lng),
+    hasRoute: false,
+  };
+}
+
 // 会場詳細モーダルから「地図で見る」で指定された、現在地または特定会場→会場の単一区間ルート
 function singleRouteInfo(spec) {
   const to = store.venueById(spec.toId);
   if (!to) return null;
   const from = spec.fromId ? store.venueById(spec.fromId) : effectiveGeo();
   if (!from) return { to, from: null };
-  let walkMin = null;
-  let hasRoute = false;
-  let latlngs = [[from.lat, from.lng], [to.lat, to.lng]];
-  if (spec.fromId) {
-    const route = store.routeBetween(spec.fromId, spec.toId);
-    if (route && route.poly) {
-      latlngs = decodePolyline(route.poly);
-      walkMin = route.durMin;
-      hasRoute = true;
-    } else {
-      walkMin = store.walkMinutes(spec.fromId, spec.toId);
-    }
-  }
-  if (walkMin == null) walkMin = estimateWalkMin(from.lat, from.lng, to.lat, to.lng);
+  const { coords: latlngs, walkMin, hasRoute } = resolveLeg(from, to);
   return { to, from, walkMin, hasRoute, latlngs };
 }
 
@@ -1129,7 +1130,7 @@ function walkTimeIcon(minutes, color = "#0f9c8c") {
 // 同じ会場が連続していて移動が発生しない区間は最初から除外する
 function computeMyRouteSegments(date, min) {
   const favs = [...store.state.favorites]
-    .map((key) => store.state.performances.find((p) => perfKey(p) === key))
+    .map((key) => store.state.perfByKey.get(key))
     .filter((p) => p && p.date === date)
     .sort((a, b) => a.startMin - b.startMin);
   if (!favs.length) return { message: "本日のお気に入りが登録されていません" };
@@ -1157,29 +1158,8 @@ function computeMyRouteSegments(date, min) {
 function myRouteSegmentDetails(segments) {
   return segments.map((seg) => {
     const to = store.venueById(seg.toId);
-    let from = null;
-    let coords = null;
-    let hasRoute = false;
-    let walkMin = null;
-    if (seg.fromId) {
-      from = store.venueById(seg.fromId);
-      const route = store.routeBetween(seg.fromId, seg.toId);
-      if (route && route.poly) {
-        coords = decodePolyline(route.poly);
-        walkMin = route.durMin;
-        hasRoute = true;
-      } else {
-        coords = [[from.lat, from.lng], [to.lat, to.lng]];
-        walkMin = store.walkMinutes(seg.fromId, seg.toId);
-      }
-    } else {
-      from = effectiveGeo();
-      if (from) coords = [[from.lat, from.lng], [to.lat, to.lng]];
-    }
-    if (walkMin == null && coords) {
-      const last = coords[coords.length - 1];
-      walkMin = estimateWalkMin(coords[0][0], coords[0][1], last[0], last[1]);
-    }
+    const from = seg.fromId ? store.venueById(seg.fromId) : effectiveGeo();
+    const { coords, walkMin, hasRoute } = from ? resolveLeg(from, to) : { coords: null, walkMin: null, hasRoute: false };
     const fromLabel = seg.fromId ? (from ? `${from.stageNo}. ${from.name}` : "") : from ? "現在地" : "現在地（未取得）";
     let legText;
     if (!coords) legText = "現在地が未取得です";
@@ -1330,7 +1310,7 @@ function renderMyTT(root, date, min, over) {
   root.appendChild(el("h1", { class: "screen-title" }, "★ マイタイムテーブル"));
 
   const favs = [...store.state.favorites]
-    .map((key) => store.state.performances.find((p) => perfKey(p) === key))
+    .map((key) => store.state.perfByKey.get(key))
     .filter(Boolean);
 
   if (!favs.length) {
@@ -1343,11 +1323,10 @@ function renderMyTT(root, date, min, over) {
     return;
   }
 
-  const availableDays = over ? DAYS : DAYS;
-  const curDay = availableDays.includes(date) ? date : availableDays[0];
+  const curDay = DAYS.includes(date) ? date : DAYS[0];
 
   const dayTabs = el("div", { class: "day-tabs" });
-  availableDays.forEach((d) => {
+  DAYS.forEach((d) => {
     dayTabs.appendChild(
       el(
         "button",
@@ -1504,8 +1483,7 @@ function travelConnector(a, b) {
   const venueA = store.venueById(a.venueId);
   const venueB = store.venueById(b.venueId);
   if (!venueA || !venueB) return null;
-  const walk = store.walkMinutes(a.venueId, b.venueId);
-  const mins = walk != null ? walk : estimateWalkMin(venueA.lat, venueA.lng, venueB.lat, venueB.lng);
+  const mins = store.walkMinutesBetween(venueA, venueB);
   const gap = b.startMin - a.endMin;
   const tight = gap < mins;
   return el("div", { class: `mytt-connector${tight ? " tight" : ""}` }, `🚶 徒歩${mins}分`);
@@ -1521,10 +1499,9 @@ function computeWarnings(dayFavs) {
       continue;
     }
     if (a.venueId !== b.venueId) {
-      const walk = store.walkMinutes(a.venueId, b.venueId);
       const venueA = store.venueById(a.venueId);
       const venueB = store.venueById(b.venueId);
-      const est = walk != null ? walk : venueA && venueB ? estimateWalkMin(venueA.lat, venueA.lng, venueB.lat, venueB.lng) : 0;
+      const est = venueA && venueB ? store.walkMinutesBetween(venueA, venueB) : 0;
       const gap = b.startMin - a.endMin;
       if (est > gap) {
         warnings.push(`「${a.name}」→「${b.name}」の移動時間が足りない可能性があります（必要 約${est}分 / 余裕 ${gap}分）`);
@@ -1689,9 +1666,8 @@ function updateChangelogBadge() {
 const OFFICIAL_TIMETABLE_URL = "https://tokyo-yosakoi.jp/";
 
 function openChangelogModal() {
-  const backdrop = el("div", { class: "modal-backdrop", onclick: (e) => { if (e.target === backdrop) backdrop.remove(); } });
-  const sheet = el("div", { class: "modal-sheet" });
-  sheet.appendChild(el("button", { class: "modal-close", onclick: () => backdrop.remove() }, "✕"));
+  const { sheet, close } = openModal();
+  sheet.appendChild(el("button", { class: "modal-close", onclick: close, "aria-label": "閉じる" }, "✕"));
   sheet.appendChild(el("div", { class: "modal-title" }, "更新履歴"));
 
   const history = store.state.changes?.history || [];
@@ -1719,8 +1695,6 @@ function openChangelogModal() {
     sheet.appendChild(el("p", { style: "color:var(--muted)" }, "参加チーム情報の変更履歴はまだありません。"));
   }
 
-  backdrop.appendChild(sheet);
-  $modalRoot.appendChild(backdrop);
 
   store.state.seenChangeAt = history[0]?.checkedAt || store.state.seenChangeAt;
   store.persistSeenChanges();
@@ -1764,146 +1738,153 @@ function toggleMenu() {
 $menuBtn.addEventListener("click", toggleMenu);
 
 function openSettingsModal() {
-  const backdrop = el("div", { class: "modal-backdrop", onclick: (e) => { if (e.target === backdrop) backdrop.remove(); } });
-  const sheet = el("div", { class: "modal-sheet" });
-  sheet.appendChild(el("button", { class: "modal-close", onclick: () => backdrop.remove() }, "✕"));
-  sheet.appendChild(el("div", { class: "modal-title" }, "設定"));
+  const { sheet, close } = openModal();
 
-  // 文字サイズ
-  const fontRow = el("div", { class: "settings-row" });
-  fontRow.appendChild(el("div", {}, [el("div", { class: "label" }, "文字サイズ")]));
-  const seg = el("div", { class: "seg-control" });
-  ["normal", "large"].forEach((v) => {
-    seg.appendChild(
-      el(
-        "button",
-        {
-          class: store.state.settings.fontSize === v ? "active" : "",
-          onclick: () => {
-            store.state.settings.fontSize = v;
-            store.persistSettings();
-            document.documentElement.classList.toggle("font-large", v === "large");
-            backdrop.remove();
-            openSettingsModal();
+  // 設定値を変えるたびにモーダルを閉じて開き直すとちらつくため、同じsheetの中身だけ作り直す
+  function redraw() {
+    const scrollTop = sheet.scrollTop;
+    sheet.replaceChildren();
+    buildSettings();
+    sheet.scrollTop = scrollTop;
+  }
+
+  function buildSettings() {
+    sheet.appendChild(el("button", { class: "modal-close", onclick: close, "aria-label": "閉じる" }, "✕"));
+    sheet.appendChild(el("div", { class: "modal-title" }, "設定"));
+
+    // 文字サイズ
+    const fontRow = el("div", { class: "settings-row" });
+    fontRow.appendChild(el("div", {}, [el("div", { class: "label" }, "文字サイズ")]));
+    const seg = el("div", { class: "seg-control" });
+    ["normal", "large"].forEach((v) => {
+      seg.appendChild(
+        el(
+          "button",
+          {
+            class: store.state.settings.fontSize === v ? "active" : "",
+            onclick: () => {
+              store.state.settings.fontSize = v;
+              store.persistSettings();
+              document.documentElement.classList.toggle("font-large", v === "large");
+              redraw();
+            },
           },
-        },
-        v === "normal" ? "標準" : "大"
-      )
-    );
-  });
-  fontRow.appendChild(seg);
-  sheet.appendChild(fontRow);
+          v === "normal" ? "標準" : "大"
+        )
+      );
+    });
+    fontRow.appendChild(seg);
+    sheet.appendChild(fontRow);
 
-  // 時刻シミュレーション
-  const simRow = el("div", { class: "settings-row" });
-  simRow.appendChild(el("div", {}, [el("div", { class: "label" }, "時刻シミュレーション"), el("div", { class: "desc" }, "開催日前でも当日の見え方を確認できます")]));
-  const simInputWrap = el("div", { class: "sim-time-wrap" });
-  const simInput = el("input", {
-    class: "sim-time-input",
-    type: "datetime-local",
-    value: store.state.settings.simTime || "",
-    onchange: (e) => {
-      store.state.settings.simTime = e.target.value || null;
+    // 時刻シミュレーション
+    const simRow = el("div", { class: "settings-row" });
+    simRow.appendChild(el("div", {}, [el("div", { class: "label" }, "時刻シミュレーション"), el("div", { class: "desc" }, "開催日前でも当日の見え方を確認できます")]));
+    const simInputWrap = el("div", { class: "sim-time-wrap" });
+    const simInput = el("input", {
+      class: "sim-time-input",
+      type: "datetime-local",
+      value: store.state.settings.simTime || "",
+      onchange: (e) => {
+        store.state.settings.simTime = e.target.value || null;
+        store.persistSettings();
+        render();
+      },
+    });
+    simInputWrap.appendChild(simInput);
+    if (store.state.settings.simTime) {
+      simInputWrap.appendChild(
+        el(
+          "button",
+          {
+            class: "btn small",
+            onclick: () => {
+              store.state.settings.simTime = null;
+              store.persistSettings();
+              render();
+              redraw();
+            },
+          },
+          "リセット"
+        )
+      );
+    }
+    simRow.appendChild(simInputWrap);
+    sheet.appendChild(simRow);
+
+    // 現在地シミュレーション
+    const geoSimRow = el("div", { class: "settings-row" });
+    geoSimRow.appendChild(el("div", {}, [el("div", { class: "label" }, "現在地シミュレーション"), el("div", { class: "desc" }, "GPSが使えない環境での動作確認用")]));
+    const useSimGeo = !!store.state.settings.simGeo;
+    const geoSwitch = mkSwitch(useSimGeo, (checked) => {
+      if (checked) {
+        const v = store.state.venues[0];
+        store.state.settings.simGeo = v ? { lat: v.lat, lng: v.lng } : { lat: 35.697, lng: 139.814 };
+      } else {
+        store.state.settings.simGeo = null;
+      }
       store.persistSettings();
       render();
-    },
-  });
-  simInputWrap.appendChild(simInput);
-  if (store.state.settings.simTime) {
-    simInputWrap.appendChild(
+      redraw();
+    });
+    geoSimRow.appendChild(geoSwitch);
+    sheet.appendChild(geoSimRow);
+
+    // 現在地の自動更新
+    const autoRow = el("div", { class: "settings-row" });
+    autoRow.appendChild(el("div", {}, [el("div", { class: "label" }, "現在地の自動更新"), el("div", { class: "desc" }, "フォアグラウンド復帰時・マップ表示時に測位")]));
+    autoRow.appendChild(
+      mkSwitch(store.state.settings.autoLocate, (checked) => {
+        store.state.settings.autoLocate = checked;
+        store.persistSettings();
+        if (checked) locateOnce();
+      })
+    );
+    sheet.appendChild(autoRow);
+
+    // 共有・書き出し
+    const shareSection = el("div", { class: "modal-section" });
+    shareSection.appendChild(el("h4", {}, "お気に入りの共有・バックアップ"));
+    const btnRow = el("div", { class: "btn-row" });
+    btnRow.appendChild(
       el(
         "button",
-        {
-          class: "btn small",
-          onclick: () => {
-            store.state.settings.simTime = null;
-            store.persistSettings();
-            render();
-            backdrop.remove();
-            openSettingsModal();
-          },
-        },
-        "リセット"
+        { class: "btn", onclick: shareFavoritesLink },
+        navigator.share ? "🔗 共有する" : "🔗 共有リンクをコピー"
       )
     );
-  }
-  simRow.appendChild(simInputWrap);
-  sheet.appendChild(simRow);
+    btnRow.appendChild(el("button", { class: "btn", onclick: exportFavoritesFile }, "💾 ファイルに書き出す"));
+    const importInput = el("input", { type: "file", accept: "application/json", style: "display:none", onchange: handleImportFile });
+    btnRow.appendChild(el("button", { class: "btn", onclick: () => importInput.click() }, "📂 ファイルから読み込む"));
+    shareSection.append(btnRow, importInput);
+    sheet.appendChild(shareSection);
 
-  // 現在地シミュレーション
-  const geoSimRow = el("div", { class: "settings-row" });
-  geoSimRow.appendChild(el("div", {}, [el("div", { class: "label" }, "現在地シミュレーション"), el("div", { class: "desc" }, "GPSが使えない環境での動作確認用")]));
-  const useSimGeo = !!store.state.settings.simGeo;
-  const geoSwitch = mkSwitch(useSimGeo, (checked) => {
-    if (checked) {
-      const v = store.state.venues[0];
-      store.state.settings.simGeo = v ? { lat: v.lat, lng: v.lng } : { lat: 35.697, lng: 139.814 };
-    } else {
-      store.state.settings.simGeo = null;
+    // ライセンス表示
+    const aboutSection = el("div", { class: "modal-section about-section" });
+    aboutSection.appendChild(el("h4", {}, "このアプリについて"));
+    aboutSection.appendChild(el("div", {}, "東京よさこいナビ（非公式）"));
+    aboutSection.appendChild(el("div", {}, "MIT License © 2026 ishinttr-eng"));
+    aboutSection.appendChild(el("div", {}, "地図: © OpenStreetMap contributors (ODbL)"));
+    aboutSection.appendChild(el("div", {}, "地図ライブラリ: Leaflet (BSD-2-Clause)"));
+
+    const appLog = store.state.appChangelog?.entries || [];
+    if (appLog.length) {
+      const logDetails = el("details", { class: "settings-accordion" });
+      logDetails.appendChild(el("summary", {}, "アプリの更新履歴"));
+      let lastDate = null;
+      appLog.forEach((e) => {
+        if (e.date !== lastDate) {
+          logDetails.appendChild(el("div", { class: "changelog-date" }, e.date));
+          lastDate = e.date;
+        }
+        logDetails.appendChild(el("div", { class: "changelog-item" }, [el("span", { class: "tag" }, e.version), el("span", {}, e.text)]));
+      });
+      aboutSection.appendChild(logDetails);
     }
-    store.persistSettings();
-    render();
-    backdrop.remove();
-    openSettingsModal();
-  });
-  geoSimRow.appendChild(geoSwitch);
-  sheet.appendChild(geoSimRow);
-
-  // 現在地の自動更新
-  const autoRow = el("div", { class: "settings-row" });
-  autoRow.appendChild(el("div", {}, [el("div", { class: "label" }, "現在地の自動更新"), el("div", { class: "desc" }, "フォアグラウンド復帰時・マップ表示時に測位")]));
-  autoRow.appendChild(
-    mkSwitch(store.state.settings.autoLocate, (checked) => {
-      store.state.settings.autoLocate = checked;
-      store.persistSettings();
-      if (checked) locateOnce();
-    })
-  );
-  sheet.appendChild(autoRow);
-
-  // 共有・書き出し
-  const shareSection = el("div", { class: "modal-section" });
-  shareSection.appendChild(el("h4", {}, "お気に入りの共有・バックアップ"));
-  const btnRow = el("div", { class: "btn-row" });
-  btnRow.appendChild(
-    el(
-      "button",
-      { class: "btn", onclick: shareFavoritesLink },
-      navigator.share ? "🔗 共有する" : "🔗 共有リンクをコピー"
-    )
-  );
-  btnRow.appendChild(el("button", { class: "btn", onclick: exportFavoritesFile }, "💾 ファイルに書き出す"));
-  const importInput = el("input", { type: "file", accept: "application/json", style: "display:none", onchange: handleImportFile });
-  btnRow.appendChild(el("button", { class: "btn", onclick: () => importInput.click() }, "📂 ファイルから読み込む"));
-  shareSection.append(btnRow, importInput);
-  sheet.appendChild(shareSection);
-
-  // ライセンス表示
-  const aboutSection = el("div", { class: "modal-section about-section" });
-  aboutSection.appendChild(el("h4", {}, "このアプリについて"));
-  aboutSection.appendChild(el("div", {}, "東京よさこいナビ（非公式）"));
-  aboutSection.appendChild(el("div", {}, "MIT License © 2026 ishinttr-eng"));
-  aboutSection.appendChild(el("div", {}, "地図: © OpenStreetMap contributors (ODbL)"));
-  aboutSection.appendChild(el("div", {}, "地図ライブラリ: Leaflet (BSD-2-Clause)"));
-
-  const appLog = store.state.appChangelog?.entries || [];
-  if (appLog.length) {
-    const logDetails = el("details", { class: "settings-accordion" });
-    logDetails.appendChild(el("summary", {}, "アプリの更新履歴"));
-    let lastDate = null;
-    appLog.forEach((e) => {
-      if (e.date !== lastDate) {
-        logDetails.appendChild(el("div", { class: "changelog-date" }, e.date));
-        lastDate = e.date;
-      }
-      logDetails.appendChild(el("div", { class: "changelog-item" }, [el("span", { class: "tag" }, e.version), el("span", {}, e.text)]));
-    });
-    aboutSection.appendChild(logDetails);
+    sheet.appendChild(aboutSection);
   }
-  sheet.appendChild(aboutSection);
 
-  backdrop.appendChild(sheet);
-  $modalRoot.appendChild(backdrop);
+  buildSettings();
+
 }
 
 function mkSwitch(checked, onChange) {
@@ -1920,7 +1901,7 @@ function handleImportFile(e) {
   reader.onload = () => {
     try {
       const data = JSON.parse(reader.result);
-      confirmImport(data.favorites || []);
+      confirmImport(data.favorites);
     } catch {
       alert("読み込みに失敗しました");
     }
@@ -1928,10 +1909,27 @@ function handleImportFile(e) {
   reader.readAsText(file);
 }
 
-function confirmImport(keys) {
+// 取り込み候補のうち、実在する演目のキーだけを返す（旧形式キーは新IDへ変換）。
+// 共有リンクやファイルは外部入力なので、型・件数・実在を確認してから保存する
+const MAX_IMPORT_KEYS = 1000;
+function validImportKeys(raw) {
+  if (!Array.isArray(raw)) return [];
+  const keys = raw
+    .slice(0, MAX_IMPORT_KEYS)
+    .map(store.migrateFavoriteKey)
+    .filter((k) => typeof k === "string" && store.state.perfByKey.has(k));
+  return [...new Set(keys)];
+}
+
+function confirmImport(raw) {
+  const keys = validImportKeys(raw);
+  if (!keys.length) {
+    alert("取り込めるお気に入りが見つかりませんでした");
+    return;
+  }
   const merge = confirm(`${keys.length}件のお気に入りを取り込みます。\nOK: 既存に追加（マージ） / キャンセル: 中止`);
   if (!merge) return;
-  keys.map(store.migrateFavoriteKey).filter(Boolean).forEach((k) => store.state.favorites.add(k));
+  keys.forEach((k) => store.state.favorites.add(k));
   store.persistFavorites();
   render();
   alert("取り込みました");
@@ -2058,19 +2056,16 @@ function showHelpWelcome() {
   if (store.isHelpSeen()) return;
   if (new URLSearchParams(location.search).has("fav")) return;
   if (!store.markHelpSeen()) return;
-  const backdrop = el("div", { class: "modal-backdrop", onclick: (e) => { if (e.target === backdrop) backdrop.remove(); } });
-  const sheet = el("div", { class: "modal-sheet" });
+  const { sheet, close } = openModal();
   sheet.appendChild(el("div", { class: "modal-title" }, "はじめての方へ"));
   sheet.appendChild(el("p", {}, "アプリの使い方をまとめたページがあります。新しいタブで開きます。"));
   sheet.appendChild(el("p", { class: "sub-note" }, "あとから見たいときは、右上の ☰ → 「使い方」から開けます。"));
   sheet.appendChild(
     el("div", { class: "btn-row" }, [
-      el("a", { class: "btn primary", href: HELP_URL, target: "_blank", rel: "noopener", onclick: () => backdrop.remove() }, "❓ 使い方を見る"),
-      el("button", { class: "btn", onclick: () => backdrop.remove() }, "あとで"),
+      el("a", { class: "btn primary", href: HELP_URL, target: "_blank", rel: "noopener", onclick: close }, "❓ 使い方を見る"),
+      el("button", { class: "btn", onclick: close }, "あとで"),
     ])
   );
-  backdrop.appendChild(sheet);
-  $modalRoot.appendChild(backdrop);
 }
 
 async function init() {

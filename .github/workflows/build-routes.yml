@@ -18,7 +18,9 @@ jobs:
       - name: Build routes via OSRM
         run: python3 tools/build_routes.py
 
+      # 一部のペア取得に失敗してジョブが失敗扱いになっても、取得済み分は保存して次回の再開に使う
       - name: Commit and push
+        if: always()
         run: |
           git config user.name "tokyo-yosakoi-bot"
           git config user.email "actions@users.noreply.github.com"

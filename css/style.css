@@ -297,6 +297,7 @@ details.finished-group[open] > summary { margin-bottom: 4px; }
   max-height: 86vh; overflow-y: auto;
   box-shadow: var(--shadow);
 }
+.modal-sheet:focus { outline: none; }
 .modal-sheet .modal-close { float: right; background: none; border: none; font-size: 1.3rem; color: var(--muted); cursor: pointer; }
 .modal-title { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; margin: 2px 0 6px; padding-right: 30px; }
 .modal-meta { color: var(--muted); font-size: .85rem; margin-bottom: 14px; }

@@ -1,6 +1,6 @@
 // 東京よさこいナビ - 状態管理・データ読み込み
 
-import { toMin, perfKey, WEATHER_LAT, WEATHER_LNG } from "./util.js";
+import { toMin, perfKey, normalize, estimateWalkMin, applyEvent, DAYS, EVENT } from "./util.js";
 
 const LS = {
   favorites: "tyk.favorites.v1",
@@ -27,7 +27,9 @@ function saveJSON(key, val) {
 
 export const state = {
   venues: [],
+  venueMap: new Map(), // 会場ID → 会場
   performances: [],
+  perfByKey: new Map(), // perfKey → 演目（お気に入りの解決用）
   walktimes: null,
   routes: null,
   tieup: { stages: [] },
@@ -106,16 +108,22 @@ async function fetchJSON(path) {
 }
 
 export async function loadAll() {
-  const [venues, performances] = await Promise.all([
+  const [venues, performances, event] = await Promise.all([
     fetchJSON("data/venues.json"),
     fetchJSON("data/performances.json"),
+    fetchJSON("data/event.json"),
   ]);
+  applyEvent(event);
   state.venues = venues.venues;
+  state.venueMap = new Map(state.venues.map((v) => [v.id, v]));
   state.performances = performances.performances.map((p) => ({
     ...p,
     startMin: toMin(p.start),
     endMin: toMin(p.end),
+    // 検索用の正規化済みテキスト（キー入力のたびに全演目を正規化し直さないよう、読み込み時に1回だけ作る）
+    searchText: [p.name, p.kana, p.awardEntry].map(normalize).join("\n"),
   }));
+  state.perfByKey = new Map(state.performances.map((p) => [perfKey(p), p]));
   state.performancesUpdatedAt = performances.updatedAt || null;
 
   const optional = async (path, fallback) => {
@@ -145,16 +153,30 @@ export async function loadAll() {
 }
 
 export function venueById(id) {
-  return state.venues.find((v) => v.id === id);
+  return state.venueMap.get(id);
+}
+
+let walkIndexCache = null;
+function walkIndex() {
+  if (walkIndexCache?.src !== state.walktimes) {
+    const { ids, minutes } = state.walktimes;
+    walkIndexCache = { src: state.walktimes, index: new Map(ids.map((id, i) => [id, i])), minutes };
+  }
+  return walkIndexCache;
 }
 
 export function walkMinutes(idA, idB) {
   if (!state.walktimes || idA === idB) return 0;
-  const { ids, minutes } = state.walktimes;
-  const i = ids.indexOf(idA);
-  const j = ids.indexOf(idB);
-  if (i === -1 || j === -1) return null;
+  const { index, minutes } = walkIndex();
+  const i = index.get(idA);
+  const j = index.get(idB);
+  if (i === undefined || j === undefined) return null;
   return minutes[i][j];
+}
+
+// 会場同士の徒歩分数。実測(walktimes)が無いペアは直線距離からの概算で補う
+export function walkMinutesBetween(a, b) {
+  return walkMinutes(a.id, b.id) ?? estimateWalkMin(a.lat, a.lng, b.lat, b.lng);
 }
 
 export function routeBetween(idA, idB) {
@@ -165,7 +187,8 @@ export function routeBetween(idA, idB) {
 
 export async function fetchWeather() {
   try {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${WEATHER_LAT}&longitude=${WEATHER_LNG}&hourly=temperature_2m,precipitation_probability,weathercode&timezone=Asia%2FTokyo&start_date=2026-10-10&end_date=2026-10-11`;
+    const { lat, lng } = EVENT.weather;
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&hourly=temperature_2m,precipitation_probability,weathercode&timezone=Asia%2FTokyo&start_date=${DAYS[0]}&end_date=${DAYS[DAYS.length - 1]}`;
     const res = await fetch(url);
     if (!res.ok) {
       // Open-Meteoの無料予報は開催日の16日前を切るまで該当日のデータが

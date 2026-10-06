@@ -28,15 +28,19 @@ venues.json（会場の座標・開催日）はこのスクリプトの対象外
 あった場合は手動で venues.json を編集すること。
 """
 import hashlib
+import html as html_lib
+import io
 import json
-import os
 import re
 import sys
 import time
 import unicodedata
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
+
+from jsonio import write_json
 
 try:
     from pypdf import PdfReader
@@ -51,6 +55,11 @@ JST = timezone(timedelta(hours=9))
 TOP_URL = "https://tokyo-yosakoi.jp/"
 TEAM_LIST_URL = "https://tokyo-yosakoi.jp/team_year/2026/"
 UA = "tokyo-yosakoi-navi/1.0"
+
+# 会期・1演目の長さは data/event.json に集約（アプリ側と共有）
+EVENT = json.loads((DATA / "event.json").read_text(encoding="utf-8"))
+EVENT_DATES = [d["date"] for d in EVENT["days"]]
+SLOT_MIN = EVENT["slotMinutes"]
 
 VENUE_ID_MAP = {
     "駅前メイン": "V-01",
@@ -78,13 +87,15 @@ SCHEDULE_LAYOUTS = {
 def fetch_bytes(url, retries=3):
     req = urllib.request.Request(url, headers={"User-Agent": UA})
     last_err = None
-    for _ in range(retries):
+    for attempt in range(retries):
         try:
             with urllib.request.urlopen(req, timeout=20) as res:
                 return res.read()
         except Exception as e:
             last_err = e
-            time.sleep(1)
+            print(f"[build_data] 取得失敗 ({attempt + 1}/{retries}): {url}: {e}", file=sys.stderr)
+            if attempt < retries - 1:
+                time.sleep(2 ** attempt)  # 1秒, 2秒, ... と待ち時間を伸ばす
     raise last_err
 
 
@@ -103,15 +114,16 @@ def find_schedule_pdf_urls():
     for href, text in links:
         plain = re.sub(r"<[^>]+>", "", text)
         plain = re.sub(r"\s+", "", plain)
-        if "10月10日" in plain:
-            urls["2026-10-10"] = href
-        elif "10月11日" in plain:
-            urls["2026-10-11"] = href
+        for date in EVENT_DATES:
+            _, month, day = date.split("-")
+            if f"{int(month)}月{int(day)}日" in plain:
+                urls[date] = href
+                break
     return urls
 
 
 def extract_pdf_text(pdf_bytes):
-    reader = PdfReader(__import__("io").BytesIO(pdf_bytes))
+    reader = PdfReader(io.BytesIO(pdf_bytes))
     return [page.extract_text() or "" for page in reader.pages]
 
 
@@ -169,7 +181,7 @@ def minutes_to_hhmm(m):
     return f"{m // 60:02d}:{m % 60:02d}"
 
 
-def parse_schedule_page(text, venue_names, slot_len=6):
+def parse_schedule_page(text, venue_names):
     text = TIME_RANGE_RE.sub(" ", text)
     lines = [l for l in text.splitlines() if l.strip() and TIME_RE.search(l)]
     n = len(venue_names)
@@ -198,14 +210,13 @@ def parse_schedule_pdf(pdf_bytes, date):
             "date": date,
             "start": e["start"],
             "startMin": start_min,
-            "endMin": start_min + 6,
+            "endMin": start_min + SLOT_MIN,
             "name": e["name"],
             "isSpecial": e["isSpecial"],
         })
     return result
 
 
-TEAM_BLOCK_RE = re.compile(r'<div class="team_block">(.*?)</div>\s*(?=<div class="team_block">|<div class="pager|</div>\s*</section)', re.S)
 TEXT1_RE = re.compile(r'class="team_text1"[^>]*>([^<]*)<')
 TEXT2_RE = re.compile(r'class="team_text2"[^>]*href="([^"]+)"[^>]*>([^<]*)<')
 TEXT3_RE = re.compile(r'class="team_text3"[^>]*>([^<]*)<')
@@ -240,23 +251,27 @@ def fetch_team_detail(url):
     return {"sns": SNS_LINK_RE.findall(html)}
 
 
-def enrich_teams_with_detail(teams):
+def enrich_teams_with_detail(teams, fallback_sns=None):
     """各チームの個別ページを取得してsnsを付与する。
-    107ページ程度なので逐次取得でも数十秒〜1分程度で終わる。1件失敗しても
-    他のチームの取得を止めない。"""
-    for t in teams:
+    サイトへの負荷を抑えるため並列数は小さくしている。1件失敗しても他のチームの取得は止めず、
+    取得できなかったチームは前回取得できたsns(fallback_sns)を引き継ぐ（一時的な失敗でSNSリンクが消えないように）。"""
+    fallback_sns = fallback_sns or {}
+
+    def work(t):
         try:
-            detail = fetch_team_detail(t["url"])
+            return fetch_team_detail(t["url"])
         except Exception as e:
             print(f"[build_data] チーム詳細の取得に失敗: {t['name']} ({t['url']}): {e}", file=sys.stderr)
-            detail = {"sns": []}
+            return {"sns": fallback_sns.get(t["url"], [])}
+
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        details = list(pool.map(work, teams))
+    for t, detail in zip(teams, details):
         t.update(detail)
-        time.sleep(0.2)
     return teams
 
 
 def html_unescape(s):
-    import html as html_lib
     return html_lib.unescape(s)
 
 
@@ -379,18 +394,29 @@ def diff_performances(old_list, new_list):
     return items
 
 
-def write_json(path, obj):
-    """一時ファイルに書いてから置き換える（途中で落ちても既存ファイルを壊さない）"""
-    tmp = path.with_suffix(path.suffix + ".tmp")
-    tmp.write_text(json.dumps(obj, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    os.replace(tmp, path)
+def read_json_strict(path, default):
+    """ファイルが無ければdefault。あるのに読めない場合は黙って初期化せず異常終了する。
+    （握りつぶすと、次回の差分が全件「追加」扱いになったり更新履歴が消えたりするため）"""
+    if not path.exists():
+        return default
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception as e:
+        print(f"[build_data] {path.name} を読み込めません。手動で確認してください: {e}", file=sys.stderr)
+        sys.exit(1)
 
 
 def main():
     RAW.mkdir(parents=True, exist_ok=True)
 
+    old_perf_path = DATA / "performances.json"
+    changes_path = DATA / "changes.json"
+    old_list = read_json_strict(old_perf_path, {}).get("performances", [])
+    changes = read_json_strict(changes_path, {"history": []})
+    fallback_sns = {p["officialUrl"]: p.get("sns", []) for p in old_list if p.get("officialUrl")}
+
     pdf_urls = find_schedule_pdf_urls()
-    if "2026-10-10" not in pdf_urls or "2026-10-11" not in pdf_urls:
+    if any(d not in pdf_urls for d in EVENT_DATES):
         print(f"[build_data] 演舞スケジュールPDFのリンクが見つかりませんでした: {pdf_urls}", file=sys.stderr)
         sys.exit(1)
 
@@ -404,9 +430,9 @@ def main():
     (RAW / "team_list.html").write_text(team_html, encoding="utf-8")
     teams = parse_team_list(team_html)
     if not teams:
-        print("[build_data] チーム一覧を1件も抽出できませんでした。TEAM_BLOCK_RE等のセレクタを見直してください。", file=sys.stderr)
+        print("[build_data] チーム一覧を1件も抽出できませんでした。parse_team_list のセレクタを見直してください。", file=sys.stderr)
         sys.exit(1)
-    teams = enrich_teams_with_detail(teams)
+    teams = enrich_teams_with_detail(teams, fallback_sns)
 
     performances, dropped = build_performances(raw_entries, teams)
     if not performances:
@@ -416,14 +442,6 @@ def main():
         print(f"[build_data] {len(dropped)} 件をチーム一覧と照合できず除外しました（ヘッダー注記等のノイズの可能性）", file=sys.stderr)
         for d in dropped[:20]:
             print(f"    dropped: {d['date']} {d['venueId']} {d['start']} {d['name']!r}", file=sys.stderr)
-
-    old_perf_path = DATA / "performances.json"
-    old_list = []
-    if old_perf_path.exists():
-        try:
-            old_list = json.loads(old_perf_path.read_text(encoding="utf-8")).get("performances", [])
-        except Exception:
-            old_list = []
 
     # 演目の中身が前回と同一なら performances.json / checked.json は書き換えない。
     # 毎回タイムスタンプを書くと、変更が無くてもcommitとPagesデプロイが走ってしまう
@@ -437,13 +455,6 @@ def main():
 
     items = diff_performances(old_list, performances)
     if items:
-        changes_path = DATA / "changes.json"
-        changes = {"history": []}
-        if changes_path.exists():
-            try:
-                changes = json.loads(changes_path.read_text(encoding="utf-8"))
-            except Exception:
-                pass
         changes.setdefault("history", []).insert(0, {"checkedAt": now, "items": items})
         changes["history"] = changes["history"][:20]
         write_json(changes_path, changes)

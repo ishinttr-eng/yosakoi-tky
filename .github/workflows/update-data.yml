@@ -5,18 +5,26 @@ on:
     - cron: "0 */3 * * *"
   workflow_dispatch: {}
 
+# 手動実行とcronが重なるとgit pushが競合するため、同時に走らせない
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
 jobs:
   update:
     runs-on: ubuntu-latest
     permissions:
       contents: write
       actions: write
+      issues: write
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+          cache: pip
+          cache-dependency-path: tools/requirements.txt
 
       - name: Install dependencies
         run: pip install -r tools/requirements.txt
@@ -25,17 +33,19 @@ jobs:
         run: python3 tools/build_data.py
 
       - name: Commit changes
+        id: commit
         run: |
           git config user.name "tokyo-yosakoi-bot"
           git config user.email "actions@users.noreply.github.com"
           git add data/performances.json data/checked.json data/changes.json
           if git diff --cached --quiet; then
             echo "no changes"
-            echo "changed=false" >> "$GITHUB_ENV"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             git commit -m "chore: update festival data ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+            git pull --rebase
             git push
-            echo "changed=true" >> "$GITHUB_ENV"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
       # このジョブのpushはデフォルトのGITHUB_TOKENで行われるため、GitHub側の仕様で
@@ -43,7 +53,20 @@ jobs:
       # 他のワークフローを起動しないループ防止仕様）。そのため差分があった時だけ明示的に
       # workflow_dispatchで蹴る。
       - name: Trigger deploy
-        if: env.changed == 'true'
+        if: steps.commit.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh workflow run deploy-pages.yml --repo "${{ github.repository }}"
+
+      # 公式サイトの構成変更などでスクリプトが失敗しても気付けるよう、未対応のIssueが無ければ作成する
+      - name: Notify failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="データ自動更新が失敗しました"
+          open=$(gh issue list --repo "${{ github.repository }}" --state open --search "$title in:title" --json number --jq '.[0].number')
+          if [ -z "$open" ]; then
+            gh issue create --repo "${{ github.repository }}" --title "$title" \
+              --body "update-data ワークフローが失敗しました: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          fi

@@ -1,10 +1,21 @@
 // 東京よさこいナビ - 汎用ユーティリティ
 
-export const DAYS = ["2026-10-10", "2026-10-11"];
-export const DAY_LABELS = { "2026-10-10": "10/10(土)", "2026-10-11": "10/11(日)" };
+// 会期・タイトル・終了時刻・天気の座標は data/event.json から読み込む(applyEvent)。
+// 他モジュールがimport時の参照を保てるよう、DAYS/DAY_LABELS/EVENTは差し替えずに中身だけ更新する
+export const DAYS = [];
+export const DAY_LABELS = {};
+export const EVENT = { title: "", finishMin: 0, weather: { lat: 0, lng: 0 } };
 
-export const WEATHER_LAT = 35.7312982;
-export const WEATHER_LNG = 139.7088436;
+export function applyEvent(ev) {
+  DAYS.splice(0, DAYS.length, ...ev.days.map((d) => d.date));
+  for (const k of Object.keys(DAY_LABELS)) delete DAY_LABELS[k];
+  ev.days.forEach((d) => {
+    DAY_LABELS[d.date] = d.label;
+  });
+  EVENT.title = ev.title;
+  EVENT.finishMin = toMin(ev.finishTime);
+  EVENT.weather = ev.weather;
+}
 
 export function toMin(hhmm) {
   if (!hhmm) return null;
@@ -96,7 +107,7 @@ export function isFestivalOver(curDate, curMin) {
   const lastDay = DAYS[DAYS.length - 1];
   if (curDate > lastDay) return true;
   if (curDate < lastDay) return false;
-  return curMin >= 20.5 * 60; // 表彰式は18:30〜20:00終了予定。余裕を見て20:30を全日程終了とみなす
+  return curMin >= EVENT.finishMin; // 終了時刻は表彰式の終了予定に余裕を見て data/event.json で設定
 }
 
 export function debounce(fn, ms) {

@@ -23,10 +23,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Prepare publish dir (exclude tools/)
+      # 配布物は許可リスト方式で明示する（除外リスト方式だと、新しく足したファイルが意図せず公開される）
+      - name: Prepare publish dir
         run: |
           mkdir -p _site
-          rsync -a --exclude 'tools' --exclude '.github' --exclude '_site' ./ _site/
+          rsync -a index.html help.html sw.js manifest.webmanifest icon.svg css js data _site/
 
       - uses: actions/upload-pages-artifact@v3
         with:
