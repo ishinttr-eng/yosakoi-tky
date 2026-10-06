@@ -5,12 +5,12 @@ import {
   EVENT,
   DAY_LABELS,
   el,
+  escapeHtml,
+  makeClickable,
   normalize,
-  perfKey,
   fmtRange,
   todayStr,
   nowMin,
-  toMin,
   minToHHMM,
   estimateWalkMin,
   isVenueFinished,
@@ -31,6 +31,7 @@ const ui = {
   mapSearch: "",
   myttMode: null, // list | schedule | null（未指定時はその日のお気に入り会場数から自動判定）
   myttVenueIndex: 0, // スケジュール表で1度に1会場ずつ見せるカルーセルの現在位置
+  myttDay: null, // マイタイムテーブルで選択中の日付（null=その日の開催日/先頭日）
 };
 const finishedOpen = { now: new Set(), artists: new Set(), mytt: new Set() };
 const venueCollapseOpen = new Set();
@@ -172,10 +173,10 @@ function perfCard(p, { date, min, showVenue = true, showDate = false } = {}) {
   const venue = store.venueById(p.venueId);
   const playing = isNowPlaying(p, date, min);
   const soon = isSoon(p, date, min);
-  const card = el("div", {
-    class: `perf-card${playing ? " now" : ""}${soon ? " soon" : ""}`,
-    onclick: () => openDetailModal(p),
-  });
+  const card = makeClickable(
+    el("div", { class: `perf-card${playing ? " now" : ""}${soon ? " soon" : ""}` }),
+    () => openDetailModal(p)
+  );
   const timeCol = el("div", { class: "time" }, [
     document.createTextNode(fmtRange(p.start, p.end)),
     showDate ? el("div", {}, DAY_LABELS[p.date] || p.date) : null,
@@ -197,8 +198,7 @@ function perfCard(p, { date, min, showVenue = true, showDate = false } = {}) {
       el("span", { class: `badge ${ok ? "ok" : "ng"}` }, `🚶 徒歩${walk}分 ${ok ? "間に合う" : "間に合わない"}`)
     );
   }
-  const wb = weatherBadgeFor(p.date, p.startMin);
-  if (wb) badges.appendChild(wb);
+  badges.appendChild(weatherBadgeFor(p.date, p.startMin));
   if (badges.children.length) body.appendChild(badges);
 
   const favBtn = el(
@@ -265,12 +265,12 @@ function locationRow() {
   return el("div", { class: "loc-row" }, btn);
 }
 
-function finishedDetails(key, label, content) {
+function finishedDetails(screen, id, label, content) {
   const d = el("details", { class: "finished-group" });
-  d.open = finishedOpen[key.screen].has(key.id);
+  d.open = finishedOpen[screen].has(id);
   d.addEventListener("toggle", () => {
-    if (d.open) finishedOpen[key.screen].add(key.id);
-    else finishedOpen[key.screen].delete(key.id);
+    if (d.open) finishedOpen[screen].add(id);
+    else finishedOpen[screen].delete(id);
   });
   d.appendChild(el("summary", {}, label));
   d.appendChild(content);
@@ -323,12 +323,12 @@ function renderNow(root, date, min, over) {
       list.appendChild(
         el(
           "button",
-          { class: "link-btn", style: "display:block;padding:6px 0", onclick: () => openVenueModal(v.id, date) },
+          { class: "link-btn block-row", onclick: () => openVenueModal(v.id, date) },
           `${v.stageNo}. ${v.name}`
         )
       )
     );
-    root.appendChild(finishedDetails({ screen: "now", id: "fin" }, `🏁 終了したステージ（${finishedVenues.length}）`, list));
+    root.appendChild(finishedDetails("now", "fin", `🏁 終了したステージ（${finishedVenues.length}）`, list));
   }
 }
 
@@ -441,7 +441,7 @@ function renderArtistsList(container, date, min) {
   if (finishedVenues.length) {
     const wrap = el("div", {});
     finishedVenues.forEach((v) => wrap.appendChild(renderVenueGroup(v)));
-    container.appendChild(finishedDetails({ screen: "artists", id: "fin" }, `🏁 終了したステージ（${finishedVenues.length}）`, wrap));
+    container.appendChild(finishedDetails("artists", "fin", `🏁 終了したステージ（${finishedVenues.length}）`, wrap));
   }
 }
 
@@ -552,7 +552,7 @@ function openDetailModal(p) {
   if (venue) {
     const mapBtn = el(
       "button",
-      { class: "btn block", style: "margin-top:6px" },
+      { class: "btn block mt-6" },
       "🗺️ マップで見る"
     );
     mapBtn.addEventListener("click", () => {
@@ -608,7 +608,7 @@ function openVenueModal(venueId, day) {
     });
     sheet.appendChild(dayTabs);
 
-    const fromRow = el("div", { class: "modal-section", style: "display:flex;gap:10px;align-items:center;flex-wrap:wrap" });
+    const fromRow = el("div", { class: "modal-section from-row" });
     const fromSelect = el("select", {
       class: "filter-select",
       onchange: (e) => { state.from = e.target.value; redraw(); },
@@ -641,7 +641,7 @@ function openVenueModal(venueId, day) {
       fromLng = fromVenue.lng;
       walkText = `🚶 徒歩 約${store.walkMinutesBetween(fromVenue, venue)}分`;
     }
-    fromRow.append(fromSelect, el("span", { class: "sub-note", style: "margin:0" }, walkText));
+    fromRow.append(fromSelect, el("span", { class: "sub-note flush" }, walkText));
     sheet.appendChild(fromRow);
 
     const btnRow = el("div", { class: "btn-row" });
@@ -676,7 +676,7 @@ function openVenueModal(venueId, day) {
       const { date: curDate, min: curMin } = curDateMin();
       ps.forEach((p) => list.appendChild(perfCard(p, { date: curDate, min: curMin, showVenue: false })));
     } else {
-      list.appendChild(el("p", { style: "color:var(--muted)" }, "この日の演奏はありません"));
+      list.appendChild(el("p", { class: "muted" }, "この日の演奏はありません"));
     }
     sheet.appendChild(list);
   }
@@ -845,7 +845,7 @@ function renderRouteBanner(root) {
       el("div", { class: "route-banner-title" }, `${fromLabel} → ${toLabel}`),
       el(
         "button",
-        { class: "modal-close", style: "position:static", onclick: () => { mapState.singleRoute = null; render(); } },
+        { class: "modal-close static", "aria-label": "閉じる", onclick: () => { mapState.singleRoute = null; render(); } },
         "✕"
       ),
     ])
@@ -854,7 +854,7 @@ function renderRouteBanner(root) {
   if (!info || !info.from) subText = "現在地が未取得です（マップ左上の📍ボタンで取得できます）";
   else if (info.hasRoute) subText = `🚶 徒歩約${info.walkMin}分`;
   else subText = `📏 直線距離からの概算 徒歩約${info.walkMin}分（実測ルート未取得）`;
-  banner.appendChild(el("div", { class: "sub-note", style: "margin:0" }, subText));
+  banner.appendChild(el("div", { class: "sub-note flush" }, subText));
   if (info && info.from) {
     const gmaps = `https://www.google.com/maps/dir/?api=1&origin=${info.from.lat},${info.from.lng}&destination=${info.to.lat},${info.to.lng}&travelmode=walking`;
     banner.appendChild(el("a", { class: "btn small", href: gmaps, target: "_blank", rel: "noopener" }, "Googleマップで開く"));
@@ -924,7 +924,7 @@ function pinDivIcon(label, color, offset) {
     : "";
   return L.divIcon({
     className: "",
-    html: `<div class="pin-tieup" style="${style}background:${color};color:#14131a;font-weight:700;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:11px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.4)">${label}</div>`,
+    html: `<div class="pin-tieup" style="${style}background:${color};color:#14131a;font-weight:700;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:11px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.4)">${escapeHtml(label)}</div>`,
     iconSize: [26, 26],
     iconAnchor: [13, 13 + (offset ? -offset[1] : 0)],
   });
@@ -1080,7 +1080,7 @@ function drawMapLayer(date, min) {
       offset = n === 0 ? [0, -22] : n % 2 === 1 ? [-18, -14] : [18, -14];
     }
     const marker = L.marker([s.lat, s.lng], { icon: pinDivIcon("T", "#e6a740", offset) }).addTo(layer);
-    marker.bindPopup(`<b>${s.name}</b>${s.sponsor ? `<br>${s.sponsor}` : ""}${s.approx ? "<br><i>位置は近似</i>" : ""}`);
+    marker.bindPopup(`<b>${escapeHtml(s.name)}</b>${s.sponsor ? `<br>${escapeHtml(s.sponsor)}` : ""}${s.approx ? "<br><i>位置は近似</i>" : ""}`);
   });
 
   if (ui.mapMode === "myroute") {
@@ -1238,12 +1238,12 @@ function renderMyRouteBanner(root, date, min) {
         el("div", { class: "route-banner-title" }, "🎟️ マイルート"),
         el(
           "button",
-          { class: "modal-close", style: "position:static", onclick: () => { ui.mapMode = "normal"; render(); } },
+          { class: "modal-close static", "aria-label": "閉じる", onclick: () => { ui.mapMode = "normal"; render(); } },
           "✕"
         ),
       ])
     );
-    banner.appendChild(el("div", { class: "sub-note", style: "margin:0" }, message));
+    banner.appendChild(el("div", { class: "sub-note flush" }, message));
     root.appendChild(banner);
     return;
   }
@@ -1292,7 +1292,7 @@ function renderMyRouteBanner(root, date, min) {
       counter,
       el(
         "button",
-        { class: "modal-close", style: "position:static", onclick: () => { ui.mapMode = "normal"; render(); } },
+        { class: "modal-close static", "aria-label": "閉じる", onclick: () => { ui.mapMode = "normal"; render(); } },
         "✕"
       ),
     ]),
@@ -1390,8 +1390,7 @@ function renderMyTT(root, date, min, over) {
       el(
         "button",
         {
-          class: "btn block",
-          style: "margin-bottom:12px",
+          class: "btn block mb-12",
           onclick: () => {
             activeTab = "map";
             ui.mapMode = "myroute";
@@ -1438,7 +1437,7 @@ function renderMyTT(root, date, min, over) {
     if (finished.length) {
       const wrap = el("div", {});
       appendPerfCardsWithConnectors(wrap, finished, date, min);
-      root.appendChild(finishedDetails({ screen: "mytt", id: activeDay }, `🏁 終了したステージ（${finished.length}）`, wrap));
+      root.appendChild(finishedDetails("mytt", activeDay, `🏁 終了したステージ（${finished.length}）`, wrap));
     }
   }
 
@@ -1446,7 +1445,7 @@ function renderMyTT(root, date, min, over) {
     root.appendChild(
       el(
         "button",
-        { class: "btn block primary", style: "margin-top:16px", onclick: exportFavoritesFile },
+        { class: "btn block primary mt-16", onclick: exportFavoritesFile },
         "💾 ファイルに書き出す"
       )
     );
@@ -1578,7 +1577,12 @@ function renderScheduleGrid(dayFavs, date, min) {
   if (multi) {
     const dots = el("div", { class: "sched-venue-dots" });
     venueIds.forEach((vid, i) => {
-      dots.appendChild(el("span", { class: `sched-venue-dot${i === ui.myttVenueIndex ? " active" : ""}`, onclick: () => goTo(i) }));
+      dots.appendChild(
+        makeClickable(
+          el("span", { class: `sched-venue-dot${i === ui.myttVenueIndex ? " active" : ""}`, "aria-label": `${i + 1}番目の会場` }),
+          () => goTo(i)
+        )
+      );
     });
     axis.appendChild(dots);
   }
@@ -1672,7 +1676,7 @@ function openChangelogModal() {
 
   const history = store.state.changes?.history || [];
   if (history.length) {
-    sheet.appendChild(el("h4", { style: "color:var(--muted);font-size:.78rem;text-transform:uppercase;margin:10px 0 6px" }, "参加チーム情報の変更"));
+    sheet.appendChild(el("h4", { class: "changelog-heading" }, "参加チーム情報の変更"));
     history.forEach((h) => {
       sheet.appendChild(
         el("div", { class: "changelog-date-row" }, [
@@ -1692,7 +1696,7 @@ function openChangelogModal() {
       });
     });
   } else {
-    sheet.appendChild(el("p", { style: "color:var(--muted)" }, "参加チーム情報の変更履歴はまだありません。"));
+    sheet.appendChild(el("p", { class: "muted" }, "参加チーム情報の変更履歴はまだありません。"));
   }
 
 
@@ -1853,7 +1857,7 @@ function openSettingsModal() {
       )
     );
     btnRow.appendChild(el("button", { class: "btn", onclick: exportFavoritesFile }, "💾 ファイルに書き出す"));
-    const importInput = el("input", { type: "file", accept: "application/json", style: "display:none", onchange: handleImportFile });
+    const importInput = el("input", { type: "file", accept: "application/json", hidden: true, onchange: handleImportFile });
     btnRow.appendChild(el("button", { class: "btn", onclick: () => importInput.click() }, "📂 ファイルから読み込む"));
     shareSection.append(btnRow, importInput);
     sheet.appendChild(shareSection);

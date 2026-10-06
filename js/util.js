@@ -60,11 +60,29 @@ export function estimateWalkMin(lat1, lng1, lat2, lng2) {
   return Math.max(1, Math.round((distM * 1.3) / 80));
 }
 
+// innerHTMLに埋め込む文字列（Leafletのポップアップ等）用のエスケープ
+export function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+}
+
+// div/span等をキーボードでも操作できるボタンにする（Tabでフォーカス、Enter/Spaceで実行）。
+// 内側のボタン等で発生したキー操作では反応しない
+export function makeClickable(node, handler) {
+  node.setAttribute("role", "button");
+  node.tabIndex = 0;
+  node.addEventListener("click", handler);
+  node.addEventListener("keydown", (e) => {
+    if (e.target !== node || (e.key !== "Enter" && e.key !== " ")) return;
+    e.preventDefault();
+    handler(e);
+  });
+  return node;
+}
+
 export function el(tag, attrs = {}, children = []) {
   const node = document.createElement(tag);
   for (const [k, v] of Object.entries(attrs)) {
     if (k === "class") node.className = v;
-    else if (k === "html") node.innerHTML = v;
     else if (k.startsWith("on") && typeof v === "function") node.addEventListener(k.slice(2), v);
     else if (v === false || v == null) continue;
     else if (v === true) node.setAttribute(k, "");
@@ -81,6 +99,7 @@ export function fmtRange(start, end) {
   return `${start}–${end}`;
 }
 
+// 日付・時刻の判定は端末のローカル時刻を使う。会場（日本）で使う前提のため、端末のタイムゾーンがJSTであることを前提にしている
 export function todayStr(d = new Date()) {
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, "0");

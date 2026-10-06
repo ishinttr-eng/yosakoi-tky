@@ -570,3 +570,16 @@ a.btn { text-decoration: none; display: inline-block; }
 
 footer.data-footer { text-align: center; color: var(--muted); font-size: .72rem; padding: 20px 0 4px; }
 
+/* 旧インラインスタイルの置き換え用ユーティリティ */
+.mt-6 { margin-top: 6px !important; }
+.mt-16 { margin-top: 16px !important; }
+.mb-12 { margin-bottom: 12px !important; }
+.muted { color: var(--muted); }
+.sub-note.flush { margin: 0; }
+.link-btn.block-row { display: block; padding: 6px 0; }
+.modal-section.from-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.modal-close.static { position: static; }
+.changelog-heading { color: var(--muted); font-size: .78rem; text-transform: uppercase; margin: 10px 0 6px; }
+
+/* キーボード操作時のフォーカス表示 */
+.perf-card:focus-visible, .sched-venue-dot:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
