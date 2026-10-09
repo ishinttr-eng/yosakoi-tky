@@ -387,10 +387,18 @@ a.btn { text-decoration: none; display: inline-block; }
 .route-banner-btns { display: flex; align-items: center; gap: 6px; flex: 0 0 auto; }
 
 /* ---------- map ---------- */
-/* heightはJS(fitMapHeight)が実際の残り高さを計算して毎回インラインで上書きする。
-   min-heightをここで大きくすると、狭い画面でJSが計算した小さめの高さより
-   min-heightが優先されてしまい、タブバーへ食い込む原因になるためJS側の下限と揃える。 */
-#map-view { height: calc(100vh - 210px); min-height: 200px; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); isolation: isolate; }
+/* 地図の高さはJSで測らず、CSSのフレックスで「残り高さ」を地図に割り当てる。
+   マイルートの区間パネルのようにツールバーと地図の間に可変高さの要素が入っても、
+   スクロール位置が変わっても、ブラウザが自動で追従する（JS計測方式はスクロール量の
+   考慮漏れで、マイルート解除後に地図が伸びて画面下に余白が出る不具合の原因だった）。 */
+#app.screen-map { height: 100vh; height: 100dvh; min-height: 0; }
+#app.screen-map #main { display: flex; flex-direction: column; min-height: 0; overflow-y: auto; }
+#app.screen-map #main > * { flex: 0 0 auto; }
+#app.screen-map #main > #map-view { flex: 1 1 0; }
+#map-view { min-height: 200px; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); isolation: isolate; }
+/* L.map(mapDiv)で最初に作ったdivがコンテナとして再描画のたびに新しい#map-viewへ付け替わる。
+   旧コンテナのmin-height・枠線を打ち消して親いっぱいに広げる */
+#map-view > .leaflet-container { height: 100%; min-height: 0; border: none; border-radius: 0; }
 .map-toolbar { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
 .map-search-wrap { position: relative; flex: 1 1 140px; }
 .map-search-wrap .search-input { width: 100%; }

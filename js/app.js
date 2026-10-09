@@ -47,7 +47,8 @@ const mapState = {
   myRouteApplyHighlight: null,
   myRouteFocusMap: null,
   selectedVenueId: null,
-  pendingAreaFit: null, // エリア切替ボタンが押された直後だけセットされ、初期表示ではfitBoundsしない
+  pendingAreaFit: null, // 初回表示とエリアタブ押下直後だけセットされ、initOrUpdateMapの末尾で消費する
+  areaFitByUser: false, // pendingAreaFitがエリアタブの押下由来か（trueならルート表示中でもそのエリアへ移動する）
 };
 
 const MAP_AREAS = {
@@ -97,6 +98,8 @@ function render() {
   const over = isFestivalOver(date, min);
 
   if (over && (activeTab === "artists" || activeTab === "map")) activeTab = "now";
+  // 地図タブだけ#appをビューポート高さ固定の縦フレックスにし、地図の高さをCSSに任せる
+  document.getElementById("app")?.classList.toggle("screen-map", activeTab === "map");
 
   if (activeTab === "now") renderNow($main, date, min, over);
   else if (activeTab === "artists") renderArtists($main, date, min);
@@ -561,7 +564,7 @@ function openDetailModal(p) {
       mapState.selectedVenueId = venue.id;
       render();
       // render()が呼ぶrenderMap()はrequestAnimationFrameで地図のDOM再接続(initOrUpdateMap)を
-      // 次フレームに遅延させている。ここで同期的にfocusMapOnVenue（animate付きsetView）を呼ぶと
+      // 次フレームに遅延させている。ここで同期的にfocusMapOnVenue（setView）を呼ぶと
       // 地図コンテナがまだ新しいdivに繋がっていない状態でアニメーションが始まり、その後の
       // invalidateSize/再接続処理中に発火するmoveendが「移動前の中心」でmapState.centerを
       // 上書きしてしまい、結局ジャンプ先ではなく元の位置に戻る不具合になる。
@@ -746,9 +749,10 @@ function renderMap(root, date, min) {
           class: `map-area-tab${ui.mapArea === key ? " active" : ""}`,
           "data-area": key,
           onclick: () => {
-            if (ui.mapArea === key) return;
+            // 選択中のタブを押し直した時も、パンして離れた後やマイルートの経路に寄せられた後に戻れるよう毎回フィットする
             ui.mapArea = key;
             mapState.pendingAreaFit = key;
+            mapState.areaFitByUser = true;
             render();
           },
         },
@@ -765,35 +769,16 @@ function renderMap(root, date, min) {
   root.appendChild(mapDiv);
 
   ensureMapResizeListener();
-  requestAnimationFrame(() => {
-    fitMapHeight(mapDiv);
-    initOrUpdateMap(mapDiv, date, min);
-  });
+  requestAnimationFrame(() => initOrUpdateMap(mapDiv, date, min));
 }
 
-// マップの高さはCSSの固定計算値(calc(100vh - Npx))だと、マイルートの区間パネルのように
-// ツールバーとマップの間に高さが可変なバナーが挟まるケースを想定できず、
-// マップの下端が固定タブバーの下に潜り込んだり、逆に検索エリアが画面外に押し出されたりする。
-// そのため実際にDOMへ配置された後の残り高さを毎回測って明示的にセットする。
-function fitMapHeight(mapDiv) {
-  const top = mapDiv.getBoundingClientRect().top;
-  const tabbar = document.getElementById("tabbar");
-  const tabbarH = tabbar ? tabbar.getBoundingClientRect().height : 0;
-  const available = window.innerHeight - top - tabbarH - 12;
-  // 極端に縦が狭い画面（横向き等）では280pxだと逆にタブバーへ食い込むため、
-  // 最低保証は控えめにして「タブバーに被らない」を優先する
-  mapDiv.style.height = `${Math.max(200, Math.round(available))}px`;
-  mapState.instance?.invalidateSize();
-}
-
+// 地図の高さはCSS（#app.screen-mapのフレックス）が決める。JSで測らない。
+// リサイズ・端末回転時だけ、Leafletに表示領域の変化を知らせる
 let mapResizeBound = false;
 function ensureMapResizeListener() {
   if (mapResizeBound) return;
   mapResizeBound = true;
-  window.addEventListener("resize", () => {
-    const mapDiv = document.getElementById("map-view");
-    if (mapDiv) fitMapHeight(mapDiv);
-  });
+  window.addEventListener("resize", () => mapState.instance?.invalidateSize());
 }
 
 // from→to の区間の座標・徒歩分数。fromが会場(idあり)なら実ルート/実測値、現在地なら直線距離の概算
@@ -828,7 +813,10 @@ function drawSingleRoute(layer, spec) {
   L.circleMarker([info.from.lat, info.from.lng], { radius: 8, color: "#fff", weight: 3, fillColor: "#ff2f92", fillOpacity: 1 }).addTo(layer);
   const mid = info.latlngs[Math.floor(info.latlngs.length / 2)];
   L.marker(mid, { icon: walkTimeIcon(info.walkMin, "#ff2f92"), interactive: false, zIndexOffset: 1200 }).addTo(layer);
-  mapState.instance.fitBounds(L.latLngBounds(info.latlngs), { padding: [56, 56] });
+  // エリアタブ押下直後は、描画側のルートフォーカスで先に動かすとズーム終了処理がエリア移動を上書きする
+  if (!(mapState.pendingAreaFit && mapState.areaFitByUser)) {
+    mapState.instance.fitBounds(L.latLngBounds(info.latlngs), { padding: [56, 56], animate: false });
+  }
 }
 
 function renderRouteBanner(root) {
@@ -914,7 +902,7 @@ function focusMapOnVenue(venue) {
   mapState.center = L.latLng(venue.lat, venue.lng);
   mapState.zoom = 18;
   if (mapState.instance) {
-    mapState.instance.setView([venue.lat, venue.lng], 18, { animate: true });
+    mapState.instance.setView([venue.lat, venue.lng], 18, { animate: false });
   }
 }
 
@@ -1007,7 +995,7 @@ function initOrUpdateMap(mapDiv, date, min) {
         try {
           const geo = await locateOnce();
           b.textContent = "📍";
-          map.setView([geo.lat, geo.lng], 16);
+          map.setView([geo.lat, geo.lng], 16, { animate: false });
         } catch {
           b.textContent = "❌";
           setTimeout(() => { b.textContent = "📍"; }, 1500);
@@ -1022,26 +1010,24 @@ function initOrUpdateMap(mapDiv, date, min) {
     // 別のdivへ再アタッチ（タブ切替でDOMが作り直されるため）
     mapDiv.appendChild(mapState.instance.getContainer());
     mapState.instance.invalidateSize();
-    if (mapState.center) mapState.instance.setView(mapState.center, mapState.zoom);
+    if (mapState.center) mapState.instance.setView(mapState.center, mapState.zoom, { animate: false });
   }
   drawMapLayer(date, min);
 
-  // drawMapLayer内でマイルート/単一区間ルートを描いた時は、そちら側で既に
-  // ルートに合わせたfitBoundsを行っている。ここで会場クラスタへのfitBoundsを
-  // 続けて実行すると、その直後にルートが画面外へ押し出されてしまう
-  // （初回のマップ訪問がマイルート経由だと経路が全く見えない不具合になる）ため、
-  // ルート表示中はpendingAreaFitを消費するだけに留め、上書きしない
+  // pendingAreaFitは初回表示とエリアタブ押下直後にだけ立つ。
+  // 自動の初回フィットは、ルート表示中なら描画側が既にルートへフィット済みなので消費だけして譲る。
+  // ユーザーがエリアタブを押した時（areaFitByUser）は、ルート表示中でも必ずそのエリアへ移動する
   if (mapState.pendingAreaFit) {
-    const skip = ui.mapMode === "myroute" || mapState.singleRoute;
     const pending = mapState.pendingAreaFit;
+    const byUser = mapState.areaFitByUser;
     mapState.pendingAreaFit = null;
-    if (!skip) {
-      const areaVenues = store.state.venues.filter((v) => (v.area || "ikebukuro") === pending);
-      if (areaVenues.length === 1) {
-        mapState.instance.setView([areaVenues[0].lat, areaVenues[0].lng], 16);
-      } else if (areaVenues.length > 1) {
-        mapState.instance.fitBounds(L.latLngBounds(areaVenues.map((v) => [v.lat, v.lng])), { padding: [48, 48] });
-      }
+    mapState.areaFitByUser = false;
+    if (!byUser && (ui.mapMode === "myroute" || mapState.singleRoute)) return;
+    const areaVenues = store.state.venues.filter((v) => (v.area || "ikebukuro") === pending);
+    if (areaVenues.length === 1) {
+      mapState.instance.setView([areaVenues[0].lat, areaVenues[0].lng], 16, { animate: false });
+    } else if (areaVenues.length > 1) {
+      mapState.instance.fitBounds(L.latLngBounds(areaVenues.map((v) => [v.lat, v.lng])), { padding: [48, 48], animate: false });
     }
   }
 }
@@ -1127,7 +1113,7 @@ function walkTimeIcon(minutes, color = "#0f9c8c") {
 
 // 現在時刻（シミュレーション込み）を基準に、マイタイムテーブルでまだ終了していない移動区間を
 // すべて求める（直前の（終了済み最後の）お気に入り→次のお気に入り→その次…と連なる区間の配列）。
-// 同じ会場が連続していて移動が発生しない区間は最初から除外する
+// 同じ会場が連続していて移動が発生しない区間は1件に集約する
 function computeMyRouteSegments(date, min) {
   const favs = [...store.state.favorites]
     .map((key) => store.state.perfByKey.get(key))
@@ -1141,15 +1127,20 @@ function computeMyRouteSegments(date, min) {
   const prevList = favs.filter((p) => p.startMin <= min);
   const prev = prevList.length ? prevList[prevList.length - 1] : null;
 
-  const allSegments = [];
+  // 同じ会場が連続する間は移動が発生しないため、その会場へ向かう区間1件に集約する
+  // （最初の演目=toPerf、最後の演目=lastPerf、件数=count。別会場を挟んで戻る場合は別区間）
+  const segments = [];
   let fromId = prev ? prev.venueId : null; // null = 最初の区間のみ「現在地から」
   upcoming.forEach((p) => {
-    allSegments.push({ fromId, toId: p.venueId, toPerf: p });
+    if (fromId !== p.venueId) {
+      segments.push({ fromId, toId: p.venueId, toPerf: p, lastPerf: p, count: 1 });
+    } else if (segments.length && segments[segments.length - 1].toId === p.venueId) {
+      const last = segments[segments.length - 1];
+      last.lastPerf = p;
+      last.count++;
+    }
     fromId = p.venueId;
   });
-  // 同じ会場が連続する区間は移動が発生しないため、カルーセル・地図のどちらにも出さない
-  // （fromIdの連鎖自体はallSegments側で正しく繋がっているので、ここでは表示対象を絞るだけでよい）
-  const segments = allSegments.filter((s) => s.fromId !== s.toId);
   if (!segments.length) return { message: "この後のお気に入りは今いる会場のままで、移動は発生しません" };
   return { segments };
 }
@@ -1216,14 +1207,15 @@ function drawMyRoute(layer, date, min) {
   };
   const focusMap = (idx) => {
     const s = segInfo[idx];
-    if (s && s.line) mapState.instance.fitBounds(s.line.getBounds(), { padding: [56, 90] });
+    if (s && s.line) mapState.instance.fitBounds(s.line.getBounds(), { padding: [56, 90], animate: false });
   };
 
   mapState.myRouteSegInfo = segInfo;
   mapState.myRouteApplyHighlight = applyHighlight;
   mapState.myRouteFocusMap = focusMap;
   applyHighlight(myRouteIndex);
-  focusMap(myRouteIndex);
+  // エリアタブ押下直後はルートへ寄せない（アニメーションなしでも、その後のエリア移動を優先する）
+  if (!(mapState.pendingAreaFit && mapState.areaFitByUser)) focusMap(myRouteIndex);
 }
 
 // マイルートのバナー: カードを上下スワイプ（スクロールスナップ）で1件ずつ切り替えると、
@@ -1259,7 +1251,7 @@ function renderMyRouteBanner(root, date, min) {
     return el("div", { class: "myroute-card" }, [
       el("div", { class: "myroute-main" }, [
         el("div", { class: "myroute-route" }, `${d.fromLabel} → ${d.to.stageNo}. ${d.to.name}`),
-        el("div", { class: "myroute-sub" }, `${d.legText}　次: ${d.seg.toPerf.start} ${d.seg.toPerf.name}`),
+        el("div", { class: "myroute-sub" }, `${d.legText}　次: ${d.seg.toPerf.start}〜${d.seg.lastPerf.end} ${d.seg.toPerf.name}${d.seg.count > 1 ? ` ほか${d.seg.count - 1}件` : ""}`),
       ]),
       gUrl ? el("a", { class: "myroute-g", href: gUrl, target: "_blank", rel: "noopener", title: "Googleで開く" }, "↗") : null,
     ]);
@@ -1272,16 +1264,26 @@ function renderMyRouteBanner(root, date, min) {
   };
 
   let settleTimer = null;
+  let focusPending = false;
   carousel.addEventListener("scroll", () => {
     const idx = Math.max(0, Math.min(segments.length - 1, Math.round(carousel.scrollTop / MYROUTE_CARD_H)));
     if (idx !== myRouteIndex) {
       myRouteIndex = idx;
       mapState.myRouteApplyHighlight?.(idx);
       counter.textContent = `${idx + 1} / ${segments.length}`;
+      focusPending = true;
     }
+    // 描画時のscrollTop復元でもscrollイベントは発火する。カードが実際に切り替わった時だけ
+    // 地図をフォーカスしないと、エリアタブで動かした直後に経路へ引き戻される
+    if (!focusPending) return;
     // 地図の視点合わせはスクロールが落ち着いてから（スワイプ中に何度も動くと酔うため）
     clearTimeout(settleTimer);
-    settleTimer = setTimeout(() => mapState.myRouteFocusMap?.(myRouteIndex), 150);
+    settleTimer = setTimeout(() => {
+      // 画面が作り直された後に古いカードのタイマーが発火して、新しい画面の地図を動かさない
+      if (!carousel.isConnected) return;
+      focusPending = false;
+      mapState.myRouteFocusMap?.(myRouteIndex);
+    }, 150);
   });
 
   const banner = el("div", { class: "route-banner myroute-banner" }, [
