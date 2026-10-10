@@ -100,6 +100,16 @@ export function toggleFavorite(p) {
 export function isFavorite(p) {
   return state.favorites.has(perfKey(p));
 }
+// 同じチーム(公式ページ、無ければ名前)として扱うキー
+export function teamKey(p) {
+  return p.officialUrl || p.name;
+}
+// この枠自体は未登録だが、同じチームの別の枠がお気に入りに入っているか
+export function hasOtherSlotFavorite(p) {
+  if (!state.favorites.size || isFavorite(p)) return false;
+  const k = teamKey(p);
+  return state.performances.some((x) => teamKey(x) === k && state.favorites.has(perfKey(x)));
+}
 
 async function fetchJSON(path) {
   const res = await fetch(path, { cache: "no-cache" });

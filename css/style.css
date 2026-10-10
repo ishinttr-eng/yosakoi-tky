@@ -220,6 +220,11 @@ a { color: var(--route); }
   padding: 12px 12px; margin-bottom: 8px; cursor: pointer; box-shadow: var(--shadow);
 }
 .perf-card.now { border-color: var(--ok); box-shadow: 0 0 0 1px var(--ok) inset, var(--shadow); }
+.perf-card.faved {
+  background: linear-gradient(var(--accent-soft), var(--accent-soft)), var(--card);
+  box-shadow: inset 4px 0 0 var(--accent), var(--shadow);
+}
+.perf-card.now.faved { box-shadow: 0 0 0 1px var(--ok) inset, inset 4px 0 0 var(--accent), var(--shadow); }
 .perf-card.soon { border-color: var(--warn); }
 .perf-card .time {
   font-family: var(--font-mono); font-size: .78rem; color: var(--muted); white-space: nowrap; padding-top: 2px;
@@ -270,11 +275,20 @@ a { color: var(--route); }
   line-height: 1;
 }
 .fav-btn.active { color: var(--accent); }
+/* 同じチームの別の枠が登録済み: 星は空のまま、色と「別」の小さな印で区別する */
+.fav-btn.other { color: var(--accent); position: relative; }
+.fav-btn.other::after {
+  content: "別"; position: absolute; right: -2px; bottom: -4px; font-size: .55rem; font-weight: 700; line-height: 1;
+  background: var(--accent); color: var(--bg); border-radius: 6px; padding: 1px 3px;
+}
 .team-slots { display: flex; flex-direction: column; gap: 6px; }
 .team-slot {
   display: flex; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid var(--line);
   border-radius: 10px; background: var(--bg-2);
 }
+.team-slot.faved { background: var(--accent-soft); }
+.team-slot-tag { font-size: .68rem; font-weight: 700; color: var(--accent); margin-left: 4px; }
+.team-slot-tag[hidden] { display: none; }
 .team-slot.current { border-color: var(--accent); }
 .team-slot-body { flex: 1; min-width: 0; }
 .team-slot-time { font-size: .85rem; font-weight: 600; }
@@ -600,3 +614,12 @@ footer.data-footer { text-align: center; color: var(--muted); font-size: .72rem;
 
 /* キーボード操作時のフォーカス表示 */
 .perf-card:focus-visible, .sched-venue-dot:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- 参加チーム: チームごと表示 ---------- */
+.group-tabs { margin-top: -4px; }
+.team-group {
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  padding: 12px; margin-bottom: 10px; box-shadow: var(--shadow);
+}
+.team-group-head { font-weight: 700; font-size: 1rem; word-break: break-word; margin-bottom: 6px; }
+.team-group .modal-section { margin: 10px 0 0; }

@@ -26,6 +26,7 @@ const ui = {
   artistsDay: "all",
   artistsSearch: "",
   artistsVenue: "",
+  artistsGroup: "venue", // venue | team（参加チームタブのグルーピング）
   mapMode: "normal", // normal | myroute
   mapArea: "ikebukuro", // ikebukuro | otsuka-sugamo（大塚・巣鴨は池袋から2km以上離れておりズーム15では画面外になるため、エリア切替で表示を合わせる）
   mapSearch: "",
@@ -172,6 +173,24 @@ function weatherBadgeFor(dateStr, startMin) {
 }
 
 // ---------- performance card ----------
+// ☆=未登録 / ★=この枠を登録済み / ☆+「別」=同じチームの別の枠を登録済み
+function applyFavState(btn, p) {
+  const on = store.isFavorite(p);
+  const other = store.hasOtherSlotFavorite(p);
+  btn.classList.toggle("active", on);
+  btn.classList.toggle("other", other);
+  btn.textContent = on ? "★" : "☆";
+  // お気に入り済みの枠はカード自体も目立たせる（お気に入り一覧では全部が対象なので付けない）
+  btn.closest(".perf-card")?.classList.toggle("faved", on && activeTab !== "mytt");
+  btn.title = other ? "同じチームの別の枠がお気に入りに入っています" : "";
+}
+function refreshFavButtons() {
+  document.querySelectorAll(".fav-btn[data-pid]").forEach((b) => {
+    const p = store.state.performances.find((x) => x.id === b.dataset.pid);
+    if (p) applyFavState(b, p);
+  });
+}
+
 function perfCard(p, { date, min, showVenue = true, showDate = false } = {}) {
   const venue = store.venueById(p.venueId);
   const playing = isNowPlaying(p, date, min);
@@ -204,28 +223,25 @@ function perfCard(p, { date, min, showVenue = true, showDate = false } = {}) {
   badges.appendChild(weatherBadgeFor(p.date, p.startMin));
   if (badges.children.length) body.appendChild(badges);
 
-  const favBtn = el(
-    "button",
-    {
-      class: `fav-btn${store.isFavorite(p) ? " active" : ""}`,
-      "aria-label": "お気に入り",
-      onclick: (e) => {
-        e.stopPropagation();
-        store.toggleFavorite(p);
-        if (activeTab === "artists") {
-          // 参加チームタブは☆の見た目が変わるだけなので、全体を再描画せずボタンだけ更新する
-          // （スクロール位置や検索欄のフォーカスを保つ）
-          const on = store.isFavorite(p);
-          e.currentTarget.classList.toggle("active", on);
-          e.currentTarget.textContent = on ? "★" : "☆";
-        } else {
-          render();
-        }
-      },
+  const favBtn = el("button", {
+    class: "fav-btn",
+    "data-pid": p.id,
+    "aria-label": "お気に入り",
+    onclick: (e) => {
+      e.stopPropagation();
+      store.toggleFavorite(p);
+      if (activeTab === "artists") {
+        // 参加チームタブは☆の見た目が変わるだけなので、全体を再描画せずボタンだけ更新する
+        // （スクロール位置や検索欄のフォーカスを保つ）。同じチームの別枠の表示も合わせて更新する
+        refreshFavButtons();
+      } else {
+        render();
+      }
     },
-    store.isFavorite(p) ? "★" : "☆"
-  );
+  });
+  applyFavState(favBtn, p);
 
+  if (store.isFavorite(p) && activeTab !== "mytt") card.classList.add("faved");
   card.append(timeCol, body, favBtn);
   return card;
 }
@@ -365,6 +381,24 @@ function renderArtists(root, date, min) {
   dayTabs.append(mkDayTab("all", "すべて"), ...DAYS.map((d) => mkDayTab(d, DAY_LABELS[d])));
   root.appendChild(dayTabs);
 
+  const groupTabs = el("div", { class: "day-tabs group-tabs" });
+  [["venue", "会場ごと"], ["team", "チームごと"]].forEach(([val, label]) =>
+    groupTabs.appendChild(
+      el(
+        "button",
+        {
+          class: `day-tab${ui.artistsGroup === val ? " active" : ""}`,
+          onclick: () => {
+            ui.artistsGroup = val;
+            render();
+          },
+        },
+        label
+      )
+    )
+  );
+  root.appendChild(groupTabs);
+
   const listContainer = el("div", {});
 
   const filterRow = el("div", { class: "filter-row" });
@@ -415,6 +449,11 @@ function renderArtistsList(container, date, min) {
     return;
   }
 
+  if (ui.artistsGroup === "team") {
+    renderArtistsByTeam(container, list);
+    return;
+  }
+
   const byVenue = new Map();
   list.forEach((p) => {
     if (!byVenue.has(p.venueId)) byVenue.set(p.venueId, []);
@@ -446,6 +485,30 @@ function renderArtistsList(container, date, min) {
     finishedVenues.forEach((v) => wrap.appendChild(renderVenueGroup(v)));
     container.appendChild(finishedDetails("artists", "fin", `🏁 終了したステージ（${finishedVenues.length}）`, wrap));
   }
+}
+
+// チームごとの表示: チーム詳細(モーダル)と同じ内容（タグ・公式/SNSリンク・演舞枠リスト）をチームごとに並べる。
+// 日付・会場の絞り込みは、各チームの演舞枠リストにも効く
+function renderArtistsByTeam(container, list) {
+  const byTeam = new Map();
+  list.forEach((p) => {
+    const k = store.teamKey(p);
+    if (!byTeam.has(k)) byTeam.set(k, []);
+    byTeam.get(k).push(p);
+  });
+  const teams = [...byTeam.values()].sort((a, b) => (a[0].kana || a[0].name).localeCompare(b[0].kana || b[0].name, "ja"));
+  teams.forEach((slots) => {
+    slots.sort((a, b) => a.date.localeCompare(b.date) || a.startMin - b.startMin);
+    const p = slots[0];
+    const group = el("div", { class: "team-group" });
+    group.appendChild(el("div", { class: "team-group-head" }, p.name));
+    const tags = teamTags(p);
+    if (tags) group.appendChild(tags);
+    const links = teamLinks(p);
+    if (links) group.appendChild(links);
+    group.appendChild(teamSlotsSection(slots, { onOpen: (q) => openDetailModal(q) }));
+    container.appendChild(group);
+  });
 }
 
 // チームのSNS/公式サイトリンクをドメインに応じたラベル・アイコンで表示する
@@ -496,6 +559,66 @@ function openOfficialViewer(p) {
 }
 
 // ---------- detail modal ----------
+// チーム詳細の部品（モーダルと、参加チームの「チームごと」表示で共用）
+function teamTags(p) {
+  if (!(p.genre || p.region)) return null;
+  const tags = el("div", { class: "badges" });
+  if (p.genre) tags.appendChild(el("span", { class: "badge" }, p.genre));
+  if (p.region) tags.appendChild(el("span", { class: "badge" }, p.region));
+  if (p.isU25) tags.appendChild(el("span", { class: "badge" }, "U-25"));
+  if (p.awardEntry) tags.appendChild(el("span", { class: "badge" }, p.awardEntry));
+  return tags;
+}
+// 紹介文・写真は公式サイトの著作物のため保持せず、公式のチームページへ誘導する
+function teamLinks(p) {
+  if (!(p.officialUrl || (p.sns && p.sns.length))) return null;
+  const s = el("div", { class: "modal-section sns-row" });
+  if (p.officialUrl) {
+    s.appendChild(el("button", { class: "sns-link", onclick: () => openOfficialViewer(p) }, "📄 公式サイトのチーム紹介"));
+  }
+  (p.sns || []).forEach((url) => s.appendChild(snsLink(url)));
+  return s;
+}
+// 演舞枠リスト。枠ごとにお気に入りへ入れられ、登録済みの枠は背景と「登録済み」の印で分かる
+function teamSlotsSection(slots, { currentId = null, onOpen, onToggle = () => {} }) {
+  const sec = el("div", { class: "modal-section" });
+  sec.appendChild(el("h4", {}, `このチームの演舞枠（${slots.length}）`));
+  const list = el("div", { class: "team-slots" });
+  slots.forEach((q) => {
+    const v = store.venueById(q.venueId);
+    const star = el("button", {
+      class: "fav-btn",
+      "aria-label": "この枠をお気に入りにする",
+      onclick: (e) => {
+        e.stopPropagation();
+        store.toggleFavorite(q);
+        applyFavState(e.currentTarget, q);
+        markFaved();
+        onToggle();
+      },
+    });
+    applyFavState(star, q);
+    const tag = el("span", { class: "team-slot-tag" }, "★ 登録済み");
+    const markFaved = () => {
+      const on = store.isFavorite(q);
+      row.classList.toggle("faved", on);
+      tag.hidden = !on;
+    };
+    const row = el("div", { class: `team-slot${q.id === currentId ? " current" : ""}` }, [
+      el("div", { class: "team-slot-body" }, [
+        el("div", { class: "team-slot-time" }, [document.createTextNode(`${DAY_LABELS[q.date] || q.date} ${fmtRange(q.start, q.end)} `), tag]),
+        el("div", { class: "team-slot-venue" }, v ? `${v.stageNo}. ${v.name}` : ""),
+      ]),
+      star,
+    ]);
+    markFaved();
+    if (q.id !== currentId) makeClickable(row, () => onOpen(q));
+    list.appendChild(row);
+  });
+  sec.appendChild(list);
+  return sec;
+}
+
 // 同じチームの演舞枠を日時順に返す。公式チームページ(無ければ名前)で同一チームとみなす
 function teamPerformances(p) {
   const key = (x) => x.officialUrl || x.name;
@@ -522,25 +645,10 @@ function openDetailModal(p) {
         : null,
     ])
   );
-  if (p.genre || p.region) {
-    const tags = el("div", { class: "badges" });
-    if (p.genre) tags.appendChild(el("span", { class: "badge" }, p.genre));
-    if (p.region) tags.appendChild(el("span", { class: "badge" }, p.region));
-    if (p.isU25) tags.appendChild(el("span", { class: "badge" }, "U-25"));
-    if (p.awardEntry) tags.appendChild(el("span", { class: "badge" }, p.awardEntry));
-    sheet.appendChild(tags);
-  }
-  // 紹介文・写真は公式サイトの著作物のため保持せず、公式のチームページへ誘導する
-  if (p.officialUrl || (p.sns && p.sns.length)) {
-    const s = el("div", { class: "modal-section sns-row" });
-    if (p.officialUrl) {
-      s.appendChild(
-        el("button", { class: "sns-link", onclick: () => openOfficialViewer(p) }, "📄 公式サイトのチーム紹介")
-      );
-    }
-    (p.sns || []).forEach((url) => s.appendChild(snsLink(url)));
-    sheet.appendChild(s);
-  }
+  const tags = teamTags(p);
+  if (tags) sheet.appendChild(tags);
+  const links = teamLinks(p);
+  if (links) sheet.appendChild(links);
 
   const favSection = el("div", { class: "modal-section" });
   favSection.appendChild(
@@ -555,7 +663,11 @@ function openDetailModal(p) {
           openDetailModal(p);
         },
       },
-      store.isFavorite(p) ? "★ お気に入り登録済み" : "☆ お気に入りに追加"
+      store.isFavorite(p)
+        ? "★ お気に入り登録済み"
+        : store.hasOtherSlotFavorite(p)
+          ? "☆ この枠もお気に入りに追加（別の枠は登録済み）"
+          : "☆ お気に入りに追加"
     )
   );
   sheet.appendChild(favSection);
@@ -563,39 +675,13 @@ function openDetailModal(p) {
   // 同じチームは複数回演舞するので、全ての枠を並べて枠ごとにお気に入りへ入れられるようにする
   const slots = teamPerformances(p);
   if (slots.length > 1) {
-    const sec = el("div", { class: "modal-section" });
-    sec.appendChild(el("h4", {}, `このチームの演舞枠（${slots.length}）`));
-    const list = el("div", { class: "team-slots" });
-    slots.forEach((q) => {
-      const v = store.venueById(q.venueId);
-      const star = el(
-        "button",
-        {
-          class: `fav-btn${store.isFavorite(q) ? " active" : ""}`,
-          "aria-label": "この枠をお気に入りにする",
-          onclick: (e) => {
-            e.stopPropagation();
-            store.toggleFavorite(q);
-            const on = store.isFavorite(q);
-            e.currentTarget.classList.toggle("active", on);
-            e.currentTarget.textContent = on ? "★" : "☆";
-            render();
-          },
-        },
-        store.isFavorite(q) ? "★" : "☆"
-      );
-      const row = el("div", { class: `team-slot${q.id === p.id ? " current" : ""}` }, [
-        el("div", { class: "team-slot-body" }, [
-          el("div", { class: "team-slot-time" }, `${DAY_LABELS[q.date] || q.date} ${fmtRange(q.start, q.end)}`),
-          el("div", { class: "team-slot-venue" }, v ? `${v.stageNo}. ${v.name}` : ""),
-        ]),
-        star,
-      ]);
-      if (q.id !== p.id) makeClickable(row, () => { close(); openDetailModal(q); });
-      list.appendChild(row);
-    });
-    sec.appendChild(list);
-    sheet.appendChild(sec);
+    sheet.appendChild(
+      teamSlotsSection(slots, {
+        currentId: p.id,
+        onOpen: (q) => { close(); openDetailModal(q); },
+        onToggle: render,
+      })
+    );
   }
 
   if (venue) {
