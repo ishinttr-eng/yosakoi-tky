@@ -496,6 +496,14 @@ function openOfficialViewer(p) {
 }
 
 // ---------- detail modal ----------
+// 同じチームの演舞枠を日時順に返す。公式チームページ(無ければ名前)で同一チームとみなす
+function teamPerformances(p) {
+  const key = (x) => x.officialUrl || x.name;
+  return store.state.performances
+    .filter((x) => key(x) === key(p))
+    .sort((a, b) => a.date.localeCompare(b.date) || a.startMin - b.startMin);
+}
+
 function openDetailModal(p) {
   const venue = store.venueById(p.venueId);
   const { sheet, close } = openModal();
@@ -551,6 +559,44 @@ function openDetailModal(p) {
     )
   );
   sheet.appendChild(favSection);
+
+  // 同じチームは複数回演舞するので、全ての枠を並べて枠ごとにお気に入りへ入れられるようにする
+  const slots = teamPerformances(p);
+  if (slots.length > 1) {
+    const sec = el("div", { class: "modal-section" });
+    sec.appendChild(el("h4", {}, `このチームの演舞枠（${slots.length}）`));
+    const list = el("div", { class: "team-slots" });
+    slots.forEach((q) => {
+      const v = store.venueById(q.venueId);
+      const star = el(
+        "button",
+        {
+          class: `fav-btn${store.isFavorite(q) ? " active" : ""}`,
+          "aria-label": "この枠をお気に入りにする",
+          onclick: (e) => {
+            e.stopPropagation();
+            store.toggleFavorite(q);
+            const on = store.isFavorite(q);
+            e.currentTarget.classList.toggle("active", on);
+            e.currentTarget.textContent = on ? "★" : "☆";
+            render();
+          },
+        },
+        store.isFavorite(q) ? "★" : "☆"
+      );
+      const row = el("div", { class: `team-slot${q.id === p.id ? " current" : ""}` }, [
+        el("div", { class: "team-slot-body" }, [
+          el("div", { class: "team-slot-time" }, `${DAY_LABELS[q.date] || q.date} ${fmtRange(q.start, q.end)}`),
+          el("div", { class: "team-slot-venue" }, v ? `${v.stageNo}. ${v.name}` : ""),
+        ]),
+        star,
+      ]);
+      if (q.id !== p.id) makeClickable(row, () => { close(); openDetailModal(q); });
+      list.appendChild(row);
+    });
+    sec.appendChild(list);
+    sheet.appendChild(sec);
+  }
 
   if (venue) {
     const mapBtn = el(

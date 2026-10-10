@@ -270,6 +270,15 @@ a { color: var(--route); }
   line-height: 1;
 }
 .fav-btn.active { color: var(--accent); }
+.team-slots { display: flex; flex-direction: column; gap: 6px; }
+.team-slot {
+  display: flex; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid var(--line);
+  border-radius: 10px; background: var(--bg-2);
+}
+.team-slot.current { border-color: var(--accent); }
+.team-slot-body { flex: 1; min-width: 0; }
+.team-slot-time { font-size: .85rem; font-weight: 600; }
+.team-slot-venue { font-size: .78rem; color: var(--muted); }
 
 /* ---------- finished collapsible ---------- */
 details.finished-group {
