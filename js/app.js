@@ -1381,10 +1381,11 @@ function drawMyRoute(layer, date, min) {
     segInfo.forEach((s, i) => {
       if (!s.line) return;
       const focused = i === idx;
-      s.halo.setStyle({ weight: focused ? 9 : 7, opacity: focused ? 0.95 : 0.85 });
-      s.line.setStyle({ weight: focused ? 5 : 4, opacity: focused ? 1 : 0.85 });
-      s.startMarker.setOpacity(focused ? 1 : 0.6);
-      s.endMarker.setOpacity(focused ? 1 : 0.6);
+      // 選択中のルートを目立たせるため、他のルートは細く薄くする
+      s.halo.setStyle({ weight: focused ? 9 : 5, opacity: focused ? 0.95 : 0.15 });
+      s.line.setStyle({ weight: focused ? 5 : 3, opacity: focused ? 1 : 0.3 });
+      s.startMarker.setOpacity(focused ? 1 : 0.3);
+      s.endMarker.setOpacity(focused ? 1 : 0.3);
       s.timeMarker?.setOpacity(focused ? 1 : 0);
       if (focused) s.line.bringToFront();
     });
