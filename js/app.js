@@ -14,6 +14,7 @@ import {
   minToHHMM,
   estimateWalkMin,
   isVenueFinished,
+  isPerfFinished,
   isFestivalOver,
   debounce,
 } from "./util.js";
@@ -23,10 +24,9 @@ const $modalRoot = document.getElementById("modal-root");
 
 let activeTab = "now";
 const ui = {
-  artistsDay: "all",
+  artistsDay: null, // 日付 | "team"（チーム軸）。null=開催日なら当日、それ以外は初日
   artistsSearch: "",
   artistsVenue: "",
-  artistsGroup: "venue", // venue | team（参加チームタブのグルーピング）
   mapMode: "normal", // normal | myroute
   mapArea: "ikebukuro", // ikebukuro | otsuka-sugamo（大塚・巣鴨は池袋から2km以上離れておりズーム15では画面外になるため、エリア切替で表示を合わせる）
   mapSearch: "",
@@ -34,7 +34,7 @@ const ui = {
   myttVenueIndex: 0, // スケジュール表で1度に1会場ずつ見せるカルーセルの現在位置
   myttDay: null, // マイタイムテーブルで選択中の日付（null=その日の開催日/先頭日）
 };
-const finishedOpen = { now: new Set(), artists: new Set(), mytt: new Set() };
+const finishedOpen = { now: new Set(), artists: new Set(), mytt: new Set(), team: new Set() };
 const venueCollapseOpen = new Set();
 
 const mapState = {
@@ -173,7 +173,8 @@ function weatherBadgeFor(dateStr, startMin) {
 }
 
 // ---------- performance card ----------
-// ☆=未登録 / ★=この枠を登録済み / ☆+「別」=同じチームの別の枠を登録済み
+// ☆=未登録 / ★=この枠を登録済み / アクセント色の☆=同じチームの別の枠を登録済み
+// 参加チームタブでは、お気に入り済みの別の枠と時間が重なるカードを塗って警告する
 function applyFavState(btn, p) {
   const on = store.isFavorite(p);
   const other = store.hasOtherSlotFavorite(p);
@@ -181,10 +182,34 @@ function applyFavState(btn, p) {
   btn.classList.toggle("other", other);
   btn.textContent = on ? "★" : "☆";
   // お気に入り済みの枠はカード自体も目立たせる（お気に入り一覧では全部が対象なので付けない）
-  btn.closest(".perf-card")?.classList.toggle("faved", on && activeTab !== "mytt");
+  const card = btn.closest(".perf-card");
+  card?.classList.toggle("faved", on && activeTab !== "mytt");
+  // 参加チームタブでは、他の枠でお気に入り済みの時間帯と重なるカードを塗り、どの枠と重なるかを示す（枠の重複を避けるため）
+  const clash = activeTab === "artists" && card ? store.conflictingFavorite(p) : null;
+  card?.classList.toggle("clash", !!clash);
+  card?.querySelector(".clash-badge")?.remove();
+  if (clash) {
+    const v = store.venueById(clash.venueId);
+    const badge = el("span", { class: "badge clash-badge" }, `${v ? v.stageNo + ". " : ""}${clash.name}`);
+    (card.querySelector(".badges") || card.querySelector(".body")).appendChild(badge);
+  }
   btn.title = other ? "同じチームの別の枠がお気に入りに入っています" : "";
 }
+// チームごと表示の枠の行に、お気に入り済みの別の枠との時間の重なりを表示する
+function applyRowClash(row, q) {
+  const clash = activeTab === "artists" ? store.conflictingFavorite(q) : null;
+  row.classList.toggle("clash", !!clash);
+  row.querySelector(".clash-badge")?.remove();
+  if (clash) {
+    const v = store.venueById(clash.venueId);
+    row.querySelector(".team-slot-body").appendChild(el("span", { class: "badge clash-badge" }, `${v ? v.stageNo + ". " : ""}${clash.name}`));
+  }
+}
 function refreshFavButtons() {
+  document.querySelectorAll(".team-slot[data-pid]").forEach((r) => {
+    const q = store.state.performances.find((x) => x.id === r.dataset.pid);
+    if (q) applyRowClash(r, q);
+  });
   document.querySelectorAll(".fav-btn[data-pid]").forEach((b) => {
     const p = store.state.performances.find((x) => x.id === b.dataset.pid);
     if (p) applyFavState(b, p);
@@ -242,7 +267,9 @@ function perfCard(p, { date, min, showVenue = true, showDate = false } = {}) {
   applyFavState(favBtn, p);
 
   if (store.isFavorite(p) && activeTab !== "mytt") card.classList.add("faved");
+
   card.append(timeCol, body, favBtn);
+  applyFavState(favBtn, p); // カードに繋がってから、カード側の表示（登録済みの塗り・時間の重なり）を反映する
   return card;
 }
 
@@ -362,6 +389,11 @@ function overPanel() {
 }
 
 // ---------- Tab: 参加チーム ----------
+// 参加チームタブで選択中の表示軸。未選択なら開催中はその日、それ以外は初日
+function artistsDay(date) {
+  return ui.artistsDay || (DAYS.includes(date) ? date : DAYS[0]);
+}
+
 function renderArtists(root, date, min) {
   root.appendChild(el("h1", { class: "screen-title" }, "📅 参加チーム"));
 
@@ -370,7 +402,7 @@ function renderArtists(root, date, min) {
     el(
       "button",
       {
-        class: `day-tab${ui.artistsDay === val ? " active" : ""}`,
+        class: `day-tab${artistsDay(date) === val ? " active" : ""}`,
         onclick: () => {
           ui.artistsDay = val;
           render();
@@ -378,26 +410,8 @@ function renderArtists(root, date, min) {
       },
       label
     );
-  dayTabs.append(mkDayTab("all", "すべて"), ...DAYS.map((d) => mkDayTab(d, DAY_LABELS[d])));
+  dayTabs.append(...DAYS.map((d) => mkDayTab(d, DAY_LABELS[d])), mkDayTab("team", "チーム"));
   root.appendChild(dayTabs);
-
-  const groupTabs = el("div", { class: "day-tabs group-tabs" });
-  [["venue", "会場ごと"], ["team", "チームごと"]].forEach(([val, label]) =>
-    groupTabs.appendChild(
-      el(
-        "button",
-        {
-          class: `day-tab${ui.artistsGroup === val ? " active" : ""}`,
-          onclick: () => {
-            ui.artistsGroup = val;
-            render();
-          },
-        },
-        label
-      )
-    )
-  );
-  root.appendChild(groupTabs);
 
   const listContainer = el("div", {});
 
@@ -438,7 +452,7 @@ function renderArtistsList(container, date, min) {
 
   const q = normalize(ui.artistsSearch);
   let list = store.state.performances.filter((p) => {
-    if (ui.artistsDay !== "all" && p.date !== ui.artistsDay) return false;
+    if (artistsDay(date) !== "team" && p.date !== artistsDay(date)) return false;
     if (ui.artistsVenue && p.venueId !== ui.artistsVenue) return false;
     if (q && !p.searchText.includes(q)) return false;
     return true;
@@ -449,7 +463,7 @@ function renderArtistsList(container, date, min) {
     return;
   }
 
-  if (ui.artistsGroup === "team") {
+  if (artistsDay(date) === "team") {
     renderArtistsByTeam(container, list);
     return;
   }
@@ -464,17 +478,25 @@ function renderArtistsList(container, date, min) {
   const activeVenues = [];
   const finishedVenues = [];
   venuesOrdered.forEach((v) => {
-    const finished = ui.artistsDay !== "all" && isVenueFinished(store.state.performances, v.id, ui.artistsDay, date, min);
+    const finished = isVenueFinished(store.state.performances, v.id, artistsDay(date), date, min);
     (finished ? finishedVenues : activeVenues).push(v);
   });
 
   const renderVenueGroup = (v) => {
     const group = el("div", { class: "venue-group" });
     group.appendChild(el("div", { class: "venue-group-head" }, [el("span", { class: "stageno" }, `#${v.stageNo}`), v.name]));
-    byVenue
+    const perfs = byVenue
       .get(v.id)
-      .sort((a, b) => (a.date === b.date ? a.startMin - b.startMin : a.date.localeCompare(b.date)))
-      .forEach((p) => group.appendChild(perfCard(p, { date, min, showVenue: false, showDate: ui.artistsDay === "all" })));
+      .sort((a, b) => (a.date === b.date ? a.startMin - b.startMin : a.date.localeCompare(b.date)));
+    // 会場全体が終了していなければ、終了した枠だけ「終了済み」アコーディオンに移す（会場ごと終了済みの場合は外側のアコーディオンに入る）
+    const split = !finishedVenues.includes(v);
+    const done = split ? perfs.filter((p) => isPerfFinished(p, date, min)) : [];
+    perfs.filter((p) => !done.includes(p)).forEach((p) => group.appendChild(perfCard(p, { date, min, showVenue: false })));
+    if (done.length) {
+      const wrap = el("div", {});
+      done.forEach((p) => wrap.appendChild(perfCard(p, { date, min, showVenue: false })));
+      group.appendChild(finishedDetails("artists", `slots-${v.id}`, `🏁 終了済み（${done.length}）`, wrap));
+    }
     return group;
   };
 
@@ -579,11 +601,30 @@ function teamLinks(p) {
   (p.sns || []).forEach((url) => s.appendChild(snsLink(url)));
   return s;
 }
-// 演舞枠リスト。枠ごとにお気に入りへ入れられ、登録済みの枠は背景と「登録済み」の印で分かる
+// 演舞枠リスト。枠ごとにお気に入りへ入れられ、登録済みの枠は背景と「登録済み」の印で分かる。
+// 終了した枠は「終了済み」アコーディオンに移す
 function teamSlotsSection(slots, { currentId = null, onOpen, onToggle = () => {} }) {
   const sec = el("div", { class: "modal-section" });
   sec.appendChild(el("h4", {}, `このチームの演舞枠（${slots.length}）`));
-  const list = el("div", { class: "team-slots" });
+  const { date: curDate, min: curMin } = curDateMin();
+  // 日付ごとに箱を分ける
+  const makeBoxes = () => {
+    const boxes = new Map();
+    return {
+      boxes,
+      rowsFor: (d) => {
+        if (!boxes.has(d)) {
+          const rows = el("div", { class: "team-slots" });
+          boxes.set(d, el("div", { class: "team-slot-day" }, [el("div", { class: "team-slot-day-head" }, DAY_LABELS[d] || d), rows]));
+          boxes.get(d).rows = rows;
+        }
+        return boxes.get(d).rows;
+      },
+    };
+  };
+  const upcoming = makeBoxes();
+  const finished = makeBoxes();
+  let finishedCount = 0;
   slots.forEach((q) => {
     const v = store.venueById(q.venueId);
     const star = el("button", {
@@ -604,18 +645,29 @@ function teamSlotsSection(slots, { currentId = null, onOpen, onToggle = () => {}
       row.classList.toggle("faved", on);
       tag.hidden = !on;
     };
-    const row = el("div", { class: `team-slot${q.id === currentId ? " current" : ""}` }, [
+    const row = el("div", { class: `team-slot${q.id === currentId ? " current" : ""}`, "data-pid": q.id }, [
       el("div", { class: "team-slot-body" }, [
-        el("div", { class: "team-slot-time" }, [document.createTextNode(`${DAY_LABELS[q.date] || q.date} ${fmtRange(q.start, q.end)} `), tag]),
+        el("div", { class: "team-slot-time" }, [document.createTextNode(`${fmtRange(q.start, q.end)} `), tag]),
         el("div", { class: "team-slot-venue" }, v ? `${v.stageNo}. ${v.name}` : ""),
       ]),
       star,
     ]);
     markFaved();
+    applyRowClash(row, q);
     if (q.id !== currentId) makeClickable(row, () => onOpen(q));
-    list.appendChild(row);
+    if (isPerfFinished(q, curDate, curMin)) {
+      finishedCount++;
+      finished.rowsFor(q.date).appendChild(row);
+    } else {
+      upcoming.rowsFor(q.date).appendChild(row);
+    }
   });
-  sec.appendChild(list);
+  upcoming.boxes.forEach((box) => sec.appendChild(box));
+  if (finishedCount) {
+    const wrap = el("div", {});
+    finished.boxes.forEach((box) => wrap.appendChild(box));
+    sec.appendChild(finishedDetails("team", store.teamKey(slots[0]), `🏁 終了済み（${finishedCount}）`, wrap));
+  }
   return sec;
 }
 

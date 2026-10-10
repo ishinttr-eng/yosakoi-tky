@@ -7,6 +7,8 @@
   --line: #2a3050;
   --accent: #e6a740;
   --accent-soft: #e6a74022;
+  --clash: #6aa8ff;
+  --clash-soft: #6aa8ff22;
   --route: #4fd8c9;
   --route-soft: #4fd8c920;
   --ok: #4fce93;
@@ -28,6 +30,8 @@
   --line: #dfe3ee;
   --accent: #b3791b;
   --accent-soft: #b3791b18;
+  --clash: #2f6fd0;
+  --clash-soft: #2f6fd01a;
   --route: #0f8a7d;
   --route-soft: #0f8a7d18;
   --ok: #1c7a4f;
@@ -275,12 +279,11 @@ a { color: var(--route); }
   line-height: 1;
 }
 .fav-btn.active { color: var(--accent); }
-/* 同じチームの別の枠が登録済み: 星は空のまま、色と「別」の小さな印で区別する */
-.fav-btn.other { color: var(--accent); position: relative; }
-.fav-btn.other::after {
-  content: "別"; position: absolute; right: -2px; bottom: -4px; font-size: .55rem; font-weight: 700; line-height: 1;
-  background: var(--accent); color: var(--bg); border-radius: 6px; padding: 1px 3px;
-}
+/* 同じチームの別の枠が登録済み: 星は空のままアクセント色にし、参加チームタブではカードを薄く塗って「この枠ではない」ことを示す */
+.fav-btn.other { color: var(--accent); }
+.perf-card.clash { background: linear-gradient(var(--clash-soft), var(--clash-soft)), var(--card); }
+.team-slot.clash { background: linear-gradient(var(--clash-soft), var(--clash-soft)), var(--bg-2); }
+.badge.clash-badge { color: var(--clash); border-color: var(--clash); }
 .team-slots { display: flex; flex-direction: column; gap: 6px; }
 .team-slot {
   display: flex; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid var(--line);
@@ -300,7 +303,15 @@ details.finished-group {
 }
 details.finished-group > summary {
   cursor: pointer; padding: 10px 0; color: var(--muted); font-size: .85rem; list-style: none;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
 }
+/* 折りたたみだと分かるよう、右端に開閉の矢印を付ける（開くと下向きに回る） */
+details.finished-group > summary::after {
+  content: ""; flex: none; width: 8px; height: 8px;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg); transition: transform .15s; margin-right: 4px;
+}
+details.finished-group[open] > summary::after { transform: rotate(45deg); }
 details.finished-group > summary::-webkit-details-marker { display: none; }
 details.finished-group[open] > summary { margin-bottom: 4px; }
 
@@ -616,7 +627,9 @@ footer.data-footer { text-align: center; color: var(--muted); font-size: .72rem;
 .perf-card:focus-visible, .sched-venue-dot:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* ---------- 参加チーム: チームごと表示 ---------- */
-.group-tabs { margin-top: -4px; }
+/* チーム詳細の演舞枠: 日付ごとの箱 */
+.team-slot-day { border: 1px solid var(--line); border-radius: 12px; padding: 8px; margin-bottom: 8px; }
+.team-slot-day-head { font-size: .78rem; font-weight: 700; color: var(--muted); margin: 0 2px 6px; }
 .team-group {
   background: var(--card); border: 1px solid var(--line); border-radius: 12px;
   padding: 12px; margin-bottom: 10px; box-shadow: var(--shadow);
